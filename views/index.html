@@ -3,137 +3,40 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>HabitIn | Your Personal Habit Tracker</title>
-    <link href="../public/styles.css" rel="stylesheet">
+    <title>HabitIn - Your Personal Habit Tracker</title>
+    <link href="../dist/output.css" rel="stylesheet">
 
     <!-- <link rel="stylesheet" href="/styles.css"> -->
 </head>
-<body>
+<body class="p-5 bg-bg">
 
-    <div>
-        <h1 class="text-3xl font-bold bg-blue-500">
-            Build Your Habit with HabitIn
-        </h1>
-        <p>
-            HabitIn is your personal habit tracker designed to help you build and maintain positive habits effortlessly. HabitIn provides the tools you need to stay on track and achieve your goals.
-        </p>
-    </div>
+    <nav class="mb-4 border-b border-gray-300">
+        <ul class="flex items-center p-3 justify-between">
+            <li class="text-2xl font-bold bg-gradient-to-r from-primary to-primary-dark bg-clip-text text-transparent">HabitIn</li>
+            <li>
+                <a href="add-habit.html"
+                   class="bg-primary text-white px-4 py-2 rounded hover:bg-primary-dark">
+                    Get Started
+                </a>
+            </li>
+        </ul>
+    </nav>
 
-    <div>
-        <button type="button" id="getStartedBtn">
-            Get Started
-        </button>
-        <button type="button" id="demoBtn">
-            See How It Works
-        </button>
-    </div>
+    <div class="flex py-15">
+        <div class="m-auto text-center max-w-lg mt-3">
+            <h1 class="text-6xl font-bold my-4">
+                Build Your Habit with <span class="bg-gradient-to-r from-primary to-primary-dark bg-clip-text text-transparent">HabitIn</span>
 
-    <!-- DIALOG -->
-    <dialog id="closeFormDialog">
-        <form method="dialog">
-            <p>Discard unsaved changes?</p>
-            <menu>
-                <button id="cancelBtn">Cancel</button>
-                <button id="discardBtn">Discard</button>
-            </menu>
-        </form>
-    </dialog>
-
-    <dialog id="deleteConfirmDialog">
-        <form method="dialog">
-            <p>Are you sure want to delete this Habit?</p>
-            <menu>
-                <button id="cancelBtn">Cancel</button>
-                <button id="deleteBtnDialog">Delete</button>
-            </menu>
-        </form>
-
-    </dialog>
-
-    <main>
-        <p>Habit Tracker by Ness</p>
-
-        <button type="button" id="showFormBtn">
-            <span>Add New Habit</span>
-        </button>
-
-        <section class="add-habit">
-
-            <form action="" id="habitForm">
-
-                <label for="habitTitle">Habit Title</label>
-                <input type="text" id="habitTitle" name="habitTitle" placeholder="Enter your habit" autocomplete="off" required>
-
-                <label for="habitGoal">Habit Goal</label>
-                <input type="text" id="habitGoal" name="habitGoal" placeholder="Enter your goal" autocomplete="off" required>
-
-                <label for="habitSchedule">Habit Schedule</label>
-                <select name="habitSchedule" id="habitSchedule" required>
-                    <option value="" disabled selected>Select schedule</option>
-                    <option value="Daily">Daily</option>
-                    <option value="Weekly">Weekly</option>
-                    <option value="Custom">Custom</option>
-                </select>
-
-                <fieldset name="weeklySchedule">
-
-                    <legend>Select Day</legend>
-                    <label for="sunday"><input type="radio" value="Sunday" name="selectedDay"> Sun</label>
-                    <label for="monday"><input type="radio" value="Monday" name="selectedDay"> Mon</label>
-                    <label for="tuesday"><input type="radio" value="Tuesday" name="selectedDay"> Tues</label>
-                    <label for="wednesday"><input type="radio" value="Wednesday" name="selectedDay"> Wed</label>
-                    <label for="thursday"><input type="radio" value="Thursday" name="selectedDay"> Thur</label>
-                    <label for="friday"><input type="radio" value="Friday" name="selectedDay"> Fri</label>
-                    <label for="saturday"><input type="radio" value="Saturday" name="selectedDay"> Sat</label>
-
-                </fieldset>
-
-                <fieldset name="custom-day">
-                    <legend>Select Days</legend>
-
-                    <input type="checkbox" name="customDays" value="Sunday" id="sunday">
-                    <label for="sunday">Sun</label>
-
-                    <input type="checkbox" name="customDays" value="Monday" id="monday">
-                    <label for="monday">Mon</label>
-
-                    <input type="checkbox" name="customDays" value="Tuesday" id="tuesday">
-                    <label for="tuesday">Tues</label>
-
-                    <input type="checkbox" name="customDays" value="Wednesday" id="wednesday">
-                    <label for="wednesday">Wed</label>
-
-                    <input type="checkbox" name="customDays" value="Thursday" id="thursday">
-                    <label for="thursday">Thur</label>
-
-                    <input type="checkbox" name="customDays" value="Friday" id="friday">
-                    <label for="friday">Fri</label>
-
-                    <input type="checkbox" name="customDays" value="Saturday" id="saturday">
-                    <label for="saturday">Sat</label>
-
-                </fieldset>
-
-                <label for="time">Time</label>
-                <input type="time" id="time" name="time">
-
-                <button type="submit" id="addHabitBtn">Add Habit</button>
-            </form>
-
-        </section>
-
-        <section class="habit-display">
-            <p>Your Habits</p>
-            <div id="habitsContainer">
-                <!-- Habits will be displayed here -->
+            </h1>
+            <p class="px-4 text-xl">
+                HabitIn is your personal habit tracker designed to help you build and maintain positive habits effortlessly. 
+            </p>
+            <div class="my-9">
+                <a href="add-habit.html" class="bg-primary text-white px-4 py-2 rounded mr-4 hover:bg-primary-dark">Get Started</a>
+                <a href="" class="border border-primary text-primary px-4 py-2 rounded mr-4 hover:bg-primary hover:text-white ">See Demo</a>
+                </button>
             </div>
-        </section>
-    </main>
-
-    <footer>
-        <p>© 2025 Habit Tracker. Created by Ness.</p>
-    </footer>
-    
-    <script src="script.js"></script>
+        </div>
+    </div>
 </body>
 </html>
