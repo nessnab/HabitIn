@@ -17,6 +17,13 @@ Designed to help users build and maintain daily habits with a clean interface an
 
 ---
 
+## ✅ Detail Achieved
+- show  schedule selected
+- 
+
+
+---
+
 ## 🛠 Tech Stack
 
 - **Frontend**: HTML5, Tailwind CSS, Vanilla JavaScript  

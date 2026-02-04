@@ -1,7 +1,7 @@
 {
   "name": "habit-tracker",
   "version": "1.0.0",
-  "description": "",
+  "description": "HabitIn is a responsive habit tracker built with HTML, Tailwind CSS, JavaScript, and Node.js.  \r Designed to help users build and maintain daily habits with a clean interface and persistent tracking.",
   "license": "ISC",
   "author": "ness",
   "type": "commonjs",
@@ -12,7 +12,21 @@
   },
   "dependencies": {
     "@tailwindcss/cli": "^4.1.18",
+    "ejs": "^4.0.1",
+    "express": "^5.2.1",
     "lightningcss": "^1.31.1",
+    "lodash": "^4.17.23",
+    "morgan": "^1.10.1",
+    "nodemon": "^3.1.11",
     "tailwindcss": "^4.1.18"
-  }
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/nessnab/HabitIn.git"
+  },
+  "keywords": [],
+  "bugs": {
+    "url": "https://github.com/nessnab/HabitIn/issues"
+  },
+  "homepage": "https://github.com/nessnab/HabitIn#readme"
 }
