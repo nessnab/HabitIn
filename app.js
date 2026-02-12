@@ -6,7 +6,7 @@ const app = express();
 
 // Middleware & static files
 app.use(express.static('public'));
-app.use(express.static('dist'));
+// app.use(express.static('dist'));
 app.use(express.urlencoded({ extended: true }));
 app.use(morgan('dev'));
 app.use((req, res, next) => {
