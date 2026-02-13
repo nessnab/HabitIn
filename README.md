@@ -20,7 +20,7 @@ Designed to help users build and maintain daily habits with a clean interface an
 ## ✅ Detail Achieved
 - initial views HTML, tailwind css, js
 - config node.js, ejs, routes, controller
-
+- connect mongodb, add partials
 
 ---
 
@@ -37,8 +37,6 @@ Designed to help users build and maintain daily habits with a clean interface an
 
 - [ ] Authentication & user accounts  
 - [ ] RESTful API endpoints  
-- [ ] Responsive UI improvements  
-- [ ] Advanced analytics & reporting  
 
 ---
 

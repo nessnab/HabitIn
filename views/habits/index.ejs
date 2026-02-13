@@ -1,32 +1,9 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>HabitIn - Your Personal Habit Tracker</title>
-    <link href="/css/style.css" rel="stylesheet">
-
-    <!-- <link rel="stylesheet" href="/styles.css"> -->
-</head>
+    <%- include('../partials/head') %>
 <body class=" bg-bg">
 
-    <nav class="mb-4 border-b border-gray-300">
-        <ul class="flex items-center p-5 justify-between">
-            <li class="text-2xl font-bold bg-gradient-to-r from-primary to-primary-dark bg-clip-text text-transparent">HabitIn</li>
-
-            <div class="flex">
-                <li>
-                    <a href="/" class="p-5 hover:underline-offset-1 hover:text-primary-dark">Home</a>
-                </li>
-                <li>
-                    <a href="/add"
-                       class="bg-primary text-white px-4 py-2 rounded hover:bg-primary-dark">
-                        Get Started
-                    </a>
-                </li>
-            </div>
-        </ul>
-    </nav>
+    <%- include('../partials/nav') %>
 
     <div class="flex py-15">
         <div class="m-auto text-center max-w-lg mt-3">

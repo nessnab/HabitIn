@@ -1,4 +1,4 @@
-// const Habit = require('../models/habit');
+const Habit = require('../models/habit');
 
 const habit_index = (req, res) => {
     res.render('habits/index', { title: 'Habit Tracker' });
@@ -11,7 +11,7 @@ const habit_post = (req, res) => {
     const habit = new Habit(req.body);
         habit.save()
             .then((result) => {
-                res.redirect('/add');
+                res.redirect('habits/add');
             })
             .catch((err) => {
                 console.log(err);
@@ -21,5 +21,6 @@ const habit_post = (req, res) => {
 
 module.exports = {
     habit_index,
-    habit_get
+    habit_get,
+    habit_post
 };

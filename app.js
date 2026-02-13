@@ -1,8 +1,17 @@
 const express = require('express');
 const morgan = require('morgan');
+const mongoose = require('mongoose');
 const habitRoutes = require('./routes/habitRoutes');
 
 const app = express();
+
+// connect to MongoDB
+const dbURI = 'mongodb+srv://user-1:user1321@cluster01.6eethjm.mongodb.net/?appName=Cluster01';
+mongoose.connect(dbURI)
+  .then((result) => {
+    console.log('Connected to MongoDB');
+  })
+  .catch((err) => console.log(err));
 
 // Middleware & static files
 app.use(express.static('public'));
@@ -16,11 +25,11 @@ app.use((req, res, next) => {
 
 // view engine
 app.set('view engine', 'ejs');
-// app.set('views', './views');
+app.set('views', './views');
 
 // routes
 app.get('/', (req, res) => {
-  res.render('habits/index');
+  res.render('habits/index', { title: 'Your Personal Habit Tracker' });
 });
 app.get('/add', (req, res) => {
   res.render('habits/add', { title: 'Add Habit' });
