@@ -20,11 +20,11 @@ app.set('view engine', 'ejs');
 
 // routes
 app.get('/', (req, res) => {
-  res.redirect('/habits');
+  res.render('habits/index');
 });
-// app.get('/add-habit', (req, res) => {
-//   res.render('add-habit', { title: 'Add Habit' });
-// });
+app.get('/add', (req, res) => {
+  res.render('habits/add', { title: 'Add Habit' });
+});
 
 // habit routes
 app.use('/habits', habitRoutes);

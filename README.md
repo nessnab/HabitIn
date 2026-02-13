@@ -18,8 +18,8 @@ Designed to help users build and maintain daily habits with a clean interface an
 ---
 
 ## ✅ Detail Achieved
-- show  schedule selected
-- 
+- initial views HTML, tailwind css, js
+- config node.js, ejs, routes, controller
 
 
 ---

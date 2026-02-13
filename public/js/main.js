@@ -19,7 +19,7 @@ habitSchedule.addEventListener('change', (e) => {
         customDays.classList.add('hidden');
     }
 })
-
+console.log(habitSchedule.value);
 
 
 

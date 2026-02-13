@@ -8,21 +8,23 @@
 
     <!-- <link rel="stylesheet" href="/styles.css"> -->
 </head>
-<body class="p-5 bg-bg">
+<body class=" bg-bg">
 
     <nav class="mb-4 border-b border-gray-300">
-        <ul class="flex items-center p-3 justify-between">
+        <ul class="flex items-center p-5 justify-between">
             <li class="text-2xl font-bold bg-gradient-to-r from-primary to-primary-dark bg-clip-text text-transparent">HabitIn</li>
 
-            <li>
-                <a href="/">Home</a>
-            </li>
-            <li>
-                <a href="/add-habit"
-                   class="bg-primary text-white px-4 py-2 rounded hover:bg-primary-dark">
-                    Get Started
-                </a>
-            </li>
+            <div class="flex">
+                <li>
+                    <a href="/" class="p-5 hover:underline-offset-1 hover:text-primary-dark">Home</a>
+                </li>
+                <li>
+                    <a href="/add"
+                       class="bg-primary text-white px-4 py-2 rounded hover:bg-primary-dark">
+                        Get Started
+                    </a>
+                </li>
+            </div>
         </ul>
     </nav>
 
@@ -36,11 +38,14 @@
                 HabitIn is your personal habit tracker designed to help you build and maintain positive habits effortlessly. 
             </p>
             <div class="my-9">
-                <a href="/add-habit" class="bg-primary text-white px-4 py-2 rounded mr-4 hover:bg-primary-dark">Get Started</a>
+                <a href="/add" class="bg-primary text-white px-4 py-2 rounded mr-4 hover:bg-primary-dark">Get Started</a>
                 <a href="" class="border border-primary text-primary px-4 py-2 rounded mr-4 hover:bg-primary hover:text-white ">See Demo</a>
                 </button>
             </div>
         </div>
     </div>
+
+        <script src="/js/main.js"></script>
+
 </body>
 </html>
