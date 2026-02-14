@@ -27,15 +27,14 @@ const habitSchema = new Schema({
         required: function() {return this.schedule === 'Custom';}
     },
     time: {
-    type: String,
-    match: /^([0-1]?[0-9]|2[0-3]):[0-5][0-9]$/,
-    required: true
+        type: String,
+        match: /^([0-1]?[0-9]|2[0-3]):[0-5][0-9]$/,
+        required: true
     },
     createdAt: {
         type: Date,
         default: Date.now
     }
-
 });
 
 const Habit = mongoose.model('Habit', habitSchema);

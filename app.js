@@ -3,19 +3,18 @@ const morgan = require('morgan');
 const mongoose = require('mongoose');
 const habitRoutes = require('./routes/habitRoutes');
 
+// express app
 const app = express();
 
 // connect to MongoDB
 const dbURI = 'mongodb+srv://user-1:user1321@cluster01.6eethjm.mongodb.net/?appName=Cluster01';
 mongoose.connect(dbURI)
-  .then((result) => {
-    console.log('Connected to MongoDB');
-  })
+  .then((result) => app.listen(3000, () => 
+    console.log('Server is running on port 3000')))
   .catch((err) => console.log(err));
 
 // Middleware & static files
 app.use(express.static('public'));
-// app.use(express.static('dist'));
 app.use(express.urlencoded({ extended: true }));
 app.use(morgan('dev'));
 app.use((req, res, next) => {
@@ -25,20 +24,21 @@ app.use((req, res, next) => {
 
 // view engine
 app.set('view engine', 'ejs');
-app.set('views', './views');
+// app.set('views', './views');
 
 // routes
 app.get('/', (req, res) => {
   res.render('habits/index', { title: 'Your Personal Habit Tracker' });
 });
-app.get('/add', (req, res) => {
-  res.render('habits/add', { title: 'Add Habit' });
-});
 
 // habit routes
-app.use('/habits', habitRoutes);
+app.use('/', habitRoutes);
 
-// start server
-app.listen(3000, () => {
-  console.log(`Server running at http://localhost:3000`);
-});
+// notes
+// stylize card habit list
+// add delete button to each habit
+// add edit button to each habit
+// add timer to each habit
+// add calendar view to show habit completion history
+// form modal for adding/editing habits
+// hide form if there's habits and show it when there's none

@@ -34,19 +34,20 @@
         </button>
 
         <section class="add-habit">
+            <span class="text-center text-primary text-3xl font-bold">Add New Habit</span>
 
-            <form action="/habits" method="POST" id="habitForm" class="max-w-md mx-auto bg-white shadow-md rounded-lg p-7 space-y-4 text-left">
+            <form action="/add" method="POST" id="habitForm" class="max-w-md mx-auto bg-white shadow-md rounded-lg p-7 space-y-4 text-left">
 
-                    <label for="habitTitle">Habit Title</label>
-                    <input type="text" id="habitTitle" name="habitTitle" placeholder="Enter your habit" autocomplete="off" required class="mt-1 block w-full border border-gray-300 rounded-md px-3 py-2 
+                    <label for="title">Habit Title</label>
+                    <input type="text" id="habitTitle" name="title" placeholder="Enter your habit" autocomplete="off" required class="mt-1 block w-full border border-gray-300 rounded-md px-3 py-2 
                       focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
 
-                    <label for="habitGoal">Habit Goal</label>
-                    <input type="text" id="habitGoal" name="habitGoal" placeholder="Enter your goal" autocomplete="off" required class="mt-1 block w-full border border-gray-300 rounded-md px-3 py-2 
+                    <label for="goal">Habit Goal</label>
+                    <input type="text" id="habitGoal" name="goal" placeholder="Enter your goal" autocomplete="off" required class="mt-1 block w-full border border-gray-300 rounded-md px-3 py-2 
                       focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
 
-                    <label for="habitSchedule">Habit Schedule</label>
-                    <select name="habitSchedule" id="habitSchedule" required  class="mt-1 block w-full border border-gray-300 rounded-md px-3 py-2 
+                    <label for="schedule">Habit Schedule</label>
+                    <select name="schedule" id="habitSchedule" required  class="mt-1 block w-full border border-gray-300 rounded-md px-3 py-2 
                        focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
                         <option value="" disabled selected>Select schedule</option>
                         <option value="Daily">Daily</option>
@@ -58,13 +59,13 @@
                    focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 ">
 
                     <legend>Select Day</legend>
-                    <label for="sunday"><input type="radio" value="Sunday" name="selectedDay"> Sun</label>
-                    <label for="monday"><input type="radio" value="Monday" name="selectedDay"> Mon</label>
-                    <label for="tuesday"><input type="radio" value="Tuesday" name="selectedDay"> Tues</label>
-                    <label for="wednesday"><input type="radio" value="Wednesday" name="selectedDay"> Wed</label>
-                    <label for="thursday"><input type="radio" value="Thursday" name="selectedDay"> Thur</label>
-                    <label for="friday"><input type="radio" value="Friday" name="selectedDay"> Fri</label>
-                    <label for="saturday"><input type="radio" value="Saturday" name="selectedDay"> Sat</label>
+                    <label for="sunday"><input type="radio" value="Sunday" name="weeklyDay"> Sun</label>
+                    <label for="monday"><input type="radio" value="Monday" name="weeklyDay"> Mon</label>
+                    <label for="tuesday"><input type="radio" value="Tuesday" name="weeklyDay"> Tues</label>
+                    <label for="wednesday"><input type="radio" value="Wednesday" name="weeklyDay"> Wed</label>
+                    <label for="thursday"><input type="radio" value="Thursday" name="weeklyDay"> Thur</label>
+                    <label for="friday"><input type="radio" value="Friday" name="weeklyDay"> Fri</label>
+                    <label for="saturday"><input type="radio" value="Saturday" name="weeklyDay"> Sat</label>
 
                 </fieldset>
 
@@ -108,6 +109,18 @@
             <div id="habitsContainer">
                 <!-- Habits will be displayed here -->
                     <span class="text-center text-primary text-3xl font-bold">Your Habit List</span>
+
+                    <div id="habitsList" class="mt-5 space-y-4">
+                        <ul class="block bg-yellow-100 rounded-lg p-5">
+                            <% if (habits && habits.length > 0) { %>
+                                <% habits.forEach(habit => { %>
+                                <li><%= habit.title %> - <%= habit.goal %> - <%= habit.schedule %> at <%= habit.time %></li>
+                                <% }) %>
+                            <% } else { %>
+                                <p>No habits yet</p>
+                            <% } %>
+                        </ul>
+                    </div>
 
             </div>
         </section>
