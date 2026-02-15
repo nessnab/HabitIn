@@ -35,7 +35,6 @@ app.get('/', (req, res) => {
 app.use('/', habitRoutes);
 
 // notes
-// stylize card habit list
 // add delete button to each habit
 // add edit button to each habit
 // add timer to each habit

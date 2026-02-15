@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
     <%- include('../partials/head') %>
-<body class="bg-bg ">
+<body class=" ">
 
     <%- include('../partials/nav') %>
 
@@ -105,23 +105,26 @@
 
         </section>
 
-        <section class="habit-display text-center">
-            <div id="habitsContainer">
-                <!-- Habits will be displayed here -->
-                    <span class="text-center text-primary text-3xl font-bold">Your Habit List</span>
+        <section class="habit-display text-center ">
+            <div id="habitsContainer" class="space-y-6 p-6 mx-auto max-w-lg">
+                <span class="text-center text-primary text-3xl font-bold">Your Habit List</span>
 
-                    <div id="habitsList" class="mt-5 space-y-4">
-                        <ul class="block bg-yellow-100 rounded-lg p-5">
-                            <% if (habits && habits.length > 0) { %>
-                                <% habits.forEach(habit => { %>
-                                <li><%= habit.title %> - <%= habit.goal %> - <%= habit.schedule %> at <%= habit.time %></li>
-                                <% }) %>
-                            <% } else { %>
-                                <p>No habits yet</p>
-                            <% } %>
-                        </ul>
+                <% if (habits.length > 0) { %>
+                <div id="habitsList" class="space-y-6 p-5">
+                    <% habits.forEach(habit => { %>
+                    <div class="rounded-lg shadow-md bg-blue-100 text-left p-5 my-4 text-primary">
+                        <h3 class="text-xl font-bold">
+                            <%= habit.title %> - <%= habit.goal %>
+                        </h3>
+                        <p class="text-sm opacity-90">
+                            <%= habit.schedule %> at <%= habit.time %>
+                        </p>
                     </div>
-
+                    <% }) %>
+                </div>
+                <% } else { %>
+                <p class="text-gray-500 text-center">No habits yet</p>
+                <% } %>
             </div>
         </section>
     </main>
