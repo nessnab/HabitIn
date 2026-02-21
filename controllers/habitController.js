@@ -34,8 +34,16 @@ const habit_add_post = (req, res) => {
         });
 }
 
+const habit_delete = (req, res) => {
+    const id = req.params.id;
+    Habit.findByIdAndDelete(id)
+        .then(() => res.json({ redirect: '/add' }))
+        .catch((err) => res.status(500).json({ error: 'Error deleting habit' }));
+}
+
 module.exports = {
     habit_index,
     habit_add_get,
-    habit_add_post
+    habit_add_post,
+    habit_delete
 };

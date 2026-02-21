@@ -24,7 +24,7 @@ app.use((req, res, next) => {
 
 // view engine
 app.set('view engine', 'ejs');
-// app.set('views', './views');
+app.set('views', './views');
 
 // routes
 app.get('/', (req, res) => {
@@ -35,7 +35,6 @@ app.get('/', (req, res) => {
 app.use('/', habitRoutes);
 
 // notes
-// add delete button to each habit
 // add edit button to each habit
 // add timer to each habit
 // add calendar view to show habit completion history

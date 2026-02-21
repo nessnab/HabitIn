@@ -112,13 +112,16 @@
                 <% if (habits.length > 0) { %>
                 <div id="habitsList" class="space-y-6 p-5">
                     <% habits.forEach(habit => { %>
-                    <div class="rounded-lg shadow-md bg-blue-100 text-left p-5 my-4 text-primary">
-                        <h3 class="text-xl font-bold">
-                            <%= habit.title %> - <%= habit.goal %>
-                        </h3>
-                        <p class="text-sm opacity-90">
-                            <%= habit.schedule %> at <%= habit.time %>
-                        </p>
+                    <div class="rounded-lg shadow-md bg-primary text-left p-5 my-4 text-white flex justify-between">
+                        <div>
+                            <h3 class="text-xl font-bold">
+                                <%= habit.title %> - <%= habit.goal %>
+                            </h3>
+                            <p class="text-sm opacity-90">
+                                <%= habit.schedule %> at <%= habit.time %>
+                            </p>
+                        </div>
+                        <a id="deleteButton" data-doc="<%= habit._id %>" class="bg-red-600 text-white px-3 py-1 rounded hover:bg-red-700 cursor-pointer">Delete</a>
                     </div>
                     <% }) %>
                 </div>
