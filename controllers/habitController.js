@@ -34,22 +34,25 @@ const habit_add_post = (req, res) => {
         });
 }
 
-const habit_edit_post = (req, res) => {
-  const id = req.params.id;
-
-  Habit.findByIdAndUpdate(id, req.body, { new: true, runValidators: true })
-    .then((updatedHabit) => {
-      if (!updatedHabit) {
-        return res.status(404).send('Habit not found');
-      }
-      console.log('Habit updated successfully:', updatedHabit);
-      res.redirect('/habits');
-    })
-    .catch((err) => {
-      console.error(err);
-      res.status(500).send('Error updating habit');
-    });
+const habit_edit_get = (req, res) => {
+    Habit.findById(req.params.id)
+        .then(habit => {
+            if (!habit) return res.status(404).json({ error: 'Habit not found' });
+            res.json(habit);
+        })
+        .catch((err) => res.status(500).json({ error: 'Error fetching habit' }));
 };
+
+const habit_edit_post = (req, res) => {
+    Habit.findByIdAndUpdate(req.params.id, req.body, { new: true, runValidators: true })
+        .then(updatedHabit => {
+        if (!updatedHabit) return res.status(404).send('Habit not found');
+        res.redirect('/add'); // or wherever your list page is
+        })
+        .catch(err => res.status(500).send('Error updating habit'));
+};
+
+
 
 const habit_delete = (req, res) => {
     const id = req.params.id;
@@ -63,5 +66,6 @@ module.exports = {
     habit_add_get,
     habit_add_post,
     habit_delete,
+    habit_edit_get,
     habit_edit_post
 };

@@ -22,9 +22,7 @@
 
 
         <section class="">
-            <!-- <span class="text-center text-primary text-3xl font-bold">HabitIn - Your personal habit tracker</span> -->
-            <!-- <% habits.forEach(habit => { %> -->
-                <form action="<%= habit ? '/edit/' + habit._id : '/add' %>" method="POST" id="habitForm" class="hidden max-w-md mx-auto bg-white shadow-md rounded-lg p-7 space-y-4 text-left">
+                <form action="/add" method="POST" id="habitForm" class="hidden max-w-md mx-auto bg-white shadow-md rounded-lg p-7 space-y-4 text-left">
                     
                     <div class="flex items-center justify-between">
                         <span class="text-primary text-3xl font-bold max-w-md">Start a New Habit</span>
@@ -92,14 +90,11 @@
                     </fieldset>
     
                     <label for="time">Time</label>
-                    <input type="time" id="time" name="time" class="mt-1 block w-full border border-gray-300 rounded-md px-3 py-2 
+                    <input type="time" id="habitTime" name="time" class="mt-1 block w-full border border-gray-300 rounded-md px-3 py-2 
                       focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
     
                     <button type="submit" id="addHabitBtn" class="bg-primary text-white px-4 py-2 rounded mr-4 hover:bg-primary-dark">Add Habit</button>
                 </form>
-            
-            <!-- <% }) %> -->
-
         </section>
 
 
@@ -120,10 +115,10 @@
                             </p>
                         </div>
                         <div class="inline">
-                            <button id="editButton" data-doc="<%= habit._id %>" class="bg-white text-primary font-bold px-3 rounded hover:bg-blue-700 cursor-pointer">
+                            <button id="editBtn" data-doc="<%= habit._id %>" class="editBtn bg-white text-primary font-bold px-3 rounded hover:bg-blue-700 cursor-pointer">
                                 Edit
                             </button>
-                            <button id="deleteButton" data-doc="<%= habit._id %>" class="bg-red-600 font-bold text-white px-3 rounded hover:bg-red-700 cursor-pointer">
+                            <button id="deleteBtn" data-doc="<%= habit._id %>" class="deleteBtn bg-red-600 font-bold text-white px-3 rounded hover:bg-red-700 cursor-pointer">
                                 Delete
                             </button>
                         </div>
@@ -133,7 +128,7 @@
                                 <p>Are you sure want to delete this Habit?</p>
                                 <menu>
                                     <button id="cancelBtn" class="px-4 py-2 bg-gray-300 rounded hover:bg-gray-400 cursor-pointer">Cancel</button>
-                                    <button id="deleteBtnModal" class="px-4 py-2 bg-red-500 text-white rounded hover:bg-red-600 cursor-pointer">Delete</button>
+                                    <button id="deleteConfirmBtn" class="px-4 py-2 bg-red-500 text-white rounded hover:bg-red-600 cursor-pointer">Delete</button>
                                 </menu>
                             </form>
                         </dialog>

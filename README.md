@@ -23,6 +23,7 @@ Designed to help users build and maintain daily habits with a clean interface an
 - connect mongodb, add partials
 - store added data to database
 - delete button & modal
+- edit button & edit get + post
 
 ---
 
