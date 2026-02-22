@@ -34,6 +34,23 @@ const habit_add_post = (req, res) => {
         });
 }
 
+const habit_edit_post = (req, res) => {
+  const id = req.params.id;
+
+  Habit.findByIdAndUpdate(id, req.body, { new: true, runValidators: true })
+    .then((updatedHabit) => {
+      if (!updatedHabit) {
+        return res.status(404).send('Habit not found');
+      }
+      console.log('Habit updated successfully:', updatedHabit);
+      res.redirect('/habits');
+    })
+    .catch((err) => {
+      console.error(err);
+      res.status(500).send('Error updating habit');
+    });
+};
+
 const habit_delete = (req, res) => {
     const id = req.params.id;
     Habit.findByIdAndDelete(id)
@@ -45,5 +62,6 @@ module.exports = {
     habit_index,
     habit_add_get,
     habit_add_post,
-    habit_delete
+    habit_delete,
+    habit_edit_post
 };

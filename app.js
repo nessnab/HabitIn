@@ -34,9 +34,3 @@ app.get('/', (req, res) => {
 // habit routes
 app.use('/', habitRoutes);
 
-// notes
-// add edit button to each habit
-// add timer to each habit
-// add calendar view to show habit completion history
-// form modal for adding/editing habits
-// hide form if there's habits and show it when there's none

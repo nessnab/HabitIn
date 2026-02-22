@@ -5,6 +5,7 @@ const router = express.Router();
 router.get('/', habitController.habit_index);
 router.get('/add', habitController.habit_add_get);
 router.post('/add', habitController.habit_add_post);
+router.post('/habits/:id/edit', habitController.habit_edit_post);
 router.delete('/habits/:id', habitController.habit_delete);
 
 module.exports = router;

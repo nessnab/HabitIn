@@ -22,7 +22,7 @@ Designed to help users build and maintain daily habits with a clean interface an
 - config node.js, ejs, routes, controller
 - connect mongodb, add partials
 - store added data to database
-- delete button
+- delete button & modal
 
 ---
 

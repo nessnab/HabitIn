@@ -16,94 +16,92 @@
         </form>
     </dialog>
 
-    <dialog id="deleteConfirmDialog">
-        <form method="dialog">
-            <p>Are you sure want to delete this Habit?</p>
-            <menu>
-                <button id="cancelBtn">Cancel</button>
-                <button id="deleteBtnDialog">Delete</button>
-            </menu>
-        </form>
 
-    </dialog>
+    <main class="min-h-screen pb-20 text-center items-center">
 
-    <main class="grid min-h-screen pb-20 text-center items-center">
 
-        <button type="button" id="showFormBtn" class="hidden bg-primary text-white rounded px-4 py-2 hover:bg-primary-dark max-w-sm my-3 mx-auto">
-            + Add New Habit
-        </button>
 
-        <section class="add-habit">
-            <span class="text-center text-primary text-3xl font-bold">Add New Habit</span>
-
-            <form action="/add" method="POST" id="habitForm" class="max-w-md mx-auto bg-white shadow-md rounded-lg p-7 space-y-4 text-left">
-
-                    <label for="title">Habit Title</label>
-                    <input type="text" id="habitTitle" name="title" placeholder="Enter your habit" autocomplete="off" required class="mt-1 block w-full border border-gray-300 rounded-md px-3 py-2 
-                      focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
-
-                    <label for="goal">Habit Goal</label>
-                    <input type="text" id="habitGoal" name="goal" placeholder="Enter your goal" autocomplete="off" required class="mt-1 block w-full border border-gray-300 rounded-md px-3 py-2 
-                      focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
-
-                    <label for="schedule">Habit Schedule</label>
-                    <select name="schedule" id="habitSchedule" required  class="mt-1 block w-full border border-gray-300 rounded-md px-3 py-2 
+        <section class="">
+            <!-- <span class="text-center text-primary text-3xl font-bold">HabitIn - Your personal habit tracker</span> -->
+            <!-- <% habits.forEach(habit => { %> -->
+                <form action="<%= habit ? '/edit/' + habit._id : '/add' %>" method="POST" id="habitForm" class="hidden max-w-md mx-auto bg-white shadow-md rounded-lg p-7 space-y-4 text-left">
+                    
+                    <div class="flex items-center justify-between">
+                        <span class="text-primary text-3xl font-bold max-w-md">Start a New Habit</span>
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="text-red-500 size-3 w-6 h-6 inline-block ml-2 cursor-pointer" id="closeFormBtn">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M6 18 18 6M6 6l12 12" />
+                        </svg>
+                    </div>
+                    
+                        <label for="title">Habit Title</label>
+                        <input type="text" id="habitTitle" name="title" placeholder="Enter your habit" autocomplete="off" required class="mt-1 block w-full border border-gray-300 rounded-md px-3 py-2 
+                          focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
+    
+                        <label for="goal">Habit Goal</label>
+                        <input type="text" id="habitGoal" name="goal" placeholder="Enter your goal" autocomplete="off" required class="mt-1 block w-full border border-gray-300 rounded-md px-3 py-2 
+                          focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
+    
+                        <label for="schedule">Habit Schedule</label>
+                        <select name="schedule" id="habitSchedule" required  class="mt-1 block w-full border border-gray-300 rounded-md px-3 py-2 
+                           focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
+                            <option value="" disabled selected>Select schedule</option>
+                            <option value="Daily">Daily</option>
+                            <option value="Weekly">Weekly</option>
+                            <option value="Custom">Custom</option>
+                        </select>
+    
+                    <fieldset id="weeklyDay" name="weeklySchedule"  class="hidden mt-1 block w-full border border-gray-300 rounded-md px-3 py-2 
+                       focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 ">
+    
+                        <legend>Select Day</legend>
+                        <label for="sunday"><input type="radio" value="Sunday" name="weeklyDay"> Sun</label>
+                        <label for="monday"><input type="radio" value="Monday" name="weeklyDay"> Mon</label>
+                        <label for="tuesday"><input type="radio" value="Tuesday" name="weeklyDay"> Tues</label>
+                        <label for="wednesday"><input type="radio" value="Wednesday" name="weeklyDay"> Wed</label>
+                        <label for="thursday"><input type="radio" value="Thursday" name="weeklyDay"> Thur</label>
+                        <label for="friday"><input type="radio" value="Friday" name="weeklyDay"> Fri</label>
+                        <label for="saturday"><input type="radio" value="Saturday" name="weeklyDay"> Sat</label>
+    
+                    </fieldset>
+    
+                    <fieldset id="customDays" name="custom-day"  class="hidden mt-1 block w-full border border-gray-300 rounded-md px-3 py-2 
                        focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
-                        <option value="" disabled selected>Select schedule</option>
-                        <option value="Daily">Daily</option>
-                        <option value="Weekly">Weekly</option>
-                        <option value="Custom">Custom</option>
-                    </select>
-
-                <fieldset id="weeklyDay" name="weeklySchedule"  class="hidden mt-1 block w-full border border-gray-300 rounded-md px-3 py-2 
-                   focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 ">
-
-                    <legend>Select Day</legend>
-                    <label for="sunday"><input type="radio" value="Sunday" name="weeklyDay"> Sun</label>
-                    <label for="monday"><input type="radio" value="Monday" name="weeklyDay"> Mon</label>
-                    <label for="tuesday"><input type="radio" value="Tuesday" name="weeklyDay"> Tues</label>
-                    <label for="wednesday"><input type="radio" value="Wednesday" name="weeklyDay"> Wed</label>
-                    <label for="thursday"><input type="radio" value="Thursday" name="weeklyDay"> Thur</label>
-                    <label for="friday"><input type="radio" value="Friday" name="weeklyDay"> Fri</label>
-                    <label for="saturday"><input type="radio" value="Saturday" name="weeklyDay"> Sat</label>
-
-                </fieldset>
-
-                <fieldset id="customDays" name="custom-day"  class="hidden mt-1 block w-full border border-gray-300 rounded-md px-3 py-2 
-                   focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
-                    <legend>Select Days</legend>
-
-                    <input type="checkbox" name="customDays" value="Sunday" id="sunday">
-                    <label for="sunday">Sun</label>
-
-                    <input type="checkbox" name="customDays" value="Monday" id="monday">
-                    <label for="monday">Mon</label>
-
-                    <input type="checkbox" name="customDays" value="Tuesday" id="tuesday">
-                    <label for="tuesday">Tues</label>
-
-                    <input type="checkbox" name="customDays" value="Wednesday" id="wednesday">
-                    <label for="wednesday">Wed</label>
-
-                    <input type="checkbox" name="customDays" value="Thursday" id="thursday">
-                    <label for="thursday">Thur</label>
-
-                    <input type="checkbox" name="customDays" value="Friday" id="friday">
-                    <label for="friday">Fri</label>
-
-                    <input type="checkbox" name="customDays" value="Saturday" id="saturday">
-                    <label for="saturday">Sat</label>
-
-                </fieldset>
-
-                <label for="time">Time</label>
-                <input type="time" id="time" name="time" class="mt-1 block w-full border border-gray-300 rounded-md px-3 py-2 
-                  focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
-
-                <button type="submit" id="addHabitBtn" class="bg-primary text-white px-4 py-2 rounded mr-4 hover:bg-primary-dark">Add Habit</button>
-            </form>
+                        <legend>Select Days</legend>
+    
+                        <input type="checkbox" name="customDays" value="Sunday" id="sunday">
+                        <label for="sunday">Sun</label>
+    
+                        <input type="checkbox" name="customDays" value="Monday" id="monday">
+                        <label for="monday">Mon</label>
+    
+                        <input type="checkbox" name="customDays" value="Tuesday" id="tuesday">
+                        <label for="tuesday">Tues</label>
+    
+                        <input type="checkbox" name="customDays" value="Wednesday" id="wednesday">
+                        <label for="wednesday">Wed</label>
+    
+                        <input type="checkbox" name="customDays" value="Thursday" id="thursday">
+                        <label for="thursday">Thur</label>
+    
+                        <input type="checkbox" name="customDays" value="Friday" id="friday">
+                        <label for="friday">Fri</label>
+    
+                        <input type="checkbox" name="customDays" value="Saturday" id="saturday">
+                        <label for="saturday">Sat</label>
+    
+                    </fieldset>
+    
+                    <label for="time">Time</label>
+                    <input type="time" id="time" name="time" class="mt-1 block w-full border border-gray-300 rounded-md px-3 py-2 
+                      focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
+    
+                    <button type="submit" id="addHabitBtn" class="bg-primary text-white px-4 py-2 rounded mr-4 hover:bg-primary-dark">Add Habit</button>
+                </form>
+            
+            <!-- <% }) %> -->
 
         </section>
+
 
         <section class="habit-display text-center ">
             <div id="habitsContainer" class="space-y-6 p-6 mx-auto max-w-lg">
@@ -121,7 +119,24 @@
                                 <%= habit.schedule %> at <%= habit.time %>
                             </p>
                         </div>
-                        <a id="deleteButton" data-doc="<%= habit._id %>" class="bg-red-600 text-white px-3 py-1 rounded hover:bg-red-700 cursor-pointer">Delete</a>
+                        <div class="inline">
+                            <button id="editButton" data-doc="<%= habit._id %>" class="bg-white text-primary font-bold px-3 rounded hover:bg-blue-700 cursor-pointer">
+                                Edit
+                            </button>
+                            <button id="deleteButton" data-doc="<%= habit._id %>" class="bg-red-600 font-bold text-white px-3 rounded hover:bg-red-700 cursor-pointer">
+                                Delete
+                            </button>
+                        </div>
+                        <dialog id="deleteModal" class="rounded-lg p-6 max-w-sm w-full m-auto items-center">
+                            <form method="dialog" class=" space-y-4 text-center">
+                                <h2 class="text-lg font-bold">Confirm Delete</h2>
+                                <p>Are you sure want to delete this Habit?</p>
+                                <menu>
+                                    <button id="cancelBtn" class="px-4 py-2 bg-gray-300 rounded hover:bg-gray-400 cursor-pointer">Cancel</button>
+                                    <button id="deleteBtnModal" class="px-4 py-2 bg-red-500 text-white rounded hover:bg-red-600 cursor-pointer">Delete</button>
+                                </menu>
+                            </form>
+                        </dialog>
                     </div>
                     <% }) %>
                 </div>
@@ -130,11 +145,21 @@
                 <% } %>
             </div>
         </section>
+
+        <button type="button" id="showFormBtn" class="bg-primary text-white rounded px-4 py-2 hover:bg-primary-dark max-w-sm my-4 mx-auto">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-3 w-6 h-6 inline-block mr-2">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
+            </svg>
+            Add New Habit
+        </button>
+
     </main>
 
     <footer>
         <p class="text-center">© 2025 HabitIn. Created by Ness.</p>
     </footer>
+
+    
     
     <script src="/js/main.js"></script>
 </body>
