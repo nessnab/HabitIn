@@ -25,6 +25,30 @@ const deleteModal = document.getElementById('deleteModal');
 const cancelBtn = document.getElementById('cancelBtn');
 const deleteConfirmBtn = document.getElementById('deleteConfirmBtn');
 
+// Close modal
+const closeFormBtn = document.getElementById('closeFormBtn');
+const discardBtn = document.getElementById('discardBtn');
+const closeFormDialog = document.getElementById('closeFormDialog');
+let currentHabit = {};
+
+closeFormBtn.addEventListener('click', (data) => {
+    const formContainValues = habitTitle.value || habitGoal.value || habitSchedule.value || habitTime.value;
+    const formValuesUpdated = habitTitle.value !== currentHabit.title || habitGoal.value !== currentHabit.goal || habitSchedule.value !== currentHabit.schedule || habitTime.value !== currentHabit.time || weeklyDay.querySelector('input[name="weeklyDay"]:checked')?.value !== currentHabit.weeklyDay || JSON.stringify(Array.from(customDays.querySelectorAll('input[name="customDays"]:checked')).map(input => input.value)) !== JSON.stringify(currentHabit.customDays);
+  
+    if (formContainValues && formValuesUpdated) {
+        closeFormDialog.showModal();
+    } else {
+        formToggle();
+        // resetForm();
+    }
+});
+
+discardBtn.addEventListener('click', () => {
+  closeFormDialog.close();
+  formToggle();
+  resetForm();
+});
+
 // Show form button event listener
 const formToggle = () => {
     habitForm.classList.toggle('hidden');
@@ -51,12 +75,6 @@ const habitScheduleValue = (e) => {
     }
 }
 
-// Edit button event listener
-// editBtn.addEventListener('click', (e) => {
-//     // editHabit();
-//     formToggle();
-// });
-
 // Edit function
 editButtons.forEach(btn => {
     btn.addEventListener('click', () => {
@@ -72,15 +90,35 @@ editButtons.forEach(btn => {
                 habitGoal.value = data.goal;
                 habitTime.value = data.time;
                 habitSchedule.value = data.schedule;
+                currentHabit = { ...data }; // Store current habit data for change detection
 
-                if (typeof habitScheduleValue === 'function') {
-                habitScheduleValue({ target: { value: data.schedule } });
+                   // Auto-check weekly or custom days
+                if (data.schedule === "Weekly") {
+                    document.querySelectorAll('input[name="weeklyDay"]').forEach(input => {
+                        input.checked = input.value === data.weeklyDay;
+                });
+                } else if (data.schedule === "Custom") {
+                    document.querySelectorAll('input[name="customDays"]').forEach(input => {
+                        input.checked = data.customDays?.includes(input.value);
+                });
                 }
+
+                // Trigger UI update
+                habitScheduleValue({ target: { value: data.schedule } });
+
+
+                // weeklyDay.value = data.weeklyDay ? data.weeklyDay : '';
+                // customDays.value = data.customDays ? data.customDays.join(', ') : '';
+
+                // if (typeof habitScheduleValue === 'function') {
+                // habitScheduleValue({ target: { value: data.schedule } });
+                // }
             })
             .catch(err => console.error(err));
 
     });
 });
+
 
 // Delete button event listener
 deleteButtons.forEach(btn => {
@@ -104,7 +142,15 @@ deleteConfirmBtn.addEventListener('click', () => {
         .catch(err => console.log(err));
 });
 
-
+const resetForm = (data) => {
+    habitForm.reset();
+    data.title = '';
+    data.goal = '';
+    data.time = '';
+    data.schedule = '';
+    weeklyDay.classList.add('hidden');
+    customDays.classList.add('hidden');
+}
 
 
 
