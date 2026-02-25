@@ -156,6 +156,7 @@ const resetForm = (data) => {
 
 
 // notes
-// form modal for adding/editing habits
 // add timer to each habit
 // add calendar view to show habit completion history
+// add suggestions for new habits based on user interests
+// add notifications to remind users to complete their habits

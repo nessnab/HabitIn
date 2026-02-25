@@ -25,6 +25,7 @@ Designed to help users build and maintain daily habits with a clean interface an
 - delete button & modal
 - edit button & edit get + post
 - close form button, show modal if there's any value or changes while edit
+- refine style
 
 ---
 
