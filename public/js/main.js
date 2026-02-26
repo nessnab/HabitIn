@@ -142,6 +142,66 @@ deleteConfirmBtn.addEventListener('click', () => {
         .catch(err => console.log(err));
 });
 
+// Timer functions
+
+
+let timerInterval;
+let elapsed = 0;
+
+const startTimer = (habitId) => {
+  clearInterval(timerInterval);
+  const startTime = Date.now();
+
+  timerInterval = setInterval(() => {
+    const diff = Math.floor((Date.now() - startTime) / 1000) + elapsed;
+    document.querySelector(`#timer-${habitId}`).textContent = formatTime(diff);
+  }, 1000);
+}
+
+const stopTimer = (habitId) => {
+  clearInterval(timerInterval);
+
+  const timerDisplay = document.querySelector(`#timer-${habitId}`).textContent;
+  const [mins, secs] = timerDisplay.split(":").map(Number);
+  elapsed = mins * 60 + secs;
+
+  // Save elapsed time to backend
+fetch(`/habits/${habitId}/timer`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ elapsed })
+  })
+    .then(res => res.json())
+    .then(data => {
+      console.log("Timer saved:", data);
+    })
+    .catch(err => console.error(err));
+
+}
+
+function formatTime(seconds) {
+  const mins = Math.floor(seconds / 60);
+  const secs = seconds % 60;
+  return `${mins.toString().padStart(2, "0")}:${secs.toString().padStart(2, "0")}`;
+}
+
+// Attach timer event listeners
+document.querySelectorAll('.timerBtn').forEach(btn => {
+    btn.addEventListener('click', () => {
+        const habitId = btn.dataset.doc;
+        // const timerDisplay = document.querySelector(`#timer-${habitId}`);
+
+        if (btn.dataset.running === "false") {
+            startTimer(habitId);
+            btn.dataset.running = "true";
+        } else {
+            stopTimer(habitId);
+            btn.dataset.running = "false";
+        }
+    });
+});
+
+// Reset form function
 const resetForm = (data) => {
     habitForm.reset();
     data.title = '';

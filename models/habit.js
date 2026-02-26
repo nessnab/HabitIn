@@ -31,6 +31,18 @@ const habitSchema = new Schema({
         match: /^([0-1]?[0-9]|2[0-3]):[0-5][0-9]$/,
         required: true
     },
+    elapsedTime: {
+        type: Number,
+        default: 0
+    },
+    isRunning: {
+        type: Boolean,
+        default: false
+    },
+    lastStartedAt: {
+        type: Date,
+        default: null
+    },
     createdAt: {
         type: Date,
         default: Date.now

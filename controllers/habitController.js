@@ -52,6 +52,21 @@ const habit_edit_post = (req, res) => {
         .catch(err => res.status(500).send('Error updating habit'));
 };
 
+// Start timer
+const updateTimer = (req, res) => {
+  const id = req.params.id;
+  const { elapsed } = req.body;
+
+  Habit.findById(id)
+    .then(habit => {
+      if (!habit) return res.status(404).json({ error: 'Habit not found' });
+
+      habit.elapsedTime = elapsed; // update field
+      return habit.save();
+    })
+    .then(() => res.json({ message: 'Timer updated successfully' }))
+    .catch(err => res.status(500).json({ error: 'Error updating timer', details: err.message }));
+};
 
 
 const habit_delete = (req, res) => {
@@ -67,5 +82,9 @@ module.exports = {
     habit_add_post,
     habit_delete,
     habit_edit_get,
-    habit_edit_post
+    habit_edit_post,
+    updateTimer
+    // startTimer,
+    // stopTimer,
+    // getTimer
 };
