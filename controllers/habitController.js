@@ -52,20 +52,31 @@ const habit_edit_post = (req, res) => {
         .catch(err => res.status(500).send('Error updating habit'));
 };
 
-// Start timer
+
+// get timer to display on frontend
+const getTimer = (req, res) => {
+    const id = req.params.id;
+    Habit.findById(id)
+        .then(habit => {
+            if (!habit) return res.status(404).json({ error: 'Habit not found' });
+            res.json({ elapsedTime: habit.elapsedTime });
+        })
+        .catch(err => res.status(500).json({ error: 'Error fetching timer', details: err.message }));
+};
+
+// store timer on server
 const updateTimer = (req, res) => {
-  const id = req.params.id;
-  const { elapsed } = req.body;
+    const id = req.params.id;
+    const { elapsed } = req.body; // get elapsed time from request body
+    Habit.findById(id)
+        .then(habit => {
+        if (!habit) return res.status(404).json({ error: 'Habit not found' });
 
-  Habit.findById(id)
-    .then(habit => {
-      if (!habit) return res.status(404).json({ error: 'Habit not found' });
-
-      habit.elapsedTime = elapsed; // update field
-      return habit.save();
-    })
-    .then(() => res.json({ message: 'Timer updated successfully' }))
-    .catch(err => res.status(500).json({ error: 'Error updating timer', details: err.message }));
+        habit.elapsedTime = elapsed; // update field
+        return habit.save();
+        })
+        .then(() => res.json({ message: 'Timer updated successfully' }))
+        .catch(err => res.status(500).json({ error: 'Error updating timer', details: err.message }));
 };
 
 
@@ -83,8 +94,6 @@ module.exports = {
     habit_delete,
     habit_edit_get,
     habit_edit_post,
-    updateTimer
-    // startTimer,
-    // stopTimer,
-    // getTimer
+    updateTimer,
+    getTimer
 };

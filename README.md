@@ -26,6 +26,7 @@ Designed to help users build and maintain daily habits with a clean interface an
 - edit button & edit get + post
 - close form button, show modal if there's any value or changes while edit
 - refine style
+- time tracker for each habit, with displayed interval and stored on server
 
 ---
 

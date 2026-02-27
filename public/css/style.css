@@ -513,17 +513,10 @@
       }
     }
   }
-  .hover\:text-primary-light {
+  .hover\:text-primary-dark {
     &:hover {
       @media (hover: hover) {
-        color: var(--color-primary-light);
-      }
-    }
-  }
-  .hover\:text-red-700 {
-    &:hover {
-      @media (hover: hover) {
-        color: var(--color-red-700);
+        color: var(--color-primary-dark);
       }
     }
   }

@@ -144,45 +144,51 @@ deleteConfirmBtn.addEventListener('click', () => {
 
 // Timer functions
 
-
 let timerInterval;
 let elapsed = 0;
 
 const startTimer = (habitId) => {
-  clearInterval(timerInterval);
-  const startTime = Date.now();
+    clearInterval(timerInterval);
+    fetch(`/habits/${habitId}/timer`, {method: 'GET'})
+        .then(res => res.json())
+        .then(data => {
+        elapsed = data.elapsedTime || 0; // base from DB
+        const startTime = Date.now();
 
-  timerInterval = setInterval(() => {
-    const diff = Math.floor((Date.now() - startTime) / 1000) + elapsed;
-    document.querySelector(`#timer-${habitId}`).textContent = formatTime(diff);
-  }, 1000);
+        timerInterval = setInterval(() => {
+            const diff = Math.floor((Date.now() - startTime) / 1000);
+            const total = elapsed + diff;
+            document.querySelector(`#timer-${habitId}`).textContent = formatTime(total);
+        }, 1000);
+    })
+    .catch(err => console.error(err));
 }
 
 const stopTimer = (habitId) => {
-  clearInterval(timerInterval);
+    clearInterval(timerInterval);
 
-  const timerDisplay = document.querySelector(`#timer-${habitId}`).textContent;
-  const [mins, secs] = timerDisplay.split(":").map(Number);
-  elapsed = mins * 60 + secs;
+    const timerDisplay = document.querySelector(`#timer-${habitId}`).textContent;
+    const [mins, secs] = timerDisplay.split(":").map(Number);
+    elapsed = mins * 60 + secs;
 
-  // Save elapsed time to backend
-fetch(`/habits/${habitId}/timer`, {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ elapsed })
-  })
-    .then(res => res.json())
-    .then(data => {
-      console.log("Timer saved:", data);
+    // Save elapsed time to backend
+    const endpoint = `/habits/${habitId}/timer`;
+    fetch(endpoint, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ elapsed })
     })
-    .catch(err => console.error(err));
-
+        .then(res => res.json())
+        .then(data => {
+        console.log("Timer saved:", data);
+        })
+        .catch(err => console.error(err));
 }
 
 function formatTime(seconds) {
-  const mins = Math.floor(seconds / 60);
-  const secs = seconds % 60;
-  return `${mins.toString().padStart(2, "0")}:${secs.toString().padStart(2, "0")}`;
+    const mins = Math.floor(seconds / 60);
+    const secs = seconds % 60;
+    return `${mins.toString().padStart(2, "0")}:${secs.toString().padStart(2, "0")}`;
 }
 
 // Attach timer event listeners
@@ -191,7 +197,7 @@ document.querySelectorAll('.timerBtn').forEach(btn => {
         const habitId = btn.dataset.doc;
         // const timerDisplay = document.querySelector(`#timer-${habitId}`);
 
-        if (btn.dataset.running === "false") {
+        if (!btn.dataset.running || btn.dataset.running === "false") {
             startTimer(habitId);
             btn.dataset.running = "true";
         } else {
@@ -200,6 +206,20 @@ document.querySelectorAll('.timerBtn').forEach(btn => {
         }
     });
 });
+
+
+// load stored timer
+const loadTimer = (req, res) => {
+    const habitId = req.params.id;
+    fetch(`/habits/${habitId}/timer`)
+        .then(res => res.json())
+        .then(data => {
+            const timerDisplay = document.querySelector(`#timer-${habitId}`);
+            timerDisplay.textContent = formatTime(data.elapsedTime);
+        })
+        .catch(err => console.error('Error loading timer:', err));
+}
+
 
 // Reset form function
 const resetForm = (data) => {
@@ -216,7 +236,7 @@ const resetForm = (data) => {
 
 
 // notes
-// add timer to each habit
+// add checked habits to a "Completed Habits" section
 // add calendar view to show habit completion history
 // add suggestions for new habits based on user interests
 // add notifications to remind users to complete their habits

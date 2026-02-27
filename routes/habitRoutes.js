@@ -11,6 +11,7 @@ router.delete('/habits/:id', habitController.habit_delete);
 // Timer routes
 // router.post('/:id/timer/start', habitController.startTimer);
 // router.post('/:id/timer/stop', habitController.stopTimer);
+router.get('/habits/:id/timer', habitController.getTimer);
 router.post('/habits/:id/timer', habitController.updateTimer);
 
 
