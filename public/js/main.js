@@ -240,3 +240,7 @@ const resetForm = (data) => {
 // add calendar view to show habit completion history
 // add suggestions for new habits based on user interests
 // add notifications to remind users to complete their habits
+
+// add user authentication to allow multiple users to track their habits separately
+
+// timer keep tracking after page refresh by saving start time and elapsed time to backend, then calculating total elapsed time on page load

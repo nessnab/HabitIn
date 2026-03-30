@@ -2,12 +2,13 @@ const express = require('express');
 const morgan = require('morgan');
 const mongoose = require('mongoose');
 const habitRoutes = require('./routes/habitRoutes');
+const authRoutes = require('./routes/authRoutes');  
 
 // express app
 const app = express();
 
 // connect to MongoDB
-const dbURI = 'mongodb+srv://user-1:user1321@cluster01.6eethjm.mongodb.net/?appName=Cluster01';
+const dbURI = 'mongodb+srv://ness:test123@cluster01.6eethjm.mongodb.net/habitin';
 mongoose.connect(dbURI)
   .then((result) => app.listen(3000, () => 
     console.log('Server is running on port 3000')))
@@ -23,6 +24,7 @@ app.use((req, res, next) => {
   next();
 });
 
+
 // view engine
 app.set('view engine', 'ejs');
 app.set('views', './views');
@@ -34,4 +36,6 @@ app.get('/', (req, res) => {
 
 // habit routes
 app.use('/', habitRoutes);
+app.use('/auth', authRoutes);
+
 
