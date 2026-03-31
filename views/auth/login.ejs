@@ -1,1 +1,36 @@
-<h1>login</h1>
+<!DOCTYPE html>
+<html lang="en">
+    <%- include('../partials/head') %>
+
+<body>
+    <%- include('../partials/nav') %>
+
+<form class="max-w-md mx-auto bg-white shadow-md rounded-lg p-7 space-y-4 text-left">
+    <h2 class="text-primary text-3xl font-bold max-w-md">Log In</h2>
+    <label for="email">Email</label>
+    <input type="text" name="email" required class="mt-1 block w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
+    <div class="email error"></div>
+
+    <label for="password">Password</label>
+    <input type="password" name="password" required class="mt-1 block w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
+    <div class="password error"></div>
+
+    <button class="bg-primary text-white px-4 py-2 rounded mr-4 hover:bg-primary-dark">
+      Log In
+    </button>
+</form>
+
+<script>
+    const form = document.querySelector('form');
+    form.addEventListener('submit', (e) => {
+        e.preventDefault();
+
+        // get the values
+        const email = form.email.value;
+        const password = form.password.value;
+
+        console.log(email, password);
+    });
+</script>
+</body>
+</html>
