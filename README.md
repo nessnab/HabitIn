@@ -29,6 +29,7 @@ Designed to help users build and maintain daily habits with a clean interface an
 - time tracker for each habit, with displayed interval and stored on server
 - handle email & password errors
 - hashing password with mongoose hooks
+- login user using bycript compare
 
 ---
 

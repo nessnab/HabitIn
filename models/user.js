@@ -24,10 +24,19 @@ userSchema.pre('save', async function () {
   this.password = await bcrypt.hash(this.password, salt);
 });
 
-// fire a function after doc saved to db
-// userSchema.post('save', async function (doc) {
-//   console.log('new user was created & saved', doc);
-// });
+// static method to login user
+userSchema.statics.login = async function (email, password) {
+  const user = await this.findOne({ email });
+
+  if (user) {
+    const auth = await bcrypt.compare(password, user.password);
+    if (auth) {
+      return user;
+    }
+    throw Error('Incorrect password');
+  }
+  throw Error('Incorrect email');
+}
 
 const User = mongoose.model('user', userSchema);
 
