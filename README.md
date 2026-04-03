@@ -31,6 +31,7 @@ Designed to help users build and maintain daily habits with a clean interface an
 - hashing password with mongoose hooks
 - signup user & error handling
 - login user using bycript compare & error handling
+- protecting routes using custom middleware
 
 
 ---

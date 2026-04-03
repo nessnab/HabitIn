@@ -4,6 +4,7 @@ const mongoose = require('mongoose');
 const habitRoutes = require('./routes/habitRoutes');
 const authRoutes = require('./routes/authRoutes');  
 const cookieParser = require('cookie-parser');
+const { requireAuth } = require('./middleware/authMiddleware');
 
 // express app
 const app = express();
@@ -35,6 +36,8 @@ app.set('views', './views');
 app.get('/', (req, res) => {
   res.render('habits/index', { title: 'Your Personal Habit Tracker' });
 });
+
+app.get('/add', requireAuth, habitRoutes);
 
 // habit routes
 app.use('/', habitRoutes);
