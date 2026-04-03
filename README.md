@@ -32,6 +32,7 @@ Designed to help users build and maintain daily habits with a clean interface an
 - signup user & error handling
 - login user using bycript compare & error handling
 - protecting routes using custom middleware
+- logout by making jwt blank
 
 
 ---
