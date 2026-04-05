@@ -38,7 +38,7 @@ app.get('/', (req, res) => {
   res.render('habits/index', { title: 'Your Personal Habit Tracker' });
 });
 
-app.get('/add', requireAuth, habitRoutes);
+app.get('/add', checkUser, requireAuth, habitRoutes);
 
 // habit routes
 app.use('/', habitRoutes);

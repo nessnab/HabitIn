@@ -46,8 +46,13 @@ const habitSchema = new Schema({
     createdAt: {
         type: Date,
         default: Date.now
+    },
+    userId: { 
+        type: mongoose.Schema.Types.ObjectId, 
+        ref: "User", 
+        required: true 
     }
 });
 
-const Habit = mongoose.model('Habit', habitSchema);
+const Habit = mongoose.models.Habit || mongoose.model('Habit', habitSchema);
 module.exports = Habit;

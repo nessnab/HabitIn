@@ -4,25 +4,43 @@ const habit_index = (req, res) => {
     res.render('habits/index');
 };
 
-const habit_add_get = (req, res) => {
-    // res.render('habits/add', { title: 'Add Habit' });
-    Habit.find()
-        .then((habits) => {
-        console.log('Fetched habits:', habits); // debug
-        res.render('habits/add', { 
-            title: 'Habit Tracker',
-            habits
-        });
-        })
-        .catch((err) => {
-        console.error(err);
-        res.status(500).send('Error loading habits');
-    });
+// const habit_add_get = (req, res) => {
+//     // res.render('habits/add', { title: 'Add Habit' });
+//     Habit.find()
+//         .then((habits) => {
+//         console.log('Fetched habits:', habits); // debug
+//         res.render('habits/add', { 
+//             title: 'Habit Tracker',
+//             habits
+//         });
+//         })
+//         .catch((err) => {
+//         console.error(err);
+//         res.status(500).send('Error loading habits');
+//     });
 
-}
+// }
+
+const habit_add_get = async (req, res) => {
+  try {
+    const habits = await Habit.find({ userId: req.user.id }); 
+    console.log("Fetched habits:", habits);
+
+    res.render("habits/add", {
+      title: "Habit Tracker",
+      habits
+    });
+  } catch (err) {
+    console.error(err);
+    res.status(500).send("Error loading habits");
+  }
+};
 
 const habit_add_post = (req, res) => {
-    const habit = new Habit(req.body);
+    const habit = new Habit({
+        ...req.body,
+        userId: req.user.id
+    });
     habit.save()
         .then(() => {
         res.redirect('/add');

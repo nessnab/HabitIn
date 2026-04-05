@@ -8,15 +8,23 @@ const checkUser = (req, res, next) => {
   if (token) {
       jwt.verify(token, 'this is top secret', async (err, decodedToken) => {
       if (err) {
+        req.user = null;
         res.locals.user = null;
         next();
       } else {
-        let user = await User.findById(decodedToken.id);
-        res.locals.user = user;
+        try {
+          const user = await User.findById(decodedToken.id);
+          req.user = user;
+          res.locals.user = user;
+        } catch (error) {
+          req.user = null;
+          res.locals.user = null;
+        }
         next();
       }
     });
   } else {
+    req.user = null;
     res.locals.user = null;
     next();
   }

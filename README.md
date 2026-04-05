@@ -34,6 +34,7 @@ Designed to help users build and maintain daily habits with a clean interface an
 - protecting routes using custom middleware
 - logout by making jwt blank
 - checking current user & fetching user email to frontend
+- fetching habit per user
 
 
 ---
