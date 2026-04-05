@@ -4,7 +4,7 @@ const mongoose = require('mongoose');
 const habitRoutes = require('./routes/habitRoutes');
 const authRoutes = require('./routes/authRoutes');  
 const cookieParser = require('cookie-parser');
-const { requireAuth } = require('./middleware/authMiddleware');
+const { checkUser, requireAuth } = require('./middleware/authMiddleware');
 
 // express app
 const app = express();
@@ -20,6 +20,7 @@ mongoose.connect(dbURI)
 app.use(express.json());
 app.use(cookieParser());
 app.use(express.static('public'));
+app.use(checkUser);
 app.use(express.urlencoded({ extended: true }));
 app.use(morgan('dev'));
 app.use((req, res, next) => {

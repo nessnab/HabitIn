@@ -5,11 +5,14 @@
             </li>
 
             <div class="flex">
-                <li>
-                    <a href="/auth/login" class="p-5 hover:underline-offset-1 hover:text-primary">Log In</a>
-                </li>
+                <% if (user) { %> 
+                <p>Hello, <%= user.email %></p>
                 <li>
                     <a href="/auth/logout" class="p-5 hover:underline-offset-1 hover:text-primary">Log Out</a>
+                </li>
+                <% } else { %>
+                <li>
+                    <a href="/auth/login" class="p-5 hover:underline-offset-1 hover:text-primary">Log In</a>
                 </li>
                 <li>
                     <a href="/add"
@@ -17,6 +20,7 @@
                         Get Started
                     </a>
                 </li>
+                <% } %>
             </div>
         </ul>
 </nav>

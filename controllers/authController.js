@@ -78,3 +78,13 @@ module.exports.logout_get = (req, res) => {
   res.cookie('jwt', '', { maxAge: 1 });
   res.redirect('/');
 }
+
+// user data
+module.exports.getUserEmail = async (req, res) => {
+  try {
+    const user = await User.findById(req.user.id);
+    res.json({ email: user.email });
+  } catch (err) {
+    res.status(500).json({ error: "Server error" });
+  }
+};
