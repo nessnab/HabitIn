@@ -50,7 +50,6 @@ Designed to help users build and maintain daily habits with a clean interface an
 
 ## 📌 Roadmap
 
-- [ ] Authentication & user accounts  
 - [ ] RESTful API endpoints  
 
 ---
