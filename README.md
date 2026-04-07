@@ -1,70 +1,79 @@
 # 🌱 HabitIn
 
-HabitIn is a responsive habit tracker built with HTML, Tailwind CSS, JavaScript, and Node.js.  
-Designed to help users build and maintain daily habits with a clean interface and persistent tracking.
+HabitIn is a responsive habit tracker built with **Node.js, MongoDB, EJS, Tailwind CSS, and JWT authentication**.  
+It helps users build and maintain daily habits with a clean interface, secure login, and persistent tracking.
 
 ---
 
-## 🚀 Features (Work in Progress)
+## 🚀 Features
 
-- **Habit Management**: Add, edit, and remove habits  
+- **User Authentication**: Signup, login, logout with JWT + secure HTTP‑only cookies  
+- **Protected Routes**: Custom middleware ensures only logged‑in users can access their data  
+- **Habit Management**: Add, edit, and delete habits tied to each user account  
 - **Habit Details**: Title, goals, schedule, and time tracking  
 - **Flexible Scheduling**: Daily, weekly, or custom days  
-- **Notifications**: Alerts 5–10 minutes before a habit starts  
 - **Manual Tracking**: Start/stop buttons for each habit session  
 - **Progress Tracking**: Hours spent per day/week/month with milestones & streaks  
-- **History**: Store and view past activity logs for each habit  
+- **History**: Store and view past activity logs per habit  
+- **UI Feedback**: Personalized navigation with “Welcome, user.email”  
 
 ---
 
-## ✅ Detail Achieved
-- initial views HTML, tailwind css, js
-- config node.js, ejs, routes, controller
-- connect mongodb, add partials
-- store added data to database
-- delete button & modal
-- edit button & edit get + post
-- close form button, show modal if there's any value or changes while edit
-- refine style
-- time tracker for each habit, with displayed interval and stored on server
-- handle email & password errors
-- hashing password with mongoose hooks
-- signup user & error handling
-- login user using bycript compare & error handling
-- protecting routes using custom middleware
-- logout by making jwt blank
-- checking current user & fetching user email to frontend
-- fetching habit per user
-
+## ✅ Completed Milestones
+- Initial views with HTML, Tailwind CSS, and vanilla JS  
+- Node.js + Express setup with routes, controllers, and EJS partials  
+- MongoDB integration with Mongoose models  
+- Habit CRUD (create, edit, delete) with modals and form validation  
+- Time tracker per habit with server‑side persistence  
+- Password hashing with Mongoose hooks + bcrypt compare on login  
+- Error handling for signup/login (email & password validation)  
+- JWT authentication with maxAge, HTTP‑only cookies, and custom middleware  
+- Route protection (`requireAuth`)  
+- Logout by clearing JWT cookie  
+- Fetching habits per user (`Habit.find({ userId: req.user.id })`)  
 
 ---
 
 ## 🛠 Tech Stack
-
 - **Frontend**: HTML5, Tailwind CSS, Vanilla JavaScript  
-- **Backend**: Node.js  
-- **Database**: MongoDB using Mongoose
-- **Deployment**: GitHub Pages (planned)  
+- **Backend**: Node.js, Express.js  
+- **Database**: MongoDB with Mongoose  
+- **Authentication**: JWT (JSON Web Tokens)  
+- **Templating**: EJS  
+- **Deployment**: (Planned)
+
+---
+
+## 🔒 Security & Production Practices
+- **Error Handling**: JSON responses for APIs, friendly messages for EJS views  
+- **Monitoring**: Logging of auth events and errors for debugging & security
+**Planned:** 
+- **Environment Variables**: JWT secret stored in `.env` (not hardcoded)  
+- **Relationships**: `.populate("userId", "email")` to demonstrate user–habit linkage  
+- **HTTPS**: Required in production to protect JWT cookies  
 
 ---
 
 ## 📌 Roadmap
-
-- [ ] RESTful API endpoints  
+- [ ] RESTful API endpoints for external clients  
+- [ ] Refresh tokens for long‑lived sessions  
+- [ ] Role‑based access (admin vs user)  
+- [ ] Notifications (habit reminders)  
+- [ ] Deployment with CI/CD pipeline  
 
 ---
 
 ## 🤝 Contributing
-
-Pull requests are welcome! For major changes, please open an issue first to discuss what you’d like to improve.
+Pull requests are welcome! For major changes, please open an issue first to discuss improvements.
 
 ---
 
 ## 📄 License
-
 This project is licensed under the ISC License.
 
+---
 
-Clone the repo:
+### Clone the repo
 ```bash
 git clone https://github.com/nessnab/HabitIn.git
+```
