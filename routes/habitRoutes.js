@@ -1,18 +1,17 @@
 const express = require('express');
-const habitController = require('../controllers/habitController');
+// const app = express();
 const router = express.Router();
+const habitController = require('../controllers/habitController');
+const { checkUser, requireAuth } = require('../middleware/authMiddleware');
 
-router.get('/', habitController.habit_index);
-router.get('/add', habitController.habit_add_get);
-router.post('/add', habitController.habit_add_post);
-router.get('/habits/:id', habitController.habit_edit_get);
-router.post('/habits/:id', habitController.habit_edit_post);
-router.delete('/habits/:id', habitController.habit_delete);
-// Timer routes
-// router.post('/:id/timer/start', habitController.startTimer);
-// router.post('/:id/timer/stop', habitController.stopTimer);
-router.get('/habits/:id/timer', habitController.getTimer);
-router.post('/habits/:id/timer', habitController.updateTimer);
+// app.use(checkUser);
+
+router.get('/', checkUser, habitController.habit_index);
+router.get('/add', checkUser, habitController.habit_add_get);
+router.post('/add', checkUser, requireAuth, habitController.habit_add_post);
+router.get('/habits/:id', checkUser, habitController.habit_edit_get);
+router.post('/habits/:id', checkUser, habitController.habit_edit_post);
+router.delete('/habits/:id', checkUser, habitController.habit_delete);
 
 
 module.exports = router;

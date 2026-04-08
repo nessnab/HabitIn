@@ -1,7 +1,9 @@
 const Habit = require('../models/habit');
 
 const habit_index = (req, res) => {
-    res.render('habits/index');
+    res.render('habits/index', {
+        title: 'Your Personal Habit Tracker'
+    });
 };
 
 // const habit_add_get = (req, res) => {
@@ -22,12 +24,15 @@ const habit_index = (req, res) => {
 // }
 
 const habit_add_get = async (req, res) => {
+    if (!req.user) {
+    return res.redirect('/auth/login');
+  }
   try {
     const habits = await Habit.find({ userId: req.user.id }); 
     console.log("Fetched habits:", habits);
 
     res.render("habits/add", {
-      title: "Habit Tracker",
+      title: "Add new Habit",
       habits
     });
   } catch (err) {
