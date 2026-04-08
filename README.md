@@ -47,14 +47,13 @@ It helps users build and maintain daily habits with a clean interface, secure lo
 ## 🔒 Security & Production Practices
 - **Error Handling**: JSON responses for APIs, friendly messages for EJS views  
 - **Monitoring**: Logging of auth events and errors for debugging & security
-**Planned:** 
 - **Environment Variables**: JWT secret stored in `.env` (not hardcoded)  
-- **Relationships**: `.populate("userId", "email")` to demonstrate user–habit linkage  
-- **HTTPS**: Required in production to protect JWT cookies  
 
 ---
 
 ## 📌 Roadmap
+- [ ] Relationships: `.populate("userId", "email")` to demonstrate user–habit linkage  
+- [ ] HTTPS: Required in production to protect JWT cookies  
 - [ ] RESTful API endpoints for external clients  
 - [ ] Refresh tokens for long‑lived sessions  
 - [ ] Role‑based access (admin vs user)  

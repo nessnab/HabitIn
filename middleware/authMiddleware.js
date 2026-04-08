@@ -6,7 +6,7 @@ const checkUser = (req, res, next) => {
   const token = req.cookies.jwt;
 
   if (token) {
-      jwt.verify(token, 'this is top secret', async (err, decodedToken) => {
+      jwt.verify(token, process.env.JWT_SECRET, async (err, decodedToken) => {
       if (err) {
         req.user = null;
         res.locals.user = null;
@@ -35,7 +35,7 @@ const requireAuth = (req, res, next) => {
 
   // check jwt exists and is verified
   if (token) {
-    jwt.verify(token, 'this is top secret', (err, decodedToken) => {
+    jwt.verify(token, process.env.JWT_SECRET, (err, decodedToken) => {
       if (err) {
         console.log(err.message);
         res.redirect('/auth/signup');
