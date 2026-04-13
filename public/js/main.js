@@ -1,4 +1,4 @@
-// -------------------Habit Tracker Script
+// -------------------Habit Tracker frontend Script
 
 // Form button
 const habitForm = document.getElementById('habitForm')
@@ -39,7 +39,7 @@ closeFormBtn.addEventListener('click', (data) => {
         closeFormDialog.showModal();
     } else {
         formToggle();
-        // resetForm();
+        resetForm();
     }
 });
 

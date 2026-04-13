@@ -48,7 +48,7 @@ const habit_add_post = (req, res) => {
     });
     habit.save()
         .then(() => {
-        res.redirect('/add');
+        res.redirect('/add-habit');
         console.log('Habit saved successfully:', req.body);
         })
         .catch((err) => {
@@ -106,7 +106,7 @@ const updateTimer = (req, res) => {
 const habit_delete = (req, res) => {
     const id = req.params.id;
     Habit.findByIdAndDelete(id)
-        .then(() => res.json({ redirect: '/add' }))
+        .then(() => res.json({ redirect: '/add-habit' }))
         .catch((err) => res.status(500).json({ error: 'Error deleting habit' }));
 }
 

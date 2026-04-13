@@ -6,7 +6,7 @@
 
             <div class="flex">
                 <% if (user) { %> 
-                <p>Hello, <%= user.email %></p>
+                <p>Hi, <%= user.email.split('@')[0] %></p>
                 <li>
                     <a href="/auth/logout" class="p-5 hover:underline-offset-1 hover:text-primary">Log Out</a>
                 </li>
@@ -15,7 +15,7 @@
                     <a href="/auth/login" class="p-5 hover:underline-offset-1 hover:text-primary">Log In</a>
                 </li>
                 <li>
-                    <a href="/add"
+                    <a href="/add-habit"
                        class="bg-primary text-white px-4 py-2 rounded hover:bg-primary-dark">
                         Get Started
                     </a>
