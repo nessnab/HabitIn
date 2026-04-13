@@ -8,8 +8,9 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "nodemon server.js",
-    "dev": "tailwindcss -i ./src/input.css -o ./public/css/style.css --watch"
+    "start": "node server.js",
+    "dev": "nodemon server.js",
+    "css": "tailwindcss -i ./public/src/input.css -o ./public/css/output.css --watch"
   },
   "dependencies": {
     "@tailwindcss/cli": "^4.1.18",

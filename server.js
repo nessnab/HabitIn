@@ -1,13 +1,14 @@
 require('dotenv').config();
-const app = require('./app');
 const mongoose = require('mongoose');
-const dbURI = process.env.MONGO_URI;
-const PORT = process.env.PORT || 5000;
+const app = require('./app');
 
-mongoose.connect(dbURI)
-  .then((result) => {
-    app.listen(PORT, () => {
-      console.log(`Server running on port ${PORT}`);
-    });
+const PORT = process.env.PORT || 5000;
+const MONGO_URI = process.env.MONGO_URI;
+
+console.log("MONGO_URI:", MONGO_URI); // should print the URI string
+
+mongoose.connect(MONGO_URI)
+  .then(() => {
+    app.listen(PORT, () => console.log(`Server running on ${PORT}`));
   })
-  .catch((err) => console.log('mongodb failed to connect', err));
+  .catch(err => console.error("MongoDB connection error:", err));
