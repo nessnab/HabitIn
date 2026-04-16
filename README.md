@@ -56,9 +56,13 @@ It helps users build and maintain daily habits with a clean interface, secure lo
 ---
 
 ## 📌 Roadmap
+- [ ] Improve UI
+- [ ] Habit completion mark
+- [ ] Strike milestone achievement
+- [ ] History/dashboard
+- [ ] Notification reminder every 30mins tracking
+- [ ] Notifications (habit reminders)
 - [ ] RESTful API endpoints for external clients  
-- [ ] Role‑based access (admin vs user)  
-- [ ] Notifications (habit reminders)  
 - [ ] Deployment with CI/CD pipeline  
 
 ---

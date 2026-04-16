@@ -28,6 +28,10 @@ app.set('view engine', 'ejs');
 app.set('views', './views');
 
 // habit routes
+app.get('/test', (req, res) => {
+  res.send('OK');
+});
+
 
 app.use('/', habitRoutes);
 app.use('/auth', authRoutes);
