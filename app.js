@@ -28,6 +28,7 @@ app.set('view engine', 'ejs');
 app.set('views', './views');
 
 // habit routes
+
 app.use('/', habitRoutes);
 app.use('/auth', authRoutes);
 

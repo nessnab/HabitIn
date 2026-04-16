@@ -14,12 +14,17 @@ const userSchema = new mongoose.Schema({
     type: String,
     required: [true, 'Please enter a password'],
     minlength: [6, 'Password must be at least 6 characters long']
+  },
+  refreshToken: {
+    type: String,
+    default: null
   }
 });
 
 // fire a function before doc saved to db
-userSchema.pre('save', async function () {
-  // console.log('user about to be created & saved', this);
+userSchema.pre('save', async function() {
+  if (!this.isModified('password')) return;
+
   const salt = await bcrypt.genSalt();
   this.password = await bcrypt.hash(this.password, salt);
 });
@@ -33,7 +38,6 @@ userSchema.statics.login = async function (email, password) {
     if (auth) {
       return user;
     }
-    // throw Error('Incorrect password');
   }
   throw Error('Incorrect email or password');
 }
