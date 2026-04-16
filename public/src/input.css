@@ -3,9 +3,11 @@
 /* ./src/index.css */
 @import "tailwindcss";
 
+
 @theme {
-  --color-bg: #fffaff;
-  --color-primary: #3b82f6;
-  --color-primary-dark: #1d4ed8;
+  --color-bg: linear-gradient(to bottom right, #EFF6FF, #EEF2FF, #FFEDD5);
+  /* --color-form-bg background-color: rgba(255, 255, 255, 0.5); */
+  --color-primary: #FB923C;
+  --color-secondary: #F472B6;
   --color-primary-light: #93c5fd;
 }
