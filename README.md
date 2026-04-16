@@ -14,9 +14,9 @@ It helps users build and maintain daily habits with a clean interface, secure lo
 - **Habit Details**: Title, goals, schedule, and time tracking  
 - **Flexible Scheduling**: Daily, weekly, or custom days  
 - **Manual Tracking**: Start/stop buttons for each habit session  
+- **UI Feedback**: Personalized navigation with "Hi, user.email”  
 - **Progress Tracking**: Hours spent per day/week/month with milestones & streaks  
 - **History**: Store and view past activity logs per habit  
-- **UI Feedback**: Personalized navigation with “Welcome, user.email”  
 
 ---
 
@@ -39,9 +39,10 @@ It helps users build and maintain daily habits with a clean interface, secure lo
 - **Frontend**: HTML5, Tailwind CSS, Vanilla JavaScript  
 - **Backend**: Node.js, Express.js  
 - **Database**: MongoDB with Mongoose  
-- **Authentication**: JWT (JSON Web Tokens)  
+- **Authentication**: JWT (JSON Web Tokens)
+- **Hashing**: Bcrypt
 - **Templating**: EJS  
-- **Deployment**: (Planned)
+- **Deployment**: Railway
 
 ---
 
@@ -55,7 +56,6 @@ It helps users build and maintain daily habits with a clean interface, secure lo
 ---
 
 ## 📌 Roadmap
-- [ ] Relationships: `.populate("userId", "email")` to demonstrate user–habit linkage  
 - [ ] RESTful API endpoints for external clients  
 - [ ] Role‑based access (admin vs user)  
 - [ ] Notifications (habit reminders)  

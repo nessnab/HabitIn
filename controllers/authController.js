@@ -120,7 +120,6 @@ module.exports.login_post = async (req, res) => {
     const errors = handleErrors(err);
     res.status(400).json({ errors });
   }
-  console.log(email, password);
 }
 
 // refresh token
@@ -171,15 +170,4 @@ module.exports.logout_get = async (req, res) => {
   res.clearCookie('accessToken');
   res.clearCookie('refreshToken');
   res.redirect('/');
-};
-
-
-// user data
-module.exports.getUserEmail = async (req, res) => {
-  try {
-    const user = await User.findById(req.user.id);
-    res.json({ email: user.email });
-  } catch (err) {
-    res.status(500).json({ error: "Server error" });
-  }
 };

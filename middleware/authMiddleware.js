@@ -32,38 +32,38 @@ const checkUser = async (req, res, next) => {
     });
   } else {
     handleRefresh();
-  }
-
-  async function handleRefresh() {
-  if (!refreshToken) {
-    req.user = null;
-    res.locals.user = null;
-    return next();
-  }
-
-  try {
-    const decoded = jwt.verify(refreshToken, process.env.REFRESH_SECRET);
-    const user = await User.findById(decoded.id);
-
-    if (!user || user.refreshToken !== refreshToken) {
+    async function handleRefresh() {
+    if (!refreshToken) {
       req.user = null;
       res.locals.user = null;
       return next();
     }
-
-    const newAccessToken = createAccessToken(decoded.id);
-
-    res.cookie('accessToken', newAccessToken, {
-      cookieOptions,
-      maxAge: 15 * 60 * 1000
-    });
-
-  } catch {
-    req.user = user;
-    res.locals.user = user;
-    next();
+  
+    try {
+      const decoded = jwt.verify(refreshToken, process.env.REFRESH_SECRET);
+      const user = await User.findById(decoded.id);
+  
+      if (!user || user.refreshToken !== refreshToken) {
+        req.user = null;
+        res.locals.user = null;
+        return next();
+      }
+  
+      const newAccessToken = createAccessToken(decoded.id);
+  
+      res.cookie('accessToken', newAccessToken, {
+        cookieOptions,
+        maxAge: 15 * 60 * 1000
+      });
+  
+    } catch {
+      req.user = user;
+      res.locals.user = user;
+      next();
+    }
   }
-}
+  }
+
 }
 
 const requireAuth = async (req, res, next) => {

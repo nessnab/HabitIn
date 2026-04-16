@@ -41,21 +41,21 @@ const habit_add_get = async (req, res) => {
   }
 };
 
-const habit_add_post = (req, res) => {
-    const habit = new Habit({
-        ...req.body,
-        userId: req.user.id
+const habit_add_post = async (req, res) => {
+  try {
+    const habit = await Habit.create({
+      ...req.body,
+      userId: req.user.id
     });
-    habit.save()
-        .then(() => {
-        res.redirect('/add-habit');
-        console.log('Habit saved successfully:', req.body);
-        })
-        .catch((err) => {
-        console.error(err);
-        res.status(500).send('Error saving habit');
-        });
-}
+
+    console.log('Habit saved:', habit);
+    res.redirect('/add-habit');
+
+  } catch (err) {
+    console.error(err);
+    res.status(500).send('Error saving habit');
+  }
+};
 
 const habit_edit_get = (req, res) => {
     Habit.findById(req.params.id)
