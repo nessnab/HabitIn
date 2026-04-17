@@ -5,8 +5,12 @@
 
 
 @theme {
-  --color-bg: linear-gradient(to bottom right, #EFF6FF, #EEF2FF, #FFEDD5);
+  /* --color-bg: linear-gradient(to bottom right, #EFF6FF, #EEF2FF, #FFEDD5); */
+  /* --color-form-bg background-color: rgba(255, 255, 255, 0.5); */
   --color-primary: #FB923C;
   --color-secondary: #F472B6;
-  --color-primary-light: #93c5fd;
+  /* --color-primary-light: #fed7aa; */
+  --color-primary-light: #F4A43f;
+  --color-secondary-light: #f9a8d4;
+  --color-text: #191414;
 }
