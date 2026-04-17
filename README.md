@@ -8,7 +8,7 @@ It helps users build and maintain daily habits with a clean interface, secure lo
 
 ## 🚀 Features
 
-- **User Authentication**: Signup, login, logout with JWT + secure HTTP‑only cookies  
+- **User Authentication**: Signup, login, with JWT refresh token
 - **Protected Routes**: Custom middleware ensures only logged‑in users can access their data  
 - **Habit Management**: Add, edit, and delete habits tied to each user account  
 - **Habit Details**: Title, goals, schedule, and time tracking  
