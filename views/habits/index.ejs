@@ -1,10 +1,11 @@
 <!DOCTYPE html>
 <html lang="en">
     <%- include('../partials/head') %>
-<body class="min-h-screen bg-gradient-to-br from-blue-50 via-indigo-50 to-orange-100">
+<body class="min-h-screen flex flex-col bg-gradient-to-br from-blue-50 via-indigo-50 to-orange-100 overflow-hidden">
 
     <%- include('../partials/nav') %>
 
+<main class="flex-1">
     <div class="flex py-15">
         <div class="m-auto text-center max-w-lg mt-3">
             <h1 class="text-6xl font-bold my-4 text-gray-900">
@@ -16,12 +17,14 @@
             </p>
             <div class="my-9">
                 <a href="/add-habit" class="bg-gradient-to-r from-primary to-secondary text-white px-4 py-2 rounded-xl shadow hover:opacity-90">Get Started</a>
-                <a href="" class="border border-primary text-primary text-bold px-4 py-2 rounded-xl mr-4 hover:bg-primary/70 hover:text-white ">See Demo</a>
+                <a href="" class="border border-primary text-primary text-bold px-4 py-2 rounded-xl mr-4 hover:bg-gradient-to-r hover:from-primary hover:to-secondary hover:text-white transition-all">See Demo</a>
                 </button>
             </div>
         </div>
     </div>
+</main>
 
+    <%- include('../partials/footer') %>
     <script src="/js/main.js"></script>
 
 </body>
