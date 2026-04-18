@@ -3,7 +3,7 @@
 HabitIn is a responsive habit tracker built with **Node.js, MongoDB, EJS, Tailwind CSS, and JWT authentication**.  
 It helps users build and maintain daily habits with a clean interface, secure login, and persistent tracking.
 
-👉Check Live project here: https://habitin.up.railway.app/
+👉Check Live project here: [HabitIn](https://habitin.up.railway.app/)
 ---
 
 ## 🚀 Features
@@ -56,10 +56,9 @@ It helps users build and maintain daily habits with a clean interface, secure lo
 ---
 
 ## 📌 Roadmap
-- [ ] Improve UI
+- [x] Improve UI
 - [ ] Habit completion mark
 - [ ] Strike milestone achievement
-- [ ] History/dashboard
 - [ ] Notification reminder every 30mins tracking
 - [ ] Notifications (habit reminders)
 - [ ] RESTful API endpoints for external clients  
