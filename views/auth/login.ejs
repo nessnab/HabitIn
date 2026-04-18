@@ -2,9 +2,10 @@
 <html lang="en">
     <%- include('../partials/head') %>
 
-<body class="min-h-screen bg-gradient-to-br from-blue-50 via-indigo-50 to-orange-100">
+<body class="min-h-screen flex flex-col bg-gradient-to-br from-blue-50 via-indigo-50 to-orange-100">
     <%- include('../partials/nav') %>
 
+<main class="flex-1 items-center justify-center py-10">
 <form class="max-w-md mx-auto bg-white shadow-md rounded-lg p-7 space-y-4 text-left">
     <h2 class="text-primary text-3xl font-bold max-w-md">Log In</h2>
     <label for="email">Email</label>
@@ -15,11 +16,13 @@
     <input type="password" name="password" required class="mt-1 block w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
     <div class="password error"></div>
 
-    <button class="bg-primary text-white px-4 py-2 rounded mr-4 hover:bg-primary-dark">
+    <button class="bg-primary text-white px-4 py-2 rounded mr-4 hover:bg-primary-light cursor-pointer">
       Log In
     </button>
     <p>Don't have an account? <a href="/auth/signup" class="text-primary hover:underline">Sign Up</a></p>
 </form>
+</main>
+<%- include('../partials/footer') %>
 
 <script>
     const form = document.querySelector('form');
