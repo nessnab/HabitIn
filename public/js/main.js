@@ -226,6 +226,25 @@ const loadTimer = (req, res) => {
         .catch(err => console.error('Error loading timer:', err));
 }
 
+// Expanded card detail
+const cards = document.querySelectorAll('.card-expand');
+
+cards.forEach(card => {
+    card.addEventListener('click', () => {
+    
+        cards.forEach(c => {
+            if (c !== card) {
+                c.querySelector('.habit-goal').classList.add('hidden');
+                c.querySelector('.btn-expand').classList.add('hidden');
+            }
+        });
+        const habitGoal = card.querySelector('.habit-goal');
+        const btnCard = card.querySelector('.btn-expand');
+        habitGoal.classList.toggle('hidden');
+        btnCard.classList.toggle('hidden');
+    });
+});
+
 
 // Reset form function
 const resetForm = (data) => {
