@@ -32,8 +32,11 @@ app.get('/test', (req, res) => {
   res.send('OK');
 });
 
+// api routes
+app.use('/api/habits', require('./routes/api/habits'));
 
 app.use('/', habitRoutes);
 app.use('/auth', authRoutes);
+
 
 module.exports = app;
