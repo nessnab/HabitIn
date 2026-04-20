@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const Habit = require('../../models/Habit');
+const Habit = require('../../models/habit');
 const { requireAuth } = require('../../middleware/authMiddleware');
 
 // GET all habits
