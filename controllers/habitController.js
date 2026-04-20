@@ -70,7 +70,7 @@ const habit_edit_post = (req, res) => {
     Habit.findByIdAndUpdate(req.params.id, req.body, { new: true, runValidators: true })
         .then(updatedHabit => {
         if (!updatedHabit) return res.status(404).send('Habit not found');
-        res.redirect('/add'); // or wherever your list page is
+        res.redirect('/add-habit');
         })
         .catch(err => res.status(500).send('Error updating habit'));
 };
@@ -90,12 +90,12 @@ const getTimer = (req, res) => {
 // store timer on server
 const updateTimer = (req, res) => {
     const id = req.params.id;
-    const { elapsed } = req.body; // get elapsed time from request body
+    const { elapsed } = req.body;
     Habit.findById(id)
         .then(habit => {
         if (!habit) return res.status(404).json({ error: 'Habit not found' });
 
-        habit.elapsedTime = elapsed; // update field
+        habit.elapsedTime = elapsed; 
         return habit.save();
         })
         .then(() => res.json({ message: 'Timer updated successfully' }))
