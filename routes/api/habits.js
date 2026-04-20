@@ -36,7 +36,7 @@ router.post('/', requireAuth, async (req, res) => {
   }
   catch (err) {
     console.error(err);
-    res.status(500).json({ error: err.message });
+    res.status(500).json({ error: "Failed to create habit" });
   }
 });
 
@@ -67,6 +67,31 @@ router.put('/:id', requireAuth, async (req, res) => {
 
     const updatedHabit = await habit.save();
     res.status(200).json(updatedHabit);
+  }
+  catch (err) {
+    console.error(err);
+    res.status(500).json({ error: "Failed to update habit" });
+  }
+});
+
+// DELETE a habit
+router.delete('/:id', requireAuth, async (req, res) => {
+  try {
+    const { id } = req.params;
+
+    const habit = await Habit.findById(id);
+
+    if (!habit) {
+      return res.status(404).json({ error: "Habit not found" });
+    }
+
+    if (habit.userId.toString() !== req.user.id) {
+      return res.status(403).json({ error: "Unauthorized" });
+    }
+
+    await habit.deleteOne();
+    res.status(200).json({ message: "Habit deleted" });
+
   }
   catch (err) {
     console.error(err);
