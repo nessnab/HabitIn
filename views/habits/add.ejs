@@ -101,10 +101,10 @@
 
         
         <section class="habit-display text-center ">
-            <div id="habitsContainer" class="p-6 mx-auto max-w-lg">
-                <span class="text-center text-3xl font-bold">Your Habit List</span>
-
+            <div id="habit-list" class="p-6 mx-auto max-w-lg">
+                
                 <% if (habits.length > 0) { %>
+                    <span class="text-center text-3xl font-bold">Your Habit List</span>
                 <div id="habitsList" class="space-y-6 p-5">
                     <% habits.forEach(habit => { %>
                     <div class=" bg-white rounded-lg shadow-md text-left py-1 px-2 my-4 flex justify-between border border-gray-100 hover:bg-transparent/50 transition duration-300">
