@@ -258,6 +258,73 @@ const resetForm = (data) => {
 }
 
 
+// Frontend API
+// Add Habit - POST /api/habits
+habitForm.addEventListener('submit', async (e) => {
+    e.preventDefault();
+
+    const formData = new FormData(habitForm);
+
+    const data = {
+        title: formData.get('title'),
+        goal: formData.get('goal'),
+        schedule: formData.get('schedule'),
+        weeklyDay: formData.get('weeklyDay'),
+        customDays: formData.getAll('customDays'),
+        time: formData.get('time'),
+    }
+
+    try {
+        const res = await fetch('/api/habits', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+      },
+        body: JSON.stringify(data)
+    });
+
+    const newHabit = await res.json();
+
+    console.log(newHabit);
+
+    // TODO UI
+    // window.location.reload();
+    addHabitToUI(newHabit);
+    resetForm(data);
+    formToggle();
+    }
+    catch (err) {
+        console.error(err);
+    }
+});
+
+const addHabitToUI = (habit) => {
+    const list = document.getElementById('habit-list');
+
+    const card = document.createElement('div');
+    card.className = "bg-white rounded-xl shadow p-4 mb-3";
+
+    card.innerHTML = `
+        <div class="flex justify-between items-center">
+            <div>
+                <h3 class="text-orange-500 font-semibold">${habit.title}</h3>
+                <p class="text-sm text-gray-500">${habit.schedule} at ${habit.time}</p>
+            </div>
+            <div id="timer-${habit._id}" class="text-pink-400 font-bold">
+                00:00
+            </div>
+        </div>
+    `;
+
+    list.prepend(card);
+};
+
+
+// Edit Habit - PUT /api/habits/:id
+// Delete Habit - DELETE /api/habits/:id
+// Get Habits - GET /api/habits
+
+
 
 
 // notes
