@@ -125,25 +125,20 @@ editButtons.forEach(btn => {
 
 
 // Delete button event listener
-deleteButtons.forEach(btn => {
-    btn.addEventListener('click', () => {
-        deleteBtn.dataset.doc = btn.dataset.doc;
-        deleteModal.showModal();
-    });
-})
+document.addEventListener('click', (e) => {
+    const deleteBtnClicked = e.target.closest('.deleteBtn');
+    if (!deleteBtnClicked) return;
+
+    const id = deleteBtnClicked.dataset.doc;
+
+    deleteBtn.dataset.doc = id; // reuse your modal confirm
+    deleteModal.showModal();
+});
+
 
 // Cancel button event listener
 cancelBtn.addEventListener('click', (e) => {
     deleteModal.close();
-});
-
-// Delete function
-deleteConfirmBtn.addEventListener('click', () => {
-    const endpoint = `/habits/${deleteBtn.dataset.doc}`;
-    fetch(endpoint, {method: 'DELETE'})
-        .then((response) => response.json())
-        .then((data) => window.location.href = data.redirect)
-        .catch(err => console.log(err));
 });
 
 // Timer functions
@@ -227,23 +222,21 @@ const loadTimer = (req, res) => {
 }
 
 // Expanded card detail
-const cards = document.querySelectorAll('.card-expand');
+document.addEventListener('click', (e) => {
+    const card = e.target.closest('.card-expand');
+    if (!card) return;
 
-cards.forEach(card => {
-    card.addEventListener('click', () => {
-    
-        cards.forEach(c => {
-            if (c !== card) {
-                c.querySelector('.habit-goal').classList.add('hidden');
-                c.querySelector('.btn-expand').classList.add('hidden');
-            }
-        });
-        const habitGoal = card.querySelector('.habit-goal');
-        const btnCard = card.querySelector('.btn-expand');
-        habitGoal.classList.toggle('hidden');
-        btnCard.classList.toggle('hidden');
+    document.querySelectorAll('.card-expand').forEach(c => {
+        if (c !== card) {
+            c.querySelector('.habit-goal')?.classList.add('hidden');
+            c.querySelector('.btn-expand')?.classList.add('hidden');
+        }
     });
+
+    card.querySelector('.habit-goal')?.classList.toggle('hidden');
+    card.querySelector('.btn-expand')?.classList.toggle('hidden');
 });
+
 
 
 // Reset form function
@@ -299,19 +292,55 @@ habitForm.addEventListener('submit', async (e) => {
 });
 
 const addHabitToUI = (habit) => {
-    const list = document.getElementById('habit-list');
+    const list = document.getElementById('habitsList');
 
     const card = document.createElement('div');
-    card.className = "bg-white rounded-xl shadow p-4 mb-3";
+    card.className = "habit-card bg-white rounded-lg shadow-md text-left py-1 px-2 my-4 flex justify-between border border-gray-100 hover:bg-transparent/50 transition duration-300";
+    card.setAttribute("data-id", habit._id);
 
     card.innerHTML = `
-        <div class="flex justify-between items-center">
-            <div>
-                <h3 class="text-orange-500 font-semibold">${habit.title}</h3>
-                <p class="text-sm text-gray-500">${habit.schedule} at ${habit.time}</p>
+        <!-- LEFT -->
+        <div class="card-expand cursor-pointer w-3/4 p-2 text-primary">
+            <h3 class="text-xl font-bold capitalize">
+                ${habit.title}
+            </h3>
+
+            <h2 class="habit-goal hidden text-md">
+                To <span class="font-bold">${habit.goal}</span>
+            </h2>
+
+            <p class="text-md opacity-90">
+                ${
+                    habit.schedule === "Daily" ? habit.schedule :
+                    habit.schedule === "Weekly" ? "Every " + habit.weeklyDay :
+                    habit.schedule === "Custom" ? "Every " + (habit.customDays || []).join(", ") :
+                    ""
+                }
+                at ${habit.time}
+            </p>
+
+            <div class="btn-expand hidden flex gap-4 mt-2 text-secondary">
+                <button data-doc="${habit._id}" class="editBtn hover:text-secondary-light cursor-pointer">
+                    Edit
+                </button>
+                <button data-doc="${habit._id}" class="deleteBtn hover:text-secondary-light cursor-pointer">
+                    Delete
+                </button>
             </div>
-            <div id="timer-${habit._id}" class="text-pink-400 font-bold">
-                00:00
+        </div>
+
+        <!-- RIGHT -->
+        <div class="flex flex-col items-center justify-center text-secondary">
+            <div class="flex items-center gap-1">
+                <p class="timer-display font-bold" id="timer-${habit._id}">
+                    00:00
+                </p>
+
+                <button class="timerBtn hover:text-secondary-light cursor-pointer"
+                        data-elapsed="0"
+                        data-doc="${habit._id}">
+                    ${startIcon}
+                </button>
             </div>
         </div>
     `;
@@ -320,8 +349,31 @@ const addHabitToUI = (habit) => {
 };
 
 
+
 // Edit Habit - PUT /api/habits/:id
 // Delete Habit - DELETE /api/habits/:id
+// Delete function
+deleteConfirmBtn.addEventListener('click', async () => {
+    const id = deleteBtn.dataset.doc;
+
+    try {
+        await fetch(`/api/habits/${id}`, { method: 'DELETE' });
+        removeHabitFromUI(id);
+        deleteModal.close();
+    }
+    catch (err) {
+        console.error(err);
+    }
+});
+
+const removeHabitFromUI = (id) => {
+    const card = document.querySelector(`[data-id="${id}"]`);
+
+    if (card) {
+        card.remove();
+    }
+};
+
 // Get Habits - GET /api/habits
 
 
@@ -332,7 +384,4 @@ const addHabitToUI = (habit) => {
 // add calendar view to show habit completion history
 // add suggestions for new habits based on user interests
 // add notifications to remind users to complete their habits
-
-// add user authentication to allow multiple users to track their habits separately
-
 // timer keep tracking after page refresh by saving start time and elapsed time to backend, then calculating total elapsed time on page load
