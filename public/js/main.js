@@ -252,7 +252,9 @@ const resetForm = (data) => {
 
 
 // Frontend API
-// Add Habit - POST /api/habits
+// Add Habit - POST /api/habits 
+// Edit Habit - PUT /api/habits/:id
+
 habitForm.addEventListener('submit', async (e) => {
     e.preventDefault();
 
@@ -267,30 +269,49 @@ habitForm.addEventListener('submit', async (e) => {
         time: formData.get('time'),
     }
 
+    const id = editBtn.dataset.doc;
+
     try {
-        const res = await fetch('/api/habits', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json'
-      },
-        body: JSON.stringify(data)
-    });
+        let res;
 
-    const newHabit = await res.json();
+        if (id) {
+            // EDIT MODE
+            res = await fetch(`/api/habits/${id}`, {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(data)
+            });
+        } else {
+            res = await fetch('/api/habits', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(data)
+            });
+        }
 
-    console.log(newHabit);
+    const result = await res.json();
 
-    // TODO UI
-    // window.location.reload();
-    addHabitToUI(newHabit);
+    if (id) {
+        updateHabitUI(result);
+    } else {
+        addHabitToUI(result);
+    }
+
     resetForm(data);
     formToggle();
+    editBtn.dataset.doc = ''; // reset edit button data attribute
+
     }
     catch (err) {
         console.error(err);
     }
 });
 
+// add habit UI
 const addHabitToUI = (habit) => {
     const list = document.getElementById('habitsList');
 
@@ -349,8 +370,21 @@ const addHabitToUI = (habit) => {
 };
 
 
+// edit habit UI
+const updateHabitUI = (habit) => {
+    const card = document.querySelector(`[data-id="${habit._id}"]`);
+    if (!card) return;
 
-// Edit Habit - PUT /api/habits/:id
+    card.querySelector('h3').textContent = habit.title;
+    card.querySelector('.habit-goal').innerHTML = `To <span class="font-bold">${habit.goal}</span>`;
+    card.querySelector('p').textContent = 
+        habit.schedule === "Daily" ? habit.schedule + ` at ${habit.time}` :
+        habit.schedule === "Weekly" ? "Every " + habit.weeklyDay + ` at ${habit.time}` :
+        habit.schedule === "Custom" ? "Every " + (habit.customDays || []).join(", ") + ` at ${habit.time}` :
+        "";
+}
+
+
 // Delete Habit - DELETE /api/habits/:id
 // Delete function
 deleteConfirmBtn.addEventListener('click', async () => {
