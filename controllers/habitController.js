@@ -6,22 +6,6 @@ const habit_index = (req, res) => {
     });
 };
 
-// const habit_add_get = (req, res) => {
-//     // res.render('habits/add', { title: 'Add Habit' });
-//     Habit.find()
-//         .then((habits) => {
-//         console.log('Fetched habits:', habits); // debug
-//         res.render('habits/add', { 
-//             title: 'Habit Tracker',
-//             habits
-//         });
-//         })
-//         .catch((err) => {
-//         console.error(err);
-//         res.status(500).send('Error loading habits');
-//     });
-
-// }
 
 const habit_add_get = async (req, res) => {
     if (!req.user) {
@@ -76,30 +60,52 @@ const habit_edit_post = (req, res) => {
 };
 
 
+
+const startTimer = async (req, res) => {
+    const habit = await Habit.findById(req.params.id);
+
+    if (!habit) return res.status(404).json({ error: 'Habit not found' });
+
+    if (!habit.isRunning) {
+        habit.isRunning = true;
+        habit.lastStartedAt = new Date();
+        await habit.save();
+    }
+
+    res.json(habit);
+}
+
+const stopTimer = async (req, res) => {
+    const habit = await Habit.findById(req.params.id);
+
+    if (!habit) return res.status(404).json({ error: 'Habit not found' });
+
+    if (habit.isRunning && habit.lastStartedAt) {
+        const now = new Date();
+        const diff = Math.floor((now - habit.lastStartedAt) / 1000); 
+        
+        habit.elapsedTime += diff;
+        habit.isRunning = false;
+        habit.lastStartedAt = null;
+
+        await habit.save();
+    }
+
+    res.json(habit);
+}
+
+
 // get timer to display on frontend
-const getTimer = (req, res) => {
-    const id = req.params.id;
-    Habit.findById(id)
-        .then(habit => {
-            if (!habit) return res.status(404).json({ error: 'Habit not found' });
-            res.json({ elapsedTime: habit.elapsedTime });
-        })
-        .catch(err => res.status(500).json({ error: 'Error fetching timer', details: err.message }));
-};
+const getTimer = async (req, res) => {
+    const habit = await Habit.findById(req.params.id);
 
-// store timer on server
-const updateTimer = (req, res) => {
-    const id = req.params.id;
-    const { elapsed } = req.body;
-    Habit.findById(id)
-        .then(habit => {
-        if (!habit) return res.status(404).json({ error: 'Habit not found' });
+    if (!habit) return res.status(404).json({ error: 'Habit not found' });
 
-        habit.elapsedTime = elapsed; 
-        return habit.save();
-        })
-        .then(() => res.json({ message: 'Timer updated successfully' }))
-        .catch(err => res.status(500).json({ error: 'Error updating timer', details: err.message }));
+    res.json({
+        elapsedTime: habit.elapsedTime,
+        isRunning: habit.isRunning,
+        lastStartedAt: habit.lastStartedAt
+    });
 };
 
 
@@ -117,6 +123,7 @@ module.exports = {
     habit_delete,
     habit_edit_get,
     habit_edit_post,
-    updateTimer,
+    startTimer,
+    stopTimer,
     getTimer
 };
