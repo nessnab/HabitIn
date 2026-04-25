@@ -154,16 +154,24 @@ const startTimer = async (id) => {
 
     await fetch(`/api/habits/${id}/start`, {method: 'POST'});
 
-    const res = await fetch(`/habits/${id}/timer`, {method: 'GET'});
+    const res = await fetch(`/api/habits/${id}/timer`, {method: 'GET'});
     const data = await res.json();
 
-    elapsed = data.elapsedTime || 0;
-    const startTime = Date.now();
+    let baseElapsed = data.elapsedTime || 0;
+
+    if (data.isRunning && data.lastStartedAt) {
+        const diff = Math.floor((Date.now() - new Date(data.lastStartedAt)) / 1000);
+        baseElapsed += diff;
+    }
+
+    const timerDisplay = document.querySelector(`#timer-${id}`);
+    console.log("Timer start with:", baseElapsed);
 
     timerInterval = setInterval(() => {
-        const diff = Math.floor((Date.now() - startTime) / 1000);
-        const total = elapsed + diff;
-        document.querySelector(`#timer-${id}`).textContent = formatTime(total);
+        baseElapsed++;
+        if (timerDisplay) {
+            timerDisplay.textContent = formatTime(baseElapsed);
+        }
     }, 1000);
 }
 
@@ -175,48 +183,8 @@ const stopTimer = async (id) => {
     const res = await fetch(`/api/habits/${id}/timer`, {method: 'GET'});
     const data = await res.json();
 
-    elapsed = data.elapsedTime;
-
-    document.querySelector(`#timer-${id}`).textContent = formatTime(elapsed);
+    document.querySelector(`#timer-${id}`).textContent = formatTime(data.elapsedTime);
 }
-
-// const startTimer = (habitId) => {
-//     clearInterval(timerInterval);
-//     fetch(`/habits/${habitId}/timer`, {method: 'GET'})
-//         .then(res => res.json())
-//         .then(data => {
-//         elapsed = data.elapsedTime || 0; // base from DB
-//         const startTime = Date.now();
-
-//         timerInterval = setInterval(() => {
-//             const diff = Math.floor((Date.now() - startTime) / 1000);
-//             const total = elapsed + diff;
-//             document.querySelector(`#timer-${habitId}`).textContent = formatTime(total);
-//         }, 1000);
-//     })
-//     .catch(err => console.error(err));
-// }
-
-// const stopTimer = (habitId) => {
-//     clearInterval(timerInterval);
-
-//     const timerDisplay = document.querySelector(`#timer-${habitId}`).textContent;
-//     const [mins, secs] = timerDisplay.split(":").map(Number);
-//     elapsed = mins * 60 + secs;
-
-//     // Save elapsed time to backend
-//     const endpoint = `/habits/${habitId}/timer`;
-//     fetch(endpoint, {
-//         method: "POST",
-//         headers: { "Content-Type": "application/json" },
-//         body: JSON.stringify({ elapsed })
-//     })
-//         .then(res => res.json())
-//         .then(data => {
-//         console.log("Timer saved:", data);
-//         })
-//         .catch(err => console.error(err));
-// }
 
 function formatTime(seconds) {
     const mins = Math.floor(seconds / 60);
@@ -225,12 +193,13 @@ function formatTime(seconds) {
 }
 
 // Attach timer event listeners
-document.querySelectorAll('.timerBtn').forEach(btn => {
-    btn.addEventListener('click', () => {
-        const habitId = btn.dataset.doc;
-        // const timerDisplay = document.querySelector(`#timer-${habitId}`);
+document.addEventListener('click', (e) => {
+    const btn = e.target.closest('.timerBtn');
+    if (!btn) return;
 
-        if (!btn.dataset.running || btn.dataset.running === "false") {
+    const habitId = btn.dataset.doc;
+
+    if (!btn.dataset.running || btn.dataset.running === "false") {
             startTimer(habitId);
             btn.dataset.running = "true";
             btn.innerHTML = stopIcon;
@@ -240,20 +209,6 @@ document.querySelectorAll('.timerBtn').forEach(btn => {
             btn.innerHTML = startIcon;
         }
     });
-});
-
-
-// load stored timer
-const loadTimer = (req, res) => {
-    const habitId = req.params.id;
-    fetch(`/habits/${habitId}/timer`)
-        .then(res => res.json())
-        .then(data => {
-            const timerDisplay = document.querySelector(`#timer-${habitId}`);
-            timerDisplay.textContent = formatTime(data.elapsedTime);
-        })
-        .catch(err => console.error('Error loading timer:', err));
-}
 
 // Expanded card detail
 document.addEventListener('click', (e) => {
