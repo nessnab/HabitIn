@@ -11,7 +11,8 @@ router.post('/habits/:id', checkUser, habitController.habit_edit_post);
 router.delete('/habits/:id', checkUser, habitController.habit_delete);
 
 // Timer routes
-router.get('/habits/:id/timer', habitController.getTimer);
-router.post('/habits/:id/timer', habitController.updateTimer);
+router.post('/api/habits/:id/start', habitController.startTimer);
+router.post('/api/habits/:id/stop', habitController.stopTimer);
+router.get('/api/habits/:id/timer', habitController.getTimer);
 
 module.exports = router;

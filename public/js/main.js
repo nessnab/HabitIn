@@ -149,43 +149,74 @@ cancelBtn.addEventListener('click', (e) => {
 let timerInterval;
 let elapsed = 0;
 
-const startTimer = (habitId) => {
-    clearInterval(timerInterval);
-    fetch(`/habits/${habitId}/timer`, {method: 'GET'})
-        .then(res => res.json())
-        .then(data => {
-        elapsed = data.elapsedTime || 0; // base from DB
-        const startTime = Date.now();
-
-        timerInterval = setInterval(() => {
-            const diff = Math.floor((Date.now() - startTime) / 1000);
-            const total = elapsed + diff;
-            document.querySelector(`#timer-${habitId}`).textContent = formatTime(total);
-        }, 1000);
-    })
-    .catch(err => console.error(err));
-}
-
-const stopTimer = (habitId) => {
+const startTimer = async (id) => {
     clearInterval(timerInterval);
 
-    const timerDisplay = document.querySelector(`#timer-${habitId}`).textContent;
-    const [mins, secs] = timerDisplay.split(":").map(Number);
-    elapsed = mins * 60 + secs;
+    await fetch(`/api/habits/${id}/start`, {method: 'POST'});
 
-    // Save elapsed time to backend
-    const endpoint = `/habits/${habitId}/timer`;
-    fetch(endpoint, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ elapsed })
-    })
-        .then(res => res.json())
-        .then(data => {
-        console.log("Timer saved:", data);
-        })
-        .catch(err => console.error(err));
+    const res = await fetch(`/habits/${id}/timer`, {method: 'GET'});
+    const data = await res.json();
+
+    elapsed = data.elapsedTime || 0;
+    const startTime = Date.now();
+
+    timerInterval = setInterval(() => {
+        const diff = Math.floor((Date.now() - startTime) / 1000);
+        const total = elapsed + diff;
+        document.querySelector(`#timer-${id}`).textContent = formatTime(total);
+    }, 1000);
 }
+
+const stopTimer = async (id) => {
+    clearInterval(timerInterval);
+
+    await fetch(`/api/habits/${id}/stop`, {method: 'POST'});
+
+    const res = await fetch(`/api/habits/${id}/timer`, {method: 'GET'});
+    const data = await res.json();
+
+    elapsed = data.elapsedTime;
+
+    document.querySelector(`#timer-${id}`).textContent = formatTime(elapsed);
+}
+
+// const startTimer = (habitId) => {
+//     clearInterval(timerInterval);
+//     fetch(`/habits/${habitId}/timer`, {method: 'GET'})
+//         .then(res => res.json())
+//         .then(data => {
+//         elapsed = data.elapsedTime || 0; // base from DB
+//         const startTime = Date.now();
+
+//         timerInterval = setInterval(() => {
+//             const diff = Math.floor((Date.now() - startTime) / 1000);
+//             const total = elapsed + diff;
+//             document.querySelector(`#timer-${habitId}`).textContent = formatTime(total);
+//         }, 1000);
+//     })
+//     .catch(err => console.error(err));
+// }
+
+// const stopTimer = (habitId) => {
+//     clearInterval(timerInterval);
+
+//     const timerDisplay = document.querySelector(`#timer-${habitId}`).textContent;
+//     const [mins, secs] = timerDisplay.split(":").map(Number);
+//     elapsed = mins * 60 + secs;
+
+//     // Save elapsed time to backend
+//     const endpoint = `/habits/${habitId}/timer`;
+//     fetch(endpoint, {
+//         method: "POST",
+//         headers: { "Content-Type": "application/json" },
+//         body: JSON.stringify({ elapsed })
+//     })
+//         .then(res => res.json())
+//         .then(data => {
+//         console.log("Timer saved:", data);
+//         })
+//         .catch(err => console.error(err));
+// }
 
 function formatTime(seconds) {
     const mins = Math.floor(seconds / 60);
