@@ -149,13 +149,10 @@ cancelBtn.addEventListener('click', (e) => {
 let timerInterval;
 let elapsed = 0;
 
-const startTimer = async (id, skipAPI = false) => {
+const startTimer = async (id) => {
     clearInterval(timerInterval);
 
-    if (!skipAPI) {
-        await fetch(`/api/habits/${id}/start`, {method: 'POST'});
-    }
-
+    await fetch(`/api/habits/${id}/start`, {method: 'POST'});
 
     const res = await fetch(`/api/habits/${id}/timer`, {method: 'GET'});
     const data = await res.json();
@@ -399,51 +396,7 @@ const removeHabitFromUI = (id) => {
     }
 };
 
-
-// Resume timer after reload
-window.addEventListener('DOMContentLoaded', async () => {
-    try {
-        const res = await fetch('/api/habits');
-        const habits = await res.json();
-
-        habits.forEach(habit => {
-            const timerEl = document.querySelector(`#timer-${habit._id}`);
-            const btn = document.querySelector(`.timerBtn[data-doc="${habit._id}"]`);
-
-            if (!timerEl) return;
-
-            let baseElapsed = habit.elapsedTime || 0;
-
-            if (habit.isRunning && habit.lastStartedAt) {
-                // calculate real elapsed time
-                const diff = Math.floor(
-                    (Date.now() - new Date(habit.lastStartedAt)) / 1000
-                );
-                baseElapsed += diff;
-
-                // update button state
-                if (btn) {
-                    btn.dataset.running = "true";
-                    btn.innerHTML = stopIcon;
-                }
-
-                // start ticking
-                startTimer(habit._id, true);
-            } else {
-                // just display stored time
-                timerEl.textContent = formatTime(baseElapsed);
-
-                if (btn) {
-                    btn.dataset.running = "false";
-                    btn.innerHTML = startIcon;
-                }
-            }
-        });
-
-    } catch (err) {
-        console.error("Error loading timers:", err);
-    }
-});
+// Get Habits - GET /api/habits
 
 
 
