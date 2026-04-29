@@ -149,21 +149,11 @@
                         </div>
 
 
-                        <dialog id="deleteModal" class="bg-neutral-100/80 shadow-2xl rounded-lg p-6 max-w-sm w-full m-auto items-center">
-                            <form method="dialog" class=" space-y-4 text-center">
-                                <h2 class="text-lg font-bold">Confirm Delete</h2>
-                                <p>Are you sure want to delete this Habit?</p>
-                                <menu>
-                                    <button id="cancelBtn" class="px-4 py-2 bg-gray-300 rounded hover:bg-gray-400 cursor-pointer">Cancel</button>
-                                    <button id="deleteConfirmBtn" class="px-4 py-2 bg-red-500 text-white rounded hover:bg-red-600 cursor-pointer">Delete</button>
-                                </menu>
-                            </form>
-                        </dialog>
                     </div>
                     <% }) %>
                 </div>
                 <% } else { %>
-                <div class="p-2">
+                <div id="emptyState" class="p-2">
                     <h2 class="text-lg font-semibold text-gray-800">
                         Nothing here… yet👀
                     </h2>
@@ -183,6 +173,17 @@
 
     </main>
 
+    
+                        <dialog id="deleteModal" class="bg-neutral-100/80 shadow-2xl rounded-lg p-6 max-w-sm w-full m-auto items-center">
+                            <form method="dialog" class=" space-y-4 text-center">
+                                <h2 class="text-lg font-bold">Confirm Delete</h2>
+                                <p>Are you sure want to delete this Habit?</p>
+                                <menu>
+                                    <button id="cancelBtn" class="px-4 py-2 bg-gray-300 rounded hover:bg-gray-400 cursor-pointer">Cancel</button>
+                                    <button id="deleteConfirmBtn" class="px-4 py-2 bg-red-500 text-white rounded hover:bg-red-600 cursor-pointer">Delete</button>
+                                </menu>
+                            </form>
+                        </dialog>
     <%- include('../partials/footer') %>
 
     
