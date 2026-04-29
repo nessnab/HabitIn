@@ -9,23 +9,19 @@ const habitSchedule = document.getElementById('habitSchedule');
 const weeklyDay = document.getElementById('weeklyDay');
 const customDays = document.getElementById('customDays');
 
-// Edit button
-const editButtons = document.querySelectorAll('.editBtn');
-const editBtn = document.getElementById('editBtn');
-
 // Habit form
 const habitTitle = document.getElementById('habitTitle');
 const habitGoal = document.getElementById('habitGoal');
 const habitTime = document.getElementById('habitTime');
 
 // Delete button
-const deleteButtons = document.querySelectorAll('.deleteBtn');
-const deleteBtn = document.getElementById('deleteBtn');
 const deleteModal = document.getElementById('deleteModal');
 const cancelBtn = document.getElementById('cancelBtn');
 const deleteConfirmBtn = document.getElementById('deleteConfirmBtn');
 
 let currentEditId = null;
+let currentHabit = {};
+const timers = {};
 
 
 // timer button
@@ -36,7 +32,6 @@ const stopIcon = `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
 const closeFormBtn = document.getElementById('closeFormBtn');
 const discardBtn = document.getElementById('discardBtn');
 const closeFormDialog = document.getElementById('closeFormDialog');
-let currentHabit = {};
 
 closeFormBtn.addEventListener('click', (data) => {
     const formContainValues = habitTitle.value || habitGoal.value || habitSchedule.value || habitTime.value;
@@ -82,168 +77,70 @@ const habitScheduleValue = (e) => {
     }
 }
 
-// Edit function
-editButtons.forEach(btn => {
-    btn.addEventListener('click', () => {
-        formToggle();
-        currentEditId = btn.dataset.doc;
-        const endpoint = `/habits/${btn.dataset.doc}`;
-        fetch(endpoint)
-            .then(res => res.json())
-            .then(data => {
-                // Populate form with habit data
-                habitForm.action = `/habits/${data._id}`;
-                habitTitle.value = data.title;
-                habitGoal.value = data.goal;
-                habitTime.value = data.time;
-                habitSchedule.value = data.schedule;
-                currentHabit = { ...data }; // Store current habit data for change detection
-
-                   // Auto-check weekly or custom days
-                if (data.schedule === "Weekly") {
-                    document.querySelectorAll('input[name="weeklyDay"]').forEach(input => {
-                        input.checked = input.value === data.weeklyDay;
-                });
-                } else if (data.schedule === "Custom") {
-                    document.querySelectorAll('input[name="customDays"]').forEach(input => {
-                        input.checked = data.customDays?.includes(input.value);
-                });
-                }
-
-                // Trigger UI update
-                habitScheduleValue({ target: { value: data.schedule } });
-
-
-                // weeklyDay.value = data.weeklyDay ? data.weeklyDay : '';
-                // customDays.value = data.customDays ? data.customDays.join(', ') : '';
-
-                // if (typeof habitScheduleValue === 'function') {
-                // habitScheduleValue({ target: { value: data.schedule } });
-                // }
-            })
-            .catch(err => console.error(err));
-
-    });
-});
-
-
-// Delete button event listener
 document.addEventListener('click', (e) => {
-    const deleteBtnClicked = e.target.closest('.deleteBtn');
-    if (!deleteBtnClicked) return;
 
-    const id = deleteBtnClicked.dataset.doc;
 
-    deleteBtn.dataset.doc = id; // reuse your modal confirm
+    const editBtn = e.target.closest('.editBtn');
+    if (editBtn) return handleEdit(editBtn.dataset.doc);
+
+    const deleteBtn = e.target.closest('.deleteBtn');
+    if (deleteBtn) return openDeleteModal(deleteBtn.dataset.doc);
+
+    const timerBtn = e.target.closest('.timerBtn');
+    if (timerBtn) return handleTimer(timerBtn);
+
+});
+
+// DELETE
+let deleteId = null;
+
+const openDeleteModal = (id) => {
+    deleteId = id;
     deleteModal.showModal();
-});
+};
 
+deleteConfirmBtn.addEventListener('click', async () => {
+    if (!deleteId) return;
 
-// Cancel button event listener
-cancelBtn.addEventListener('click', (e) => {
+    await fetch(`/api/habits/${deleteId}`, { method: 'DELETE' });
+
+    const card = document.querySelector(`[data-id="${deleteId}"]`);
+    if (card) card.remove();
+
     deleteModal.close();
+    deleteId = null;
 });
 
-// Timer functions
+// EDIT
+const handleEdit = async (id) => {
+    currentEditId = id;
+    formToggle();
 
-let timerInterval;
-let elapsed = 0;
-
-const startTimer = async (id) => {
-    clearInterval(timerInterval);
-
-    await fetch(`/api/habits/${id}/start`, {method: 'POST'});
-
-    const res = await fetch(`/api/habits/${id}/timer`, {method: 'GET'});
+    const res = await fetch(`/habits/${id}`);
     const data = await res.json();
 
-    let baseElapsed = data.elapsedTime || 0;
+    habitTitle.value = data.title;
+    habitGoal.value = data.goal;
+    habitTime.value = data.time;
+    habitSchedule.value = data.schedule;
 
-    if (data.isRunning && data.lastStartedAt) {
-        const diff = Math.floor((Date.now() - new Date(data.lastStartedAt)) / 1000);
-        baseElapsed += diff;
+    // Auto-check weekly or custom days
+    if (data.schedule === "Weekly") {
+        document.querySelectorAll('input[name="weeklyDay"]').forEach(input => {
+        input.checked = input.value === data.weeklyDay;
+    });
+    } else if (data.schedule === "Custom") {
+        document.querySelectorAll('input[name="customDays"]').forEach(input => {
+        input.checked = data.customDays?.includes(input.value);
+    });
     }
 
-    const timerDisplay = document.querySelector(`#timer-${id}`);
-    console.log("Timer start with:", baseElapsed);
+    currentHabit = { ...data };
 
-    timerInterval = setInterval(() => {
-        baseElapsed++;
-        if (timerDisplay) {
-            timerDisplay.textContent = formatTime(baseElapsed);
-        }
-    }, 1000);
-}
+    habitScheduleValue({ target: { value: data.schedule } });
+};
 
-const stopTimer = async (id) => {
-    clearInterval(timerInterval);
-
-    await fetch(`/api/habits/${id}/stop`, {method: 'POST'});
-
-    const res = await fetch(`/api/habits/${id}/timer`, {method: 'GET'});
-    const data = await res.json();
-
-    document.querySelector(`#timer-${id}`).textContent = formatTime(data.elapsedTime);
-}
-
-function formatTime(seconds) {
-    const mins = Math.floor(seconds / 60);
-    const secs = seconds % 60;
-    return `${mins.toString().padStart(2, "0")}:${secs.toString().padStart(2, "0")}`;
-}
-
-// Attach timer event listeners
-document.addEventListener('click', (e) => {
-    const btn = e.target.closest('.timerBtn');
-    if (!btn) return;
-
-    const habitId = btn.dataset.doc;
-
-    if (!btn.dataset.running || btn.dataset.running === "false") {
-            startTimer(habitId);
-            btn.dataset.running = "true";
-            btn.innerHTML = stopIcon;
-        } else {
-            stopTimer(habitId);
-            btn.dataset.running = "false";
-            btn.innerHTML = startIcon;
-        }
-    });
-
-// Expanded card detail
-document.addEventListener('click', (e) => {
-    const card = e.target.closest('.card-expand');
-    if (!card) return;
-
-    document.querySelectorAll('.card-expand').forEach(c => {
-        if (c !== card) {
-            c.querySelector('.habit-goal')?.classList.add('hidden');
-            c.querySelector('.btn-expand')?.classList.add('hidden');
-        }
-    });
-
-    card.querySelector('.habit-goal')?.classList.toggle('hidden');
-    card.querySelector('.btn-expand')?.classList.toggle('hidden');
-});
-
-
-
-// Reset form function
-const resetForm = (data) => {
-    habitForm.reset();
-    data.title = '';
-    data.goal = '';
-    data.time = '';
-    data.schedule = '';
-    weeklyDay.classList.add('hidden');
-    customDays.classList.add('hidden');
-}
-
-
-// Frontend API
-// Add Habit - POST /api/habits 
-// Edit Habit - PUT /api/habits/:id
-
+// FORM SUBMIT
 habitForm.addEventListener('submit', async (e) => {
     e.preventDefault();
 
@@ -256,56 +153,49 @@ habitForm.addEventListener('submit', async (e) => {
         weeklyDay: formData.get('weeklyDay'),
         customDays: formData.getAll('customDays'),
         time: formData.get('time'),
+    };
+
+    let res;
+
+    if (currentEditId) {
+        res = await fetch(`/api/habits/${currentEditId}`, {
+            method: 'PUT',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(data)
+        });
+    } else {
+        res = await fetch('/api/habits', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(data)
+        });
     }
-
-    const id = currentEditId;
-
-    try {
-        let res;
-
-        if (id) {
-            // EDIT MODE
-            res = await fetch(`/api/habits/${id}`, {
-                method: 'PUT',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify(data)
-            });
-        } else {
-            res = await fetch('/api/habits', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify(data)
-            });
-        }
 
     const result = await res.json();
 
-    if (id) {
+    if (currentEditId) {
         updateHabitUI(result);
     } else {
         addHabitToUI(result);
     }
 
-    resetForm(data);
+    resetForm();
     formToggle();
     currentEditId = null;
-    }
-    catch (err) {
-        console.error(err);
-    }
 });
 
-// add habit UI
+// ADD new Habit to UI
 const addHabitToUI = (habit) => {
     const list = document.getElementById('habitsList');
+    if (!list) return;
+    
+    // remove empty state if exists
+    const emptyState = document.getElementById('emptyState');
+    if (emptyState) emptyState.remove();
 
     const card = document.createElement('div');
     card.className = "habit-card bg-white rounded-lg shadow-md text-left py-1 px-2 my-4 flex justify-between border border-gray-100 hover:bg-transparent/50 transition duration-300";
-    card.setAttribute("data-id", habit._id);
+    card.dataset.id = habit._id;
 
     card.innerHTML = `
         <!-- LEFT -->
@@ -357,8 +247,7 @@ const addHabitToUI = (habit) => {
     list.prepend(card);
 };
 
-
-// edit habit UI
+// Update UI
 const updateHabitUI = (habit) => {
     const card = document.querySelector(`[data-id="${habit._id}"]`);
     if (!card) return;
@@ -370,33 +259,138 @@ const updateHabitUI = (habit) => {
         habit.schedule === "Weekly" ? "Every " + habit.weeklyDay + ` at ${habit.time}` :
         habit.schedule === "Custom" ? "Every " + (habit.customDays || []).join(", ") + ` at ${habit.time}` :
         "";
-}
+};
 
+// TImer functions
+const handleTimer = (btn) => {
+    const id = btn.dataset.doc;
 
-// Delete Habit - DELETE /api/habits/:id
-// Delete function
-deleteConfirmBtn.addEventListener('click', async () => {
-    const id = deleteBtn.dataset.doc;
-
-    try {
-        await fetch(`/api/habits/${id}`, { method: 'DELETE' });
-        removeHabitFromUI(id);
-        deleteModal.close();
-    }
-    catch (err) {
-        console.error(err);
-    }
-});
-
-const removeHabitFromUI = (id) => {
-    const card = document.querySelector(`[data-id="${id}"]`);
-
-    if (card) {
-        card.remove();
+    if (!timers[id]) {
+        btn.innerHTML = stopIcon;
+        startTimer(id);
+    } else {
+        btn.innerHTML = startIcon;
+        stopTimer(id);
     }
 };
 
-// Get Habits - GET /api/habits
+const startTimer = async (id) => {
+
+    if (timers[id]) clearInterval(timers[id]);
+
+    await fetch(`/api/habits/${id}/start`, { method: 'POST' });
+
+    const res = await fetch(`/api/habits/${id}/timer`);
+    const data = await res.json();
+
+    let elapsed = data.elapsedTime || 0;
+
+    const el = document.querySelector(`#timer-${id}`);
+
+    timers[id] = setInterval(() => {
+        elapsed++;
+        if (el) el.textContent = formatTime(elapsed);
+    }, 1000);
+};
+
+const stopTimer = async (id) => {
+
+    if (timers[id]) {
+        clearInterval(timers[id]);
+        delete timers[id];
+    }
+
+    await fetch(`/api/habits/${id}/stop`, { method: 'POST' });
+
+    const res = await fetch(`/api/habits/${id}/timer`);
+    const data = await res.json();
+
+    document.querySelector(`#timer-${id}`).textContent =
+        formatTime(data.elapsedTime);
+};
+
+const resetForm = () => {
+    habitForm.reset();
+    weeklyDay.classList.add('hidden');
+    customDays.classList.add('hidden');
+};
+
+// const startTimer = async (id) => {
+//     clearInterval(timerInterval);
+
+//     await fetch(`/api/habits/${id}/start`, {method: 'POST'});
+
+//     const res = await fetch(`/api/habits/${id}/timer`, {method: 'GET'});
+//     const data = await res.json();
+
+//     let baseElapsed = data.elapsedTime || 0;
+
+//     if (data.isRunning && data.lastStartedAt) {
+//         const diff = Math.floor((Date.now() - new Date(data.lastStartedAt)) / 1000);
+//         baseElapsed += diff;
+//     }
+
+//     const timerDisplay = document.querySelector(`#timer-${id}`);
+//     console.log("Timer start with:", baseElapsed);
+
+//     timerInterval = setInterval(() => {
+//         baseElapsed++;
+//         if (timerDisplay) {
+//             timerDisplay.textContent = formatTime(baseElapsed);
+//         }
+//     }, 1000);
+// }
+
+// const stopTimer = async (id) => {
+//     clearInterval(timerInterval);
+
+//     await fetch(`/api/habits/${id}/stop`, {method: 'POST'});
+
+//     const res = await fetch(`/api/habits/${id}/timer`, {method: 'GET'});
+//     const data = await res.json();
+
+//     document.querySelector(`#timer-${id}`).textContent = formatTime(data.elapsedTime);
+// }
+
+function formatTime(seconds) {
+    const mins = Math.floor(seconds / 60);
+    const secs = seconds % 60;
+    return `${mins.toString().padStart(2, "0")}:${secs.toString().padStart(2, "0")}`;
+}
+
+// // Attach timer event listeners
+// document.addEventListener('click', (e) => {
+//     const btn = e.target.closest('.timerBtn');
+//     if (!btn) return;
+
+//     const habitId = btn.dataset.doc;
+
+//     if (!btn.dataset.running || btn.dataset.running === "false") {
+//             startTimer(habitId);
+//             btn.dataset.running = "true";
+//             btn.innerHTML = stopIcon;
+//         } else {
+//             stopTimer(habitId);
+//             btn.dataset.running = "false";
+//             btn.innerHTML = startIcon;
+//         }
+//     });
+
+// Expanded card detail
+document.addEventListener('click', (e) => {
+    const card = e.target.closest('.card-expand');
+    if (!card) return;
+
+    document.querySelectorAll('.card-expand').forEach(c => {
+        if (c !== card) {
+            c.querySelector('.habit-goal')?.classList.add('hidden');
+            c.querySelector('.btn-expand')?.classList.add('hidden');
+        }
+    });
+
+    card.querySelector('.habit-goal')?.classList.toggle('hidden');
+    card.querySelector('.btn-expand')?.classList.toggle('hidden');
+});
 
 
 
