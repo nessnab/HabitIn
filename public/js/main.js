@@ -284,6 +284,10 @@ const startTimer = async (id) => {
     const data = await res.json();
 
     let elapsed = data.elapsedTime || 0;
+    if (data.isRunning && data.lastStartedAt) {
+        const diff = Math.floor((Date.now() - new Date(data.lastStartedAt)) / 1000);
+        elapsed += diff;
+    }
 
     const el = document.querySelector(`#timer-${id}`);
 
@@ -315,66 +319,12 @@ const resetForm = () => {
     customDays.classList.add('hidden');
 };
 
-// const startTimer = async (id) => {
-//     clearInterval(timerInterval);
-
-//     await fetch(`/api/habits/${id}/start`, {method: 'POST'});
-
-//     const res = await fetch(`/api/habits/${id}/timer`, {method: 'GET'});
-//     const data = await res.json();
-
-//     let baseElapsed = data.elapsedTime || 0;
-
-//     if (data.isRunning && data.lastStartedAt) {
-//         const diff = Math.floor((Date.now() - new Date(data.lastStartedAt)) / 1000);
-//         baseElapsed += diff;
-//     }
-
-//     const timerDisplay = document.querySelector(`#timer-${id}`);
-//     console.log("Timer start with:", baseElapsed);
-
-//     timerInterval = setInterval(() => {
-//         baseElapsed++;
-//         if (timerDisplay) {
-//             timerDisplay.textContent = formatTime(baseElapsed);
-//         }
-//     }, 1000);
-// }
-
-// const stopTimer = async (id) => {
-//     clearInterval(timerInterval);
-
-//     await fetch(`/api/habits/${id}/stop`, {method: 'POST'});
-
-//     const res = await fetch(`/api/habits/${id}/timer`, {method: 'GET'});
-//     const data = await res.json();
-
-//     document.querySelector(`#timer-${id}`).textContent = formatTime(data.elapsedTime);
-// }
 
 function formatTime(seconds) {
     const mins = Math.floor(seconds / 60);
     const secs = seconds % 60;
     return `${mins.toString().padStart(2, "0")}:${secs.toString().padStart(2, "0")}`;
 }
-
-// // Attach timer event listeners
-// document.addEventListener('click', (e) => {
-//     const btn = e.target.closest('.timerBtn');
-//     if (!btn) return;
-
-//     const habitId = btn.dataset.doc;
-
-//     if (!btn.dataset.running || btn.dataset.running === "false") {
-//             startTimer(habitId);
-//             btn.dataset.running = "true";
-//             btn.innerHTML = stopIcon;
-//         } else {
-//             stopTimer(habitId);
-//             btn.dataset.running = "false";
-//             btn.innerHTML = startIcon;
-//         }
-//     });
 
 // Expanded card detail
 document.addEventListener('click', (e) => {
@@ -392,6 +342,52 @@ document.addEventListener('click', (e) => {
     card.querySelector('.btn-expand')?.classList.toggle('hidden');
 });
 
+
+
+// Timer keep tracking after page refresh 
+window.addEventListener('DOMContentLoaded', async () => {
+    try {
+        const res = await fetch('/api/habits');
+        const habits = await res.json();
+
+        habits.forEach(habit => {
+            const timerEl = document.querySelector(`#timer-${habit._id}`);
+            const btn = document.querySelector(`.timerBtn[data-doc="${habit._id}"]`);
+
+            if (!timerEl) return;
+
+            let baseElapsed = habit.elapsedTime || 0;
+
+            if (habit.isRunning && habit.lastStartedAt) {
+                // calculate real elapsed time
+                const diff = Math.floor(
+                    (Date.now() - new Date(habit.lastStartedAt)) / 1000
+                );
+                baseElapsed += diff;
+
+                // update button state
+                if (btn) {
+                    btn.dataset.running = "true";
+                    btn.innerHTML = stopIcon;
+                }
+
+                // start ticking
+                startTimer(habit._id);
+            } else {
+                // just display stored time
+                timerEl.textContent = formatTime(baseElapsed);
+
+                if (btn) {
+                    btn.dataset.running = "false";
+                    btn.innerHTML = startIcon;
+                }
+            }
+        });
+
+    } catch (err) {
+        console.error("Error loading timers:", err);
+    }
+});
 
 
 
