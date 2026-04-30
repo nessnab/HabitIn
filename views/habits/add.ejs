@@ -104,8 +104,8 @@
             <span class="text-center text-3xl font-bold">Your Habit List</span>
             <div id="habit-container" class="p-6 mx-auto max-w-lg">
                 
-                <% if (habits.length > 0) { %>
                 <div id="habitsList" class="space-y-6 p-5">
+                <% if (habits.length > 0) { %>
                     <% habits.forEach(habit => { %>
                     <div data-id="<%= habit._id %>" class="habit-card bg-white rounded-lg shadow-md text-left py-1 px-2 my-4 flex justify-between border border-gray-100 hover:bg-transparent/50 transition duration-300">
                         <div class="card-expand cursor-pointer w-3/4 p-2 text-primary" >
@@ -152,7 +152,8 @@
                     </div>
                     <% }) %>
                 </div>
-                <% } else { %>
+                <% } %>
+                <% if (habits.length === 0) { %>
                 <div id="emptyState" class="p-2">
                     <h2 class="text-lg font-semibold text-gray-800">
                         Nothing here… yet👀

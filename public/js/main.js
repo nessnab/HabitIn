@@ -107,6 +107,8 @@ deleteConfirmBtn.addEventListener('click', async () => {
     const card = document.querySelector(`[data-id="${deleteId}"]`);
     if (card) card.remove();
 
+    checkEmptyState();
+
     deleteModal.close();
     deleteId = null;
 });
@@ -187,7 +189,6 @@ habitForm.addEventListener('submit', async (e) => {
 // ADD new Habit to UI
 const addHabitToUI = (habit) => {
     const list = document.getElementById('habitsList');
-    if (!list) return;
     
     // remove empty state if exists
     const emptyState = document.getElementById('emptyState');
@@ -243,6 +244,7 @@ const addHabitToUI = (habit) => {
             </div>
         </div>
     `;
+    if (!list) return;
 
     list.prepend(card);
 };
@@ -341,6 +343,32 @@ document.addEventListener('click', (e) => {
     card.querySelector('.habit-goal')?.classList.toggle('hidden');
     card.querySelector('.btn-expand')?.classList.toggle('hidden');
 });
+
+// Check empty state
+const checkEmptyState = () => {
+    const list = document.getElementById('habitsList');
+    const container = document.getElementById('habit-container');
+
+    if (!list || list.children.length === 0) {
+        // prevent duplicate empty state
+        if (!document.getElementById('emptyState')) {
+            const empty = document.createElement('div');
+            empty.id = 'emptyState';
+            empty.className = 'p-2';
+
+            empty.innerHTML = `
+                <h2 class="text-lg font-semibold text-gray-800">
+                    Nothing here… yet👀
+                </h2>
+                <p class="text-gray-500 text-md mt-1">
+                    Let's create your first habit
+                </p>
+            `;
+
+            list.appendChild(empty);
+        }
+    }
+};
 
 
 
