@@ -280,23 +280,36 @@ const startTimer = async (id) => {
 
     if (timers[id]) clearInterval(timers[id]);
 
-    await fetch(`/api/habits/${id}/start`, { method: 'POST' });
-
-    const res = await fetch(`/api/habits/${id}/timer`);
-    const data = await res.json();
-
-    let elapsed = data.elapsedTime || 0;
-    if (data.isRunning && data.lastStartedAt) {
-        const diff = Math.floor((Date.now() - new Date(data.lastStartedAt)) / 1000);
-        elapsed += diff;
-    }
-
     const el = document.querySelector(`#timer-${id}`);
+    if (!el) return;
+
+    let elapsed = 0;
+    let startTime = Date.now();
 
     timers[id] = setInterval(() => {
-        elapsed++;
-        if (el) el.textContent = formatTime(elapsed);
+        // elapsed++;
+        const diff = Math.floor((Date.now() - startTime) / 1000);
+        const total = elapsed + diff;
+        el.textContent = formatTime(total);
     }, 1000);
+
+    try {
+        fetch(`/api/habits/${id}/start`, { method: 'POST' })
+            .catch(console.error);
+
+        const res = await fetch(`/api/habits/${id}/timer`);
+        const data = await res.json();
+
+        elapsed = data.elapsedTime || 0;
+
+        if (data.isRunning && data.lastStartedAt) {
+            const diff = Math.floor((Date.now() - new Date(data.lastStartedAt)) / 1000);
+            elapsed += diff;
+        }
+        startTime = Date.now();
+    } catch (err) {
+        console.error(err)
+    }
 };
 
 const stopTimer = async (id) => {
