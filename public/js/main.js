@@ -283,7 +283,9 @@ const startTimer = async (id) => {
     const el = document.querySelector(`#timer-${id}`);
     if (!el) return;
 
-    let elapsed = 0;
+    const [mins, secs] = el.textContent.split(":").map(Number);
+    let elapsed = mins * 60 + secs;
+
     let startTime = Date.now();
 
     timers[id] = setInterval(() => {
