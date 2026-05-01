@@ -2,6 +2,7 @@ const express = require('express');
 const morgan = require('morgan');
 require('dotenv').config();
 
+const pageRoutes = require('./routes/pageRoutes');
 const habitRoutes = require('./routes/habitRoutes');
 const authRoutes = require('./routes/authRoutes');  
 const cookieParser = require('cookie-parser');
@@ -27,15 +28,12 @@ app.use((req, res, next) => {
 app.set('view engine', 'ejs');
 app.set('views', './views');
 
-// habit routes
-app.get('/test', (req, res) => {
-  res.send('OK');
-});
-
 // api routes
-app.use('/api/habits', require('./routes/api/habits'));
 
-app.use('/', habitRoutes);
+// app.use('/api/habits', require('./routes/api/habits'));
+
+app.use('/', pageRoutes);
+app.use(habitRoutes);
 app.use('/auth', authRoutes);
 
 

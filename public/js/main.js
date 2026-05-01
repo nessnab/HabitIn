@@ -116,9 +116,8 @@ deleteConfirmBtn.addEventListener('click', async () => {
 // EDIT
 const handleEdit = async (id) => {
     currentEditId = id;
-    formToggle();
 
-    const res = await fetch(`/habits/${id}`);
+    const res = await fetch(`/api/habits/${id}`);
     const data = await res.json();
 
     habitTitle.value = data.title;
@@ -140,6 +139,8 @@ const handleEdit = async (id) => {
     currentHabit = { ...data };
 
     habitScheduleValue({ target: { value: data.schedule } });
+    formToggle();
+
 };
 
 // FORM SUBMIT
