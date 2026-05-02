@@ -1,41 +1,25 @@
-# 🌱 HabitIn
+# HabitIn
 
-HabitIn is a responsive habit tracker built with **Node.js, MongoDB, EJS, Tailwind CSS, and JWT authentication**.  
-It helps users build and maintain daily habits with a clean interface, secure login, and persistent tracking.
+HabitIn is a simple web app that helps users build consistent habits through small daily actions.
 
-👉Check Live project here: [HabitIn App](https://habitin.up.railway.app/)
+Instead of focusing on complexity, HabitIn emphasizes:
+- simplicity
+- consistency
+- visible progress through time tracking
+
+Check Live project here👉 [HabitIn App](https://habitin.up.railway.app/)
 ---
 
-## 🚀 Features
+## Features
 
-- **User Authentication**: Signup, login, with JWT refresh token
-- **Protected Routes**: Custom middleware ensures only logged‑in users can access their data  
-- **Habit Management**: Add, edit, and delete habits tied to each user account  
-- **Habit Details**: Title, goals, schedule, and time tracking  
-- **Flexible Scheduling**: Daily, weekly, or custom days  
-- **Manual Tracking**: Start/stop buttons for each habit session  
-- **UI Feedback**: Personalized navigation with "Hi, user.email”  
-- **Progress Tracking**: Hours spent per day/week/month with milestones & streaks  
-- **History**: Store and view past activity logs per habit  
-
----
-
-## ✅ Completed Milestones
-- Initial views with HTML, Tailwind CSS, and vanilla JS  
-- Node.js + Express setup with routes, controllers, and EJS partials  
-- MongoDB integration with Mongoose models  
-- Habit CRUD (create, edit, delete) with modals and form validation  
-- Time tracker per habit with server‑side persistence  
-- Password hashing with Mongoose hooks + bcrypt compare on login  
-- Error handling for signup/login (email & password validation)  
-- JWT authentication with maxAge, HTTP‑only cookies, and custom middleware  
-- Route protection (`requireAuth`)  
-- Logout by clearing JWT cookie  
-- Fetching habits per user (`Habit.find({ userId: req.user.id })`)  
+- Add, edit, delete habits
+- Flexible scheduling (Daily / Weekly / Custom)
+- Timer tracking (track time spent)
+- Persistent timer (continues after refresh)
 
 ---
 
-## 🛠 Tech Stack
+## Tech Stack
 - **Frontend**: HTML5, Tailwind CSS, Vanilla JavaScript  
 - **Backend**: Node.js, Express.js  
 - **Database**: MongoDB with Mongoose  
@@ -46,32 +30,30 @@ It helps users build and maintain daily habits with a clean interface, secure lo
 
 ---
 
-## 🔒 Security & Production Practices
-- **Error Handling**: JSON responses for APIs, friendly messages for EJS views  
-- **Monitoring**: Logging of auth events and errors for debugging & security
-- **Environment Variables**: JWT secret stored in `.env` (not hardcoded)  
-- **Refresh tokens** for long‑lived sessions  
-- **HTTPS**: Required in production to protect JWT cookies  
+## How It Works
+- CRUD operations handled via REST API
+- Timer uses:
+- - elapsedTime
+  - lastStartedAt
+- Frontend updates UI dynamically (no reload)
 
 ---
 
-## 📌 Roadmap
-- [x] Improve UI
-- [ ] Habit completion mark
+## Future Improvements
+- [ ] React frontend
 - [ ] Strike milestone achievement
-- [ ] Notification reminder every 30mins tracking
-- [ ] Notifications (habit reminders)
-- [ ] RESTful API endpoints for external clients  
+- [ ] Better state management
+- [ ] Notifications & analytics 
 - [ ] Deployment with CI/CD pipeline  
 
 ---
 
-## 🤝 Contributing
+## Contributing
 Pull requests are welcome! For major changes, please open an issue first to discuss improvements.
 
 ---
 
-## 📄 License
+## License
 This project is licensed under the ISC License.
 
 ---
