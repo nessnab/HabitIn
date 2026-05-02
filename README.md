@@ -16,6 +16,9 @@ Check Live project here👉 [HabitIn App](https://habitin.up.railway.app/)
 - Flexible scheduling (Daily / Weekly / Custom)
 - Timer tracking (track time spent)
 - Persistent timer (continues after refresh)
+- User signup & login with Access token + refresh token flow
+- Protected API routes (user-specific habits)
+
 
 ---
 
