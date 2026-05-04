@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import HabitForm from './components/HabitForm';
+import HabitList from './components/HabitList';
 
 function App() {
   const [habits, setHabits] = useState([]);
@@ -19,6 +20,16 @@ function App() {
       });
   }, []);
 
+  const handleDelete = async (id) => {
+  await fetch(`/api/habits/${id}`, {
+    method: "DELETE"
+  });
+
+  // update state after deletion
+  setHabits(prev => prev.filter(habit => habit._id !== id));
+  };
+
+
   return (
     <div style={{ padding: "20px" }}>
       <h1>HabitIn</h1>
@@ -33,17 +44,7 @@ function App() {
         <HabitForm setHabits={setHabits} />
       )}
 
-      {!loading && habits.length === 0 && (
-        <p>No habits yet</p>
-      )}
-
-      {!loading && habits.map(habit => (
-        <div key={habit._id} style={{ border: "1px solid #ccc", margin: "10px", padding: "10px" }}>
-          <h3>{habit.title}</h3>
-          <p>to get {habit.goal}</p>
-          <p>{habit.schedule} at {habit.time}</p>
-        </div>
-      ))}
+      <HabitList habits={habits} onDelete={handleDelete} />
     </div>
   );
 }
