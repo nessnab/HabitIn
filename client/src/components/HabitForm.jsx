@@ -55,6 +55,7 @@ function HabitForm({ setHabits, setShowForm, editingHabit, setEditingHabit }) {
       const newHabit = await res.json();
     
       setHabits(prev => [...prev, newHabit]);
+      setShowForm(false);
     }
   
     // reset form after submission

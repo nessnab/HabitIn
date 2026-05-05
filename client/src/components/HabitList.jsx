@@ -1,6 +1,6 @@
 import HabitItem from './HabitItem';
 
-function HabitList ({ habits, onDelete, onEdit }) {
+function HabitList ({ habits, onDelete, onEdit, onTimer }) {
   if (habits.length === 0) {
     return <p>Nothing here… yet 👀</p>;
   }
@@ -13,6 +13,7 @@ function HabitList ({ habits, onDelete, onEdit }) {
         habit={habit} 
         onDelete={onDelete} 
         onEdit={onEdit}
+        onTimer={onTimer}
         />
       ))}
     </div>
