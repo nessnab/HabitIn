@@ -1,4 +1,4 @@
-function HabitItem({ habit, onDelete }) {
+function HabitItem({ habit, onDelete, onEdit }) {
   return (
     <div style={{ border: "1px solid #ccc", margin: "10px", padding: "10px" }}>
       <h3>{habit.title}</h3>
@@ -10,6 +10,9 @@ function HabitItem({ habit, onDelete }) {
         }
       }}>
         Delete
+      </button>
+      <button onClick={() => onEdit(habit)}>
+        Edit
       </button>
     </div>
   );
