@@ -35,7 +35,6 @@ function App() {
     setShowForm(true);  x
   }
 
-
   return (
     <div style={{ padding: "20px" }}>
       <h1>HabitIn</h1>
@@ -58,7 +57,7 @@ function App() {
       <HabitList 
       habits={habits} 
       onDelete={handleDelete} 
-      onEdit={handleEdit} 
+      onEdit={handleEdit}
       />
     </div>
   );
