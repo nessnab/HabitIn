@@ -1,6 +1,6 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
-function HabitForm({ setHabits }) {
+function HabitForm({ setHabits, setShowForm, editingHabit, setEditingHabit }) {
   const [form, setForm] = useState({
     title: "",
     goal: "",
@@ -13,21 +13,51 @@ function HabitForm({ setHabits }) {
       [e.target.name]: e.target.value
     });
   };
-  
+
+  useEffect(() => {
+    if (editingHabit) {
+      setForm({
+        title: editingHabit.title || "",
+        goal: editingHabit.goal || "",
+        schedule: editingHabit.schedule || "",
+        time: editingHabit.time || ""
+      });
+    }
+  }, [editingHabit]);
+
   const handleSubmit = async (e) => {
     e.preventDefault();
+
+    let res;
+    if (editingHabit) {
+      // edit existing habit
+      res = await fetch(`/api/habits/${editingHabit._id}`, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(form)
+      });
+
+      const updatedHabit = await res.json();
+      setHabits(prev => prev.map(habit => habit._id === updatedHabit._id ? updatedHabit : habit));
+      setEditingHabit(null);
+      setShowForm(false);
+    } else {
+      // create new habit
+      res = await fetch('/api/habits', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(form)
+      });
+      const newHabit = await res.json();
+    
+      setHabits(prev => [...prev, newHabit]);
+    }
   
-    const res = await fetch('/api/habits', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify(form)
-    });
-    const newHabit = await res.json();
-  
-    setHabits(prev => [...prev, newHabit]);
-  
+    // reset form after submission
     setForm({
       title: "",
       goal: "",

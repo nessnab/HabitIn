@@ -5,6 +5,7 @@ import HabitList from './components/HabitList';
 function App() {
   const [habits, setHabits] = useState([]);
   const [showForm, setShowForm] = useState(false);
+  const [editingHabit, setEditingHabit] = useState(null);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -29,6 +30,11 @@ function App() {
   setHabits(prev => prev.filter(habit => habit._id !== id));
   };
 
+  const handleEdit = (habit) => {
+    setEditingHabit(habit);
+    setShowForm(true);  x
+  }
+
 
   return (
     <div style={{ padding: "20px" }}>
@@ -41,10 +47,19 @@ function App() {
       </button>
 
       {showForm && (
-        <HabitForm setHabits={setHabits} />
+        <HabitForm 
+        setHabits={setHabits} 
+        editingHabit={editingHabit} 
+        setEditingHabit={setEditingHabit}
+        setShowForm={setShowForm}
+        />
       )}
 
-      <HabitList habits={habits} onDelete={handleDelete} />
+      <HabitList 
+      habits={habits} 
+      onDelete={handleDelete} 
+      onEdit={handleEdit} 
+      />
     </div>
   );
 }
