@@ -49,24 +49,32 @@ function HabitItem({ habit, onDelete, onEdit }) {
   }, []);
 
   return (
-    <div style={{ border: "1px solid #ccc", margin: "10px", padding: "10px" }}>
-      <h3>{habit.title}</h3>
-      <p>to get {habit.goal}</p>
-      <p>{habit.schedule} at {habit.time}</p>
-      <button onClick={() => {
-        if (confirm("Delete this habit?")) {
-          onDelete(habit._id);
-        }
-      }}>
-        Delete
-      </button>
-      <button onClick={() => onEdit(habit)}>
-        Edit
-      </button>
-      <button onClick={() => handleTimer(habit)}>
-        Start
-      </button>
-      <p>{formatTime(elapsed)}</p>
+    <div className=" bg-white rounded-lg shadow-md text-left py-1 px-3 my-6 flex justify-between border border-gray-100 hover:bg-transparent/50 transition duration-300">
+      <div className="card-expand cursor-pointer w-3/4 p-2 text-primary">
+        <h3 className="text-xl font-bold">{habit.title}</h3>
+        <h2 className="text-md">to get {habit.goal}</h2>
+        <p className="text-md opacity-90">{habit.schedule} at {habit.time}</p>
+        <div className="flex gap-4 mt-2 text-secondary">
+          <button onClick={() => onEdit(habit)}>
+            Edit
+          </button>
+          <button onClick={() => {
+            if (confirm("Delete this habit?")) {
+              onDelete(habit._id);
+            }
+          }}>
+            Delete
+          </button>
+        </div>
+      </div>
+      <div className="flex flex-col space-x-2 text-secondary items-center justify-center">
+        <div className="flex">
+          <p className="font-bold p-0.5 m-auto">{formatTime(elapsed)}</p>
+          <button onClick={() => handleTimer(habit)} className="hover:text-secondary-light cursor-pointer p-0.5">
+            Start
+          </button>
+        </div>
+      </div>
     </div>
   );
 }

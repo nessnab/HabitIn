@@ -6,7 +6,7 @@ function HabitList ({ habits, onDelete, onEdit, onTimer }) {
   }
 
   return (
-    <div>
+    <div className="max-w-md mx-auto">
       {habits.map(habit => (
         <HabitItem 
         key={habit._id} 

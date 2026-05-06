@@ -3,7 +3,7 @@ const User = require('../models/user');
 
 const createAccessToken = (id) => {
   return jwt.sign({ id }, process.env.ACCESS_SECRET, {
-    expiresIn: '15m'
+    expiresIn: '60m'
   });
 };
 
