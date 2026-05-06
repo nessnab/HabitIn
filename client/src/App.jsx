@@ -1,6 +1,9 @@
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+import Navbar from "./components/Navbar";
 import { useEffect, useState } from 'react';
 import HabitForm from './components/HabitForm';
 import HabitList from './components/HabitList';
+import './output.css'
 
 function App() {
   const [habits, setHabits] = useState([]);
@@ -35,31 +38,44 @@ function App() {
     setShowForm(true);  x
   }
 
+  const user = null;
+
   return (
-    <div style={{ padding: "20px" }}>
-      <h1>HabitIn</h1>
+    <BrowserRouter>
+      <Navbar user={user} />
 
-      {loading && <p>Loading...</p>}
+      <div className="min-h-screen bg-gradient-to-br from-blue-50 via-indigo-50 to-orange-100 text-center items-center capitalize">
+        <h1>HabitIn</h1>
 
-      <button onClick={() => setShowForm(prev => !prev)}>
-        Add Habit
-      </button>
+        {loading && <p>Loading...</p>}
 
-      {showForm && (
-        <HabitForm 
-        setHabits={setHabits} 
-        editingHabit={editingHabit} 
-        setEditingHabit={setEditingHabit}
-        setShowForm={setShowForm}
+        <button onClick={() => setShowForm(prev => !prev)}>
+          Add Habit
+        </button>
+
+        {showForm && (
+          <HabitForm 
+          setHabits={setHabits} 
+          editingHabit={editingHabit} 
+          setEditingHabit={setEditingHabit}
+          setShowForm={setShowForm}
+          />
+        )}
+
+        <HabitList 
+        habits={habits} 
+        onDelete={handleDelete} 
+        onEdit={handleEdit}
         />
-      )}
+      </div>
 
-      <HabitList 
-      habits={habits} 
-      onDelete={handleDelete} 
-      onEdit={handleEdit}
-      />
-    </div>
+      <Routes>
+        <Route path="/" element={<h1>Home</h1>} />
+        <Route path="/app" element={<h1>App Page</h1>} />
+        <Route path="/login" element={<h1>Login</h1>} />
+      </Routes>
+
+    </BrowserRouter>
   );
 }
 
