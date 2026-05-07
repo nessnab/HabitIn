@@ -1,8 +1,6 @@
 import { Link } from "react-router-dom";
 
 import '../dist/output.css';
-import Navbar from '../components/Navbar';
-import Footer from '../components/Footer';
 
 
 
@@ -11,7 +9,6 @@ function Landing() {
     const user = null;
   return (
     <main>
-    <Navbar user={ user }/>
       <div className="flex py-15 text-center items-center">
         <div className="m-auto text-center max-w-lg mt-3">
             <h1 className="text-6xl font-bold my-4 text-gray-900">
@@ -27,7 +24,6 @@ function Landing() {
             </div>
         </div>
     </div>
-    <Footer />
     </main>
   )
 }

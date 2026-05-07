@@ -1,5 +1,6 @@
 const { Router } = require('express');
 const authController = require('../controllers/authController');
+const { requireAuth } = require('../middleware/authMiddleware');
 
 const router = Router();
 
@@ -12,6 +13,14 @@ router.get('/login', authController.login_get);
 router.post('/refresh', authController.refresh_token);
 
 router.get('/logout', authController.logout_get);
+
+// react
+router.get('/me', requireAuth, (req, res) => {
+  res.json({
+    id: req.user._id,
+    email: req.user.email
+  });
+})
 
 
 module.exports = router;
