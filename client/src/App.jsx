@@ -4,10 +4,13 @@ import { useEffect, useState } from 'react';
 // Pages
 import Navbar from "./components/Navbar";
 import Landing from "./pages/Landing";
+import Login from "./pages/Login";
+import Signup from "./pages/Signup";
 
 // components
 import HabitForm from './components/HabitForm';
 import HabitList from './components/HabitList';
+import Footer from './components/Footer';
 
 // css
 import './dist/output.css'
@@ -16,10 +19,25 @@ function App() {
   const [habits, setHabits] = useState([]);
   const [showForm, setShowForm] = useState(false);
   const [editingHabit, setEditingHabit] = useState(null);
+  const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    fetch("/api/habits")
+    fetch("http://localhost:3000/auth/me", {
+      credentials: "include",
+    })
+      .then(res => {
+        if (!res.ok) throw new Error("Not authenticated");
+        return res.json();
+      })
+      .then(data => setUser(data))
+      .catch(() => setUser(null));
+  }, []);
+
+  useEffect(() => {
+    fetch("http://localhost:3000/api/habits", {
+      credentials: "include",
+    })
       .then(res => res.json())
       .then(data => {
         setHabits(data);
@@ -32,7 +50,7 @@ function App() {
   }, []);
 
   const handleDelete = async (id) => {
-  await fetch(`/api/habits/${id}`, {
+  await fetch(`http://localhost:3000/api/habits/${id}`, {
     method: "DELETE"
   });
 
@@ -42,15 +60,15 @@ function App() {
 
   const handleEdit = (habit) => {
     setEditingHabit(habit);
-    setShowForm(true);  x
+    setShowForm(true);
   }
 
-  const user = null;
+  // const user = null;
 
   return (
     <BrowserRouter>
-      {/* <Navbar user={user} /> */}
       <main className="min-h-screen bg-gradient-to-br from-blue-50 via-indigo-50 to-orange-100">
+      <Navbar user={user} />
 
       {/* <div className="min-h-screen bg-gradient-to-br from-blue-50 via-indigo-50 to-orange-100 text-center items-center capitalize">
         <h1>HabitIn</h1>
@@ -80,11 +98,13 @@ function App() {
       <Routes>
         <Route path="/" element={<Landing/>} />
         <Route path="/app" element={<h1>App Page</h1>} />
-        <Route path="/login" element={<h1>Login</h1>} />
-        <Route path="/signup" element={<h1>Signup</h1>} />
+        <Route path="/login" element={<Login />} />
+        <Route path="/signup" element={<Signup />} />
       </Routes>
-      </main>
 
+
+      <Footer />
+      </main>
 
     </BrowserRouter>
   );

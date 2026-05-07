@@ -68,12 +68,12 @@ module.exports.signup_post = async (req, res) => {
     await user.save();
 
     res.cookie('accessToken', accessToken, {
-      cookieOptions,
+      ...cookieOptions,
       maxAge: 15 * 60 * 1000
     });
 
     res.cookie('refreshToken', refreshToken, {
-      cookieOptions,
+      ...cookieOptions,
       maxAge: 7 * 24 * 60 * 60 * 1000
     });
 
@@ -104,12 +104,12 @@ module.exports.login_post = async (req, res) => {
     await user.save();
     
     res.cookie('accessToken', accessToken, {
-      cookieOptions,
+      ...cookieOptions,
       maxAge: 15 * 60 * 1000
     });
     
     res.cookie('refreshToken', refreshToken, {
-      cookieOptions,
+      ...cookieOptions,
       maxAge: 7 * 24 * 60 * 60 * 1000
     });
     
@@ -140,7 +140,7 @@ module.exports.refresh_token = async (req, res) => {
     const accessToken = createAccessToken(decoded.id);
 
     res.cookie('accessToken', accessToken, {
-      cookieOptions,
+      ...cookieOptions,
       maxAge: 15 * 60 * 1000
     });
 

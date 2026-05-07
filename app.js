@@ -1,5 +1,6 @@
 const express = require('express');
 const morgan = require('morgan');
+const cors = require('cors');
 require('dotenv').config();
 
 const pageRoutes = require('./routes/pageRoutes');
@@ -11,6 +12,10 @@ const { checkUser, requireAuth } = require('./middleware/authMiddleware');
 // express app
 const app = express();
 
+app.use(cors({
+  origin: "http://localhost:5173",
+  credentials: true
+}));
 // Middleware & static files
 app.use(express.json());
 app.use(cookieParser());
@@ -31,6 +36,8 @@ app.set('views', './views');
 // api routes
 
 // app.use('/api/habits', require('./routes/api/habits'));
+
+
 
 app.use('/', pageRoutes);
 app.use(habitRoutes);
