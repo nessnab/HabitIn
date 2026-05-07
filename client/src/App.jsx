@@ -1,9 +1,16 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import Navbar from "./components/Navbar";
 import { useEffect, useState } from 'react';
+
+// Pages
+import Navbar from "./components/Navbar";
+import Landing from "./pages/Landing";
+
+// components
 import HabitForm from './components/HabitForm';
 import HabitList from './components/HabitList';
-import './output.css'
+
+// css
+import './dist/output.css'
 
 function App() {
   const [habits, setHabits] = useState([]);
@@ -42,9 +49,10 @@ function App() {
 
   return (
     <BrowserRouter>
-      <Navbar user={user} />
+      {/* <Navbar user={user} /> */}
+      <main className="min-h-screen bg-gradient-to-br from-blue-50 via-indigo-50 to-orange-100">
 
-      <div className="min-h-screen bg-gradient-to-br from-blue-50 via-indigo-50 to-orange-100 text-center items-center capitalize">
+      {/* <div className="min-h-screen bg-gradient-to-br from-blue-50 via-indigo-50 to-orange-100 text-center items-center capitalize">
         <h1>HabitIn</h1>
 
         {loading && <p>Loading...</p>}
@@ -67,13 +75,16 @@ function App() {
         onDelete={handleDelete} 
         onEdit={handleEdit}
         />
-      </div>
+      </div> */}
 
       <Routes>
-        <Route path="/" element={<h1>Home</h1>} />
+        <Route path="/" element={<Landing/>} />
         <Route path="/app" element={<h1>App Page</h1>} />
         <Route path="/login" element={<h1>Login</h1>} />
+        <Route path="/signup" element={<h1>Signup</h1>} />
       </Routes>
+      </main>
+
 
     </BrowserRouter>
   );

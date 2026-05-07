@@ -2,7 +2,7 @@ import { Link } from "react-router-dom";
 
 function Navbar({ user }) {
   return (
-    <nav className="mb-4 border-b border-gray-300">
+    <nav className=" border-b border-gray-300">
       <ul className="flex items-center p-5 justify-between">
 
         {/* LEFT */}
@@ -39,7 +39,7 @@ function Navbar({ user }) {
 
               <li>
                 <Link
-                  to="/app"
+                  to="/signup"
                   className="bg-gradient-to-r from-primary to-secondary text-white px-4 py-2 rounded-xl shadow hover:opacity-90"
                 >
                   Get Started
