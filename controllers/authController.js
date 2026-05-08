@@ -4,7 +4,7 @@ const jwt = require('jsonwebtoken');
 // jwt
 const createAccessToken = (id) => {
   return jwt.sign({ id }, process.env.ACCESS_SECRET, {
-    expiresIn: '15m'
+    expiresIn: '1d'
   });
 };
 
@@ -69,7 +69,7 @@ module.exports.signup_post = async (req, res) => {
 
     res.cookie('accessToken', accessToken, {
       ...cookieOptions,
-      maxAge: 15 * 60 * 1000
+      maxAge: 60 * 24 * 60 * 1000
     });
 
     res.cookie('refreshToken', refreshToken, {
@@ -93,6 +93,8 @@ module.exports.login_get = (req, res) => {
 
 module.exports.login_post = async (req, res) => {
   const { email, password } = req.body;
+  res.clearCookie("accessToken");
+  res.clearCookie("refreshToken");
   
   try {
     const user = await User.login(email, password);
@@ -105,12 +107,12 @@ module.exports.login_post = async (req, res) => {
     
     res.cookie('accessToken', accessToken, {
       ...cookieOptions,
-      maxAge: 15 * 60 * 1000
+      maxAge: 60 * 24 * 60 * 1000
     });
     
     res.cookie('refreshToken', refreshToken, {
       ...cookieOptions,
-      maxAge: 7 * 24 * 60 * 60 * 1000
+      maxAge: 60 * 24 * 60 * 1000
     });
     
     res.status(200).json({ user: user._id });
@@ -141,7 +143,7 @@ module.exports.refresh_token = async (req, res) => {
 
     res.cookie('accessToken', accessToken, {
       ...cookieOptions,
-      maxAge: 15 * 60 * 1000
+      maxAge: 60 * 60 * 1000
     });
 
     res.sendStatus(200);
