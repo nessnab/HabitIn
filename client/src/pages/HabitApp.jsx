@@ -1,14 +1,14 @@
 import { useEffect, useState } from 'react';
+import { Link } from 'react-router-dom';
 
 import HabitForm from '../components/HabitForm';
 import HabitList from '../components/HabitList';
 
-function HabitApp() {
-
+function HabitApp({ user }) {
   const [habits, setHabits] = useState([]);
   const [showForm, setShowForm] = useState(false);
   const [editingHabit, setEditingHabit] = useState(null);
-  const [user, setUser] = useState(null);
+  // const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -43,31 +43,43 @@ function HabitApp() {
   return (
     <div className='min-h-2/3 flex-1 text-center items-center'>
 
-    <div className="text-center items-center capitalize p-6 mx-auto">
-        <h1 className='text-center text-3xl font-bold'>Your Habit List</h1>
+    {user ? (
+      <>
+        <div className="text-center items-center capitalize p-6 mx-auto">
+            <h1 className='text-center text-3xl font-bold'>Your Habit List</h1>
 
-        {loading && <p>Loading...</p>}
+            {loading && <p>Loading...</p>}
 
 
-        {showForm && (
-          <HabitForm 
-          setHabits={setHabits} 
-          editingHabit={editingHabit} 
-          setEditingHabit={setEditingHabit}
-          setShowForm={setShowForm}
-          />
-        )}
+            {showForm && (
+              <HabitForm 
+              setHabits={setHabits} 
+              editingHabit={editingHabit} 
+              setEditingHabit={setEditingHabit}
+              setShowForm={setShowForm}
+              />
+            )}
 
-        <HabitList 
-        habits={habits} 
-        onDelete={handleDelete} 
-        onEdit={handleEdit}
-        />
+            <HabitList 
+            habits={habits} 
+            onDelete={handleDelete} 
+            onEdit={handleEdit}
+            />
 
-        <button onClick={() => setShowForm(prev => !prev)} className='flex bg-gradient-to-r from-primary to-secondary text-white rounded-md px-4 py-2 hover:opacity-80 mx-auto cursor-pointer'>
-          Add Habit
-        </button>
-      </div>
+            <button onClick={() => setShowForm(prev => !prev)} className='flex bg-gradient-to-r from-primary to-secondary text-white rounded-md px-4 py-2 hover:opacity-80 mx-auto cursor-pointer'>
+              Add Habit
+            </button>
+          </div>
+      </>
+      ) : (
+      <>
+        <div className="text-center items-center pt-15 m-auto">
+          <p>
+            You're not logged in, please <Link to='/login' className='text-primary'>log in</Link> or <Link to='/login' className='text-primary'>sign up</Link> to start a habit
+          </p>
+        </div>
+      </>
+      )}
     </div>
   )
 }

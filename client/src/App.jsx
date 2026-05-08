@@ -40,8 +40,8 @@ function App() {
 
       <Routes>
         <Route path="/" element={<Landing/>} />
-        <Route path="/app" element={<HabitApp />} />
-        <Route path="/login" element={<Login />} />
+        <Route path="/app" element={<HabitApp user={user} />} />
+        <Route path="/login" element={<Login setUser={setUser} />} />
         <Route path="/signup" element={<Signup />} />
       </Routes>
 

@@ -2,7 +2,7 @@ import { useState } from "react";
 import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 
-function Login() {
+function Login({setUser}) {
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -28,7 +28,17 @@ const handleSubmit = async (e) => {
       return;
     }
 
-    console.log("Login success");
+    const userRes = await fetch(
+      "http://localhost:3000/auth/me",
+      {
+        credentials: "include",
+      }
+    );
+
+    const userData = await userRes.json();
+
+    setUser(userData);
+
     navigate("/app");
 
   } catch (err) {
