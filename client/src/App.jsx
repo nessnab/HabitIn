@@ -33,7 +33,7 @@ function App() {
 
   return (
     <BrowserRouter>
-      <main className="min-h-screen bg-gradient-to-br from-blue-50 via-indigo-50 to-orange-100">
+      <main className="min-h-screen flex flex-col bg-gradient-to-br from-blue-50 via-indigo-50 to-orange-100">
       <Navbar user={user} />
 
       
@@ -42,7 +42,7 @@ function App() {
         <Route path="/" element={<Landing/>} />
         <Route path="/app" element={<HabitApp user={user} />} />
         <Route path="/login" element={<Login setUser={setUser} />} />
-        <Route path="/signup" element={<Signup />} />
+        <Route path="/signup" element={<Signup setUser={setUser}/>} />
       </Routes>
 
 

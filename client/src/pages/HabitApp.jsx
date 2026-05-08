@@ -45,7 +45,7 @@ function HabitApp({ user }) {
 
     {user ? (
       <>
-        <div className="text-center items-center capitalize p-6 mx-auto">
+        <div className="text-center items-center p-6 mx-auto">
             <h1 className='text-center text-3xl font-bold'>Your Habit List</h1>
 
             {loading && <p>Loading...</p>}
@@ -75,7 +75,7 @@ function HabitApp({ user }) {
       <>
         <div className="text-center items-center pt-15 m-auto">
           <p>
-            You're not logged in, please <Link to='/login' className='text-primary'>log in</Link> or <Link to='/login' className='text-primary'>sign up</Link> to start a habit
+            You're not logged in, please <Link to='/login' className='text-primary'>log in</Link> or <Link to='/signup' className='text-primary'>sign up</Link> to start a habit
           </p>
         </div>
       </>

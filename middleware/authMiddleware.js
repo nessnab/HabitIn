@@ -66,97 +66,97 @@ const checkUser = async (req, res, next) => {
 
 }
 
-// const requireAuth = async (req, res, next) => {
-//   const accessToken = req.cookies.accessToken;
-//   const refreshToken = req.cookies.refreshToken;
-
-//   // check Access token
-//   if (accessToken) {
-//     jwt.verify(accessToken, process.env.ACCESS_SECRET, async (err, decoded) => {
-//       if (!err) {
-//         const user = await User.findById(decoded.id);
-//         req.user = user;
-//         return next();
-//       }
-
-//       // try refresh
-//       handleRefresh();
-//     });
-//   } else {
-//     handleRefresh();
-//   }
-
-//   async function handleRefresh() {
-//     if (!refreshToken) {
-//       // return res.redirect('/auth/login');
-//       return res.status(401).json({
-//           message: 'Unauthorized'
-//       });
-//     }
-
-//     try {
-//       const decoded = jwt.verify(refreshToken, process.env.REFRESH_SECRET);
-//       const user = await User.findById(decoded.id);
-
-//       if (!user || user.refreshToken !== refreshToken) {
-//         // return res.redirect('/auth/login');
-//         return res.status(401).json({
-//           message: 'Unauthorized'
-//       });
-//       }
-
-//       const newAccessToken = createAccessToken(decoded.id);
-
-//       res.cookie('accessToken', newAccessToken, {
-//         cookieOptions,
-//         maxAge: 15 * 60 * 1000
-//       });
-
-//       req.user = user;
-
-//       next();
-
-//     } catch {
-//       // return res.redirect('/auth/login');
-//       return res.status(401).json({
-//           message: 'Unauthorized'
-//       });
-//     }
-//   }
-// };
-
 const requireAuth = async (req, res, next) => {
   const accessToken = req.cookies.accessToken;
+  const refreshToken = req.cookies.refreshToken;
 
-  if (!accessToken) {
-    return res.status(401).json({
-      message: "Unauthorized"
+  // check Access token
+  if (accessToken) {
+    jwt.verify(accessToken, process.env.ACCESS_SECRET, async (err, decoded) => {
+      if (!err) {
+        const user = await User.findById(decoded.id);
+        req.user = user;
+        return next();
+      }
+
+      // try refresh
+      handleRefresh();
     });
+  } else {
+    handleRefresh();
   }
 
-  try {
-    const decoded = jwt.verify(
-      accessToken,
-      process.env.ACCESS_SECRET
-    );
-
-    const user = await User.findById(decoded.id);
-
-    if (!user) {
-      return res.status(401).json({
-        message: "Unauthorized"
-      });
+  async function handleRefresh() {
+    if (!refreshToken) {
+      return res.redirect('/auth/signup');
+      // return res.status(401).json({
+      //     message: 'Unauthorized'
+      // });
     }
 
-    req.user = user;
+    try {
+      const decoded = jwt.verify(refreshToken, process.env.REFRESH_SECRET);
+      const user = await User.findById(decoded.id);
 
-    next();
+      if (!user || user.refreshToken !== refreshToken) {
+        return res.redirect('/auth/signup');
+      //   return res.status(401).json({
+      //     message: 'Unauthorized'
+      // });
+      }
 
-  } catch (err) {
-    return res.status(401).json({
-      message: "Unauthorized"
-    });
+      const newAccessToken = createAccessToken(decoded.id);
+
+      res.cookie('accessToken', newAccessToken, {
+        cookieOptions,
+        maxAge: 15 * 60 * 1000
+      });
+
+      req.user = user;
+
+      next();
+
+    } catch {
+      return res.redirect('/auth/login');
+      // return res.status(401).json({
+      //     message: 'Unauthorized'
+      // });
+    }
   }
 };
+
+// const requireAuth = async (req, res, next) => {
+//   const accessToken = req.cookies.accessToken;
+
+//   if (!accessToken) {
+//     return res.status(401).json({
+//       message: "Unauthorized"
+//     });
+//   }
+
+//   try {
+//     const decoded = jwt.verify(
+//       accessToken,
+//       process.env.ACCESS_SECRET
+//     );
+
+//     const user = await User.findById(decoded.id);
+
+//     if (!user) {
+//       return res.status(401).json({
+//         message: "Unauthorized"
+//       });
+//     }
+
+//     req.user = user;
+
+//     next();
+
+//   } catch (err) {
+//     return res.status(401).json({
+//       message: "Unauthorized"
+//     });
+//   }
+// };
 
 module.exports = { checkUser, requireAuth };

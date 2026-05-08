@@ -6,7 +6,7 @@ import '../dist/output.css';
 
 function Landing() {
     
-    const user = null;
+    // const user = null;
   return (
     <main>
       <div className="flex py-15 text-center items-center">

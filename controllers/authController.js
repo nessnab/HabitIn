@@ -59,6 +59,14 @@ module.exports.signup_post = async (req, res) => {
   const { email, password } = req.body;
   
   try {
+    if (password.length < 6) {
+      return res.status(400).json({
+        errors: {
+          password: "Minimum password length is 6 characters",
+          email: ""
+        }
+      });
+    }
     const user = await User.create({ email, password });
 
     const accessToken = createAccessToken(user._id);

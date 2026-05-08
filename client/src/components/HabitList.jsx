@@ -2,7 +2,14 @@ import HabitItem from './HabitItem';
 
 function HabitList ({ habits, onDelete, onEdit, onTimer }) {
   if (habits.length === 0) {
-    return <p>Nothing here… yet 👀</p> ;
+    return <div className='py-9'>
+      <h2 class="text-lg font-semibold text-gray-800">
+        Nothing here… yet👀
+      </h2>
+      <p class="text-gray-500 text-md mt-1">
+       Let's create your first habit
+      </p>
+    </div> ;
   }
 
   return (

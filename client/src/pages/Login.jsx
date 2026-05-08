@@ -3,7 +3,8 @@ import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 
 function Login({setUser}) {
-
+  
+  const [errors, setErrors] = useState({});
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const navigate = useNavigate();
@@ -24,7 +25,7 @@ const handleSubmit = async (e) => {
     const data = await res.json();
 
     if (!res.ok) {
-      console.log(data.errors);
+      setErrors(data.errors)
       return;
     }
 
@@ -61,7 +62,10 @@ const handleSubmit = async (e) => {
           <input type="password" name="password" placeholder="Enter your password"
             onChange={(e) => setPassword(e.target.value)} required 
             className="mt-1 block w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"/>
-          <div className="password error"></div>
+          <div className="text-red-500">
+            <p>{errors.email}</p>
+            <p>{errors.password}</p>
+          </div>
 
           <button className="bg-primary text-white px-4 py-2 rounded mr-4 hover:bg-primary-light cursor-pointer">
             Log In
