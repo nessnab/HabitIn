@@ -93,6 +93,8 @@ module.exports.login_get = (req, res) => {
 
 module.exports.login_post = async (req, res) => {
   const { email, password } = req.body;
+  res.clearCookie("accessToken");
+  res.clearCookie("refreshToken");
   
   try {
     const user = await User.login(email, password);
@@ -110,7 +112,7 @@ module.exports.login_post = async (req, res) => {
     
     res.cookie('refreshToken', refreshToken, {
       ...cookieOptions,
-      maxAge: 7 * 24 * 60 * 60 * 1000
+      maxAge: 15 * 60 * 1000
     });
     
     res.status(200).json({ user: user._id });

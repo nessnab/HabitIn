@@ -1,22 +1,41 @@
 import { useState } from "react";
-import { Link } from "react-router-dom"
+import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 function Signup() {
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const navigate = useNavigate();
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
+const handleSubmit = async (e) => {
+  e.preventDefault();
 
-    await fetch("/auth/signup", {
+  try {
+    const res = await fetch("http://localhost:3000/auth/signup", {
       method: "POST",
+      credentials: "include",
       headers: {
-        "Content-type": "application/json",
+        "Content-Type": "application/json",
       },
       body: JSON.stringify({ email, password }),
     });
-  };
+
+    const data = await res.json();
+
+    if (!res.ok) {
+      console.log(data.errors);
+      return;
+    }
+
+    console.log("Signup success");
+    navigate("/app");
+
+  } catch (err) {
+    console.error(err);
+  }
+};
+  
 
   return (
     <main className="flex-1 items-center justify-center py-7">
@@ -37,7 +56,7 @@ function Signup() {
           <button className="bg-primary text-white px-4 py-2 rounded mr-4 hover:bg-primary-light cursor-pointer">
             Sign Up
           </button>
-          <p>Don't have an account? <Link to="/login" className="text-primary hover:underline">Log In</Link></p>
+          <p>Have an account? <Link to="/login" className="text-primary hover:underline">Log In</Link></p>
       </form>
     </div>
     </main>
