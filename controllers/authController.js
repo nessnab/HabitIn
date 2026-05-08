@@ -179,5 +179,8 @@ module.exports.logout_get = async (req, res) => {
 
   res.clearCookie('accessToken');
   res.clearCookie('refreshToken');
-  res.redirect('/');
+  res.status(200).json({
+  message: "Logged out"
+});
+  // res.redirect('/');
 };

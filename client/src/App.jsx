@@ -34,7 +34,7 @@ function App() {
   return (
     <BrowserRouter>
       <main className="min-h-screen flex flex-col bg-gradient-to-br from-blue-50 via-indigo-50 to-orange-100">
-      <Navbar user={user} />
+      <Navbar user={user} setUser={setUser}/>
 
       
 

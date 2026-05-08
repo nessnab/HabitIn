@@ -1,6 +1,21 @@
 import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
-function Navbar({ user }) {
+function Navbar({ user, setUser }) {
+
+  const navigate = useNavigate();
+
+  const handleLogout = async () => {
+  await fetch("http://localhost:3000/auth/logout", {
+    credentials: "include",
+  });
+  
+
+  setUser(null);
+
+  navigate("/");
+};
+
   return (
     <nav className=" border-b border-gray-300">
       <ul className="flex items-center p-5 justify-between">
@@ -18,12 +33,11 @@ function Navbar({ user }) {
               <p>Hi, {user.email.split("@")[0]}</p>
 
               <li>
-                <a
-                  href="/auth/logout"
-                  className="p-2 hover:text-primary"
+                <button onClick={handleLogout}
+                className="p-2 hover:text-primary cursor-pointer"
                 >
                   Log Out
-                </a>
+                </button>
               </li>
             </>
           ) : (
