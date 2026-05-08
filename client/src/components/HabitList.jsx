@@ -2,11 +2,12 @@ import HabitItem from './HabitItem';
 
 function HabitList ({ habits, onDelete, onEdit, onTimer }) {
   if (habits.length === 0) {
-    return <p>Nothing here… yet 👀</p>;
+    return <p>Nothing here… yet 👀</p> ;
   }
 
   return (
-    <div className="max-w-md mx-auto">
+    <div className='p-6 mx-auto max-w-lg'>
+    <div className="space-y-6 p-5 ">
       {habits.map(habit => (
         <HabitItem 
         key={habit._id} 
@@ -16,6 +17,8 @@ function HabitList ({ habits, onDelete, onEdit, onTimer }) {
         onTimer={onTimer}
         />
       ))}
+    </div>
+
     </div>
   )
 }
