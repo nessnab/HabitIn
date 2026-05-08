@@ -37,6 +37,8 @@ function HabitForm({ setHabits, setShowForm, editingHabit, setEditingHabit }) {
         title: editingHabit.title || "",
         goal: editingHabit.goal || "",
         schedule: editingHabit.schedule || "", 
+        weeklyDay: editingHabit.weeklyDay || "",
+        customDays: editingHabit.customDays || [],
         time: editingHabit.time || ""
       });
     }
@@ -98,10 +100,10 @@ function HabitForm({ setHabits, setShowForm, editingHabit, setEditingHabit }) {
   return (
     <form onSubmit={handleSubmit} className="max-w-md mx-auto bg-bg shadow-md rounded-lg p-7 space-y-4 text-left bg-transparent">
 
-      <div class="flex items-center justify-between">
-        <span class="text-primary text-3xl font-bold max-w-md">Start a New Habit</span>
-        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="font-bold text-red-500 size-3 w-6 h-6 inline-block ml-2 cursor-pointer">
-        <path stroke-linecap="round" stroke-linejoin="round" d="M6 18 18 6M6 6l12 12" />
+      <div className="flex items-center justify-between">
+        <span className="text-primary text-3xl font-bold max-w-md">Start a New Habit</span>
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" className="font-bold text-red-500 size-3 w-6 h-6 inline-block ml-2 cursor-pointer">
+        <path strokeLinecap="round" strokeLinejoin="round" d="M6 18 18 6M6 6l12 12" />
         </svg>
       </div>
 
