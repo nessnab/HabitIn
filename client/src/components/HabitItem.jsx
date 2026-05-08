@@ -49,16 +49,26 @@ function HabitItem({ habit, onDelete, onEdit }) {
   }, []);
 
   return (
-    <div className=" bg-white rounded-lg shadow-md text-left py-1 px-3 my-6 flex justify-between border border-gray-100 hover:bg-transparent/50 transition duration-300">
+    <div className="max-w-lg mx-auto bg-white rounded-lg shadow-md text-left py-1 px-2 my-4 flex justify-between border border-gray-100 hover:bg-transparent/50 transition duration-300">
       <div className="card-expand cursor-pointer w-3/4 p-2 text-primary">
         <h3 className="text-xl font-bold">{habit.title}</h3>
-        <h2 className="text-md">to get {habit.goal}</h2>
-        <p className="text-md opacity-90">{habit.schedule} at {habit.time}</p>
+        <h2 className="text-md">to <strong> {habit.goal}</strong></h2>
+        <p className="text-md opacity-90">
+          {habit.schedule === "Daily" && "Everyday"}
+
+          {habit.schedule === "Weekly" &&
+            `Every ${habit.weeklyDay} `}
+
+          {habit.schedule === "Custom" &&
+            `Every ${habit.customDays.join(", ")} `}
+
+          at {habit.time}
+        </p>
         <div className="flex gap-4 mt-2 text-secondary">
-          <button onClick={() => onEdit(habit)}>
+          <button className="hover:text-secondary-light cursor-pointer" onClick={() => onEdit(habit)}>
             Edit
           </button>
-          <button onClick={() => {
+          <button className="hover:text-secondary-light cursor-pointer" onClick={() => {
             if (confirm("Delete this habit?")) {
               onDelete(habit._id);
             }

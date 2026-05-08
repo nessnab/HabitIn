@@ -17,7 +17,7 @@ const cookieOptions = {
 
 const checkUser = async (req, res, next) => {
   const accessToken = req.cookies.accessToken;
-  const refreshToken = req.cookies.refreshToken;
+  // const refreshToken = req.cookies.refreshToken;
 
   // check Access token
   if (accessToken) {
@@ -33,17 +33,17 @@ const checkUser = async (req, res, next) => {
   } else {
     handleRefresh();
     async function handleRefresh() {
-    if (!refreshToken) {
+    if (!accessToken) {
       req.user = null;
       res.locals.user = null;
       return next();
     }
   
     try {
-      const decoded = jwt.verify(refreshToken, process.env.REFRESH_SECRET);
+      const decoded = jwt.verify(accessToken, process.env.ACCESS_SECRET);
       const user = await User.findById(decoded.id);
   
-      if (!user || user.refreshToken !== refreshToken) {
+      if (!user || user.accessToken !== accessToken) {
         req.user = null;
         res.locals.user = null;
         return next();
@@ -53,7 +53,7 @@ const checkUser = async (req, res, next) => {
   
       res.cookie('accessToken', newAccessToken, {
         cookieOptions,
-        maxAge: 15 * 60 * 1000
+        maxAge: 60 * 60 * 1000
       });
   
     } catch {
