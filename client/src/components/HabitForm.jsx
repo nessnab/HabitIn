@@ -1,6 +1,8 @@
 import { useState, useEffect } from "react";
+import ConfirmModal from "./ConfirmModal";
 
 function HabitForm({ setHabits, setShowForm, editingHabit, setEditingHabit }) {
+  const [showModal, setShowCloseModal] = useState(false);
   const [form, setForm] = useState({
     title: "",
     goal: "",
@@ -86,7 +88,8 @@ function HabitForm({ setHabits, setShowForm, editingHabit, setEditingHabit }) {
       setHabits(prev => [...prev, newHabit]);
       setShowForm(false);
     }
-  
+
+    
     // reset form after submission
     setForm({
       title: "",
@@ -97,14 +100,41 @@ function HabitForm({ setHabits, setShowForm, editingHabit, setEditingHabit }) {
       time: ""
     });
   };
+
+  const handleCloseDialog = () => {
+      const isDirty =
+      form.title !== (editingHabit?.title || "") ||
+      form.goal !== (editingHabit?.goal || "") ||
+      form.schedule !== (editingHabit?.schedule || "") ||
+      form.weeklyDay !== (editingHabit?.weeklyDay || "") ||
+      form.time !== (editingHabit?.time || "") ||
+      JSON.stringify(form.customDays) !==
+        JSON.stringify(editingHabit?.customDays || []);
+      if (isDirty) {
+        setShowCloseModal(true);
+      } else {
+        setShowForm(false);
+      }
+    }
+
   return (
     <form onSubmit={handleSubmit} className="max-w-md mx-auto bg-bg shadow-md rounded-lg p-7 space-y-4 text-left bg-transparent">
 
       <div className="flex items-center justify-between">
         <span className="text-primary text-3xl font-bold max-w-md">Start a New Habit</span>
-        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" className="font-bold text-red-500 size-3 w-6 h-6 inline-block ml-2 cursor-pointer">
-        <path strokeLinecap="round" strokeLinejoin="round" d="M6 18 18 6M6 6l12 12" />
-        </svg>
+
+          {showModal && 
+              <ConfirmModal
+                message="Discard unsaved changes?"
+                onConfirm={() => setShowForm(false)}
+                onCancel={() => setShowCloseModal(false)}
+              />
+            }
+        <button type="button" onClick={() => handleCloseDialog()}>
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" className="font-bold text-red-500 size-3 w-6 h-6 inline-block ml-2 cursor-pointer">
+          <path strokeLinecap="round" strokeLinejoin="round" d="M6 18 18 6M6 6l12 12" />
+          </svg>
+        </button>
       </div>
 
       <label> Habit Title
