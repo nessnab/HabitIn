@@ -1,6 +1,7 @@
 const express = require('express');
 const morgan = require('morgan');
 const cors = require('cors');
+const path = require("path");
 require('dotenv').config();
 
 const pageRoutes = require('./routes/pageRoutes');
@@ -28,20 +29,20 @@ app.use((req, res, next) => {
   next();
 });
 
-
-// view engine
-app.set('view engine', 'ejs');
-app.set('views', './views');
-
-// api routes
-
-// app.use('/api/habits', require('./routes/api/habits'));
-
-
+// serve react
+app.use(express.static(
+  path.join(__dirname, "public", "dist")
+));
 
 app.use('/', pageRoutes);
 app.use(habitRoutes);
 app.use('/auth', authRoutes);
 
+// catch all routes
+app.get(/.*/, (req, res) => {
+  res.sendFile(
+    path.join(__dirname, "dist", "index.html")
+  );
+});
 
 module.exports = app;

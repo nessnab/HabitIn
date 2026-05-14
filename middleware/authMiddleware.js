@@ -88,10 +88,10 @@ const requireAuth = async (req, res, next) => {
 
   async function handleRefresh() {
     if (!refreshToken) {
-      return res.redirect('/auth/signup');
-      // return res.status(401).json({
-      //     message: 'Unauthorized'
-      // });
+      // return res.redirect('/auth/signup');
+      return res.status(401).json({
+          message: 'Unauthorized'
+      });
     }
 
     try {
@@ -99,10 +99,10 @@ const requireAuth = async (req, res, next) => {
       const user = await User.findById(decoded.id);
 
       if (!user || user.refreshToken !== refreshToken) {
-        return res.redirect('/auth/signup');
-      //   return res.status(401).json({
-      //     message: 'Unauthorized'
-      // });
+        // return res.redirect('/auth/signup');
+        return res.status(401).json({
+          message: 'Unauthorized'
+      });
       }
 
       const newAccessToken = createAccessToken(decoded.id);
@@ -117,46 +117,12 @@ const requireAuth = async (req, res, next) => {
       next();
 
     } catch {
-      return res.redirect('/auth/login');
-      // return res.status(401).json({
-      //     message: 'Unauthorized'
-      // });
+      // return res.redirect('/auth/login');
+      return res.status(401).json({
+          message: 'Unauthorized'
+      });
     }
   }
 };
-
-// const requireAuth = async (req, res, next) => {
-//   const accessToken = req.cookies.accessToken;
-
-//   if (!accessToken) {
-//     return res.status(401).json({
-//       message: "Unauthorized"
-//     });
-//   }
-
-//   try {
-//     const decoded = jwt.verify(
-//       accessToken,
-//       process.env.ACCESS_SECRET
-//     );
-
-//     const user = await User.findById(decoded.id);
-
-//     if (!user) {
-//       return res.status(401).json({
-//         message: "Unauthorized"
-//       });
-//     }
-
-//     req.user = user;
-
-//     next();
-
-//   } catch (err) {
-//     return res.status(401).json({
-//       message: "Unauthorized"
-//     });
-//   }
-// };
 
 module.exports = { checkUser, requireAuth };
