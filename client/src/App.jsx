@@ -10,26 +10,52 @@ import HabitApp from "./pages/HabitApp";
 // components
 import Navbar from "./components/Navbar";
 import Footer from './components/Footer';
+import ProtectedRoute from "./components/ProtectedRoute";
 
 // css
 import './dist/output.css'
 
 function App() {
   const [user, setUser] = useState(null);
-  // const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    fetch("http://localhost:3000/auth/me", {
-      credentials: "include",
-    })
-      .then(res => {
-        if (!res.ok) throw new Error("Not authenticated");
-        return res.json();
-      })
-      .then(data => setUser(data))
-      .catch(() => setUser(null));
-  }, []);
 
+  const checkAuth = async () => {
+    try {
+      const res = await fetch(
+        "http://localhost:3000/auth/me",
+        {
+          credentials: "include",
+        }
+      );
+
+      if (!res.ok) {
+        setUser(null);
+        setLoading(false);
+        return;
+      }
+
+      const data = await res.json();
+
+      setUser(data);
+
+    } catch (err) {
+      console.error(err);
+      setUser(null);
+
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  checkAuth();
+
+}, []);
+
+if (loading) {
+  return <p>Loading...</p>;
+}
 
   return (
     <BrowserRouter>
@@ -40,9 +66,19 @@ function App() {
 
       <Routes>
         <Route path="/" element={<Landing/>} />
-        <Route path="/app" element={<HabitApp user={user} />} />
+        {/* <Route path="/app" element={<HabitApp user={user} />} /> */}
         <Route path="/login" element={<Login setUser={setUser} />} />
         <Route path="/signup" element={<Signup setUser={setUser}/>} />
+        <Route
+          path="/app"
+          element={
+            <ProtectedRoute user={user}>
+              <HabitApp 
+                user={user}
+              />
+            </ProtectedRoute>
+          }
+        />
       </Routes>
 
 

@@ -31,7 +31,7 @@ app.use((req, res, next) => {
 
 // serve react
 app.use(express.static(
-  path.join(__dirname, "public", "dist")
+  path.join(__dirname, "client", "dist")
 ));
 
 app.use('/', pageRoutes);

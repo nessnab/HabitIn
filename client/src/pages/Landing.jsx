@@ -19,7 +19,7 @@ function Landing() {
                 HabitIn is your personal habit tracker designed to help you build and maintain positive habits effortlessly. 
             </p>
             <div className="my-9 mx-auto">
-                <Link to="/signup" className="bg-gradient-to-r from-primary to-secondary text-white px-4 py-2 rounded-xl shadow hover:opacity-90">Get Started</Link>
+                <Link to="/app" className="bg-gradient-to-r from-primary to-secondary text-white px-4 py-2 rounded-xl shadow hover:opacity-90">Get Started</Link>
                 <Link to="" className="border border-primary text-primary text-bold px-4 py-2 rounded-xl ml-2 hover:bg-gradient-to-r hover:from-primary hover:to-secondary hover:text-white transition-all">See Demo</Link>
             </div>
         </div>

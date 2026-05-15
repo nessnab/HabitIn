@@ -34,7 +34,7 @@ function Navbar({ user, setUser }) {
 
               <li>
                 <button onClick={handleLogout}
-                className="p-2 hover:text-primary cursor-pointer"
+                className="hover:text-primary cursor-pointer"
                 >
                   Log Out
                 </button>
@@ -53,10 +53,10 @@ function Navbar({ user, setUser }) {
 
               <li>
                 <Link
-                  to="/signup"
+                  to="/app"
                   className="bg-gradient-to-r from-primary to-secondary text-white px-4 py-2 rounded-xl shadow hover:opacity-90"
                 >
-                  Get Started
+                  Sign Up
                 </Link>
               </li>
             </>
