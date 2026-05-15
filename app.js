@@ -4,7 +4,6 @@ const cors = require('cors');
 const path = require("path");
 require('dotenv').config();
 
-const pageRoutes = require('./routes/pageRoutes');
 const habitRoutes = require('./routes/habitRoutes');
 const authRoutes = require('./routes/authRoutes');  
 const cookieParser = require('cookie-parser');
@@ -34,14 +33,13 @@ app.use(express.static(
   path.join(__dirname, "client", "dist")
 ));
 
-app.use('/', pageRoutes);
 app.use(habitRoutes);
 app.use('/auth', authRoutes);
 
 // catch all routes
 app.get(/.*/, (req, res) => {
   res.sendFile(
-    path.join(__dirname, "dist", "index.html")
+    path.join(__dirname, "client", "dist", "index.html")
   );
 });
 

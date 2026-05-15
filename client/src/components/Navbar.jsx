@@ -53,7 +53,7 @@ function Navbar({ user, setUser }) {
 
               <li>
                 <Link
-                  to="/app"
+                  to="/signup"
                   className="bg-gradient-to-r from-primary to-secondary text-white px-4 py-2 rounded-xl shadow hover:opacity-90"
                 >
                   Sign Up

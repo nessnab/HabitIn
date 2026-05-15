@@ -50,11 +50,6 @@ const handleErrors = (err) => {
   return errors;
 }
 
-// signup
-module.exports.signup_get = (req, res) => {
-    res.render('auth/signup', { title: 'Signup' });
-  }
-
 module.exports.signup_post = async (req, res) => {
   const { email, password } = req.body;
   
@@ -92,12 +87,6 @@ module.exports.signup_post = async (req, res) => {
     res.status(400).json({ errors });
   }
 }
-
-
-// login
-module.exports.login_get = (req, res) => {
-    res.render('auth/login', { title: 'Login' });
-  }
 
 module.exports.login_post = async (req, res) => {
   const { email, password } = req.body;
@@ -182,5 +171,4 @@ module.exports.logout_get = async (req, res) => {
   res.status(200).json({
   message: "Logged out"
 });
-  // res.redirect('/');
 };
