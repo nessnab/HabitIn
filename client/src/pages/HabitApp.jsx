@@ -12,7 +12,7 @@ function HabitApp({ user }) {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    fetch("http://localhost:3000/api/habits", {
+    fetch("/api/habits", {
       credentials: "include",
     })
       .then(res => res.json())
@@ -27,7 +27,7 @@ function HabitApp({ user }) {
   }, []);
 
   const handleDelete = async (id) => {
-  await fetch(`http://localhost:3000/api/habits/${id}`, {
+  await fetch(`/api/habits/${id}`, {
     method: "DELETE"
   });
 

@@ -13,7 +13,7 @@ const handleSubmit = async (e) => {
   e.preventDefault();
 
   try {
-    const res = await fetch("http://localhost:3000/auth/signup", {
+    const res = await fetch("/auth/signup", {
       method: "POST",
       credentials: "include",
       headers: {
@@ -31,7 +31,7 @@ const handleSubmit = async (e) => {
       return;
     }
     const userRes = await fetch(
-      "http://localhost:3000/auth/me",
+      "/auth/me",
       {
         credentials: "include",
       }
