@@ -20,7 +20,7 @@ function Landing() {
             </p>
             <div className="my-9 mx-auto">
                 <Link to="/app" className="bg-gradient-to-r from-primary to-secondary text-white px-4 py-2 rounded-xl shadow hover:opacity-90">Get Started</Link>
-                <Link to="" className="border border-primary text-primary text-bold px-4 py-2 rounded-xl ml-2 hover:bg-gradient-to-r hover:from-primary hover:to-secondary hover:text-white transition-all">See Demo</Link>
+                <Link to="/signup" className="border border-primary text-primary text-bold px-4 py-2 rounded-xl ml-2 hover:bg-gradient-to-r hover:from-primary hover:to-secondary hover:text-white transition-all">Sign Up</Link>
             </div>
         </div>
     </div>

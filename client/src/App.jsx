@@ -59,6 +59,11 @@ if (loading) {
 
   return (
     <BrowserRouter>
+      <head>
+        <title>HabitIn - Build Your Habit</title>
+        <meta name="description" content="HabitIn is your personal habit tracker designed to help you build and maintain positive habits effortlessly." />
+        <link rel="icon" href="/public/habitin_logo.png" />
+      </head>
       <main className="min-h-screen flex flex-col bg-gradient-to-br from-blue-50 via-indigo-50 to-orange-100">
       <Navbar user={user} setUser={setUser}/>
 
