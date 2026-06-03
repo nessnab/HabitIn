@@ -10,6 +10,11 @@ Rather than focusing on excessive features, HabitIn focuses on:
 
 🌐 Live Demo: https://habitin.onrender.com/
 
+## Page Preview
+<img width="50%" height="50%" alt="image" src="https://github.com/user-attachments/assets/c730f990-78c9-4042-af53-381567b57a48" />
+<img width="50%" height="50%" alt="image" src="https://github.com/user-attachments/assets/a530fda8-1cba-44e1-b3d1-4e5d5949f56d" />
+<img width="50%" height="50%" alt="image" src="https://github.com/user-attachments/assets/d30ffac7-ad22-496b-9b58-46103123519c" />
+
 ---
 
 # Features
